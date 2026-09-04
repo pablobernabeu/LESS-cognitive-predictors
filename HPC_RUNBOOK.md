@@ -14,10 +14,10 @@ use environment modules rather than a Singularity container, and access is by SS
 `arc` in the recipes below is a host alias, not a name the service publishes. Define one in
 your own `~/.ssh/config` before running anything here, and use its name everywhere below,
 including in the `scp` recipes. From outside the university network the alias needs a
-`ProxyJump` through the service's gateway host; the login node is reachable directly only
-from inside that network. Access is by SSH key. If the key carries a passphrase, an
-interactive `ssh` will prompt for it unless the key is already loaded in `ssh-agent`, which
-is worth arranging before any scripted polling.
+`ProxyJump` through the service's gateway host, the login node being reachable directly
+only from inside that network. If your key carries a passphrase, an interactive `ssh` will
+prompt for it unless the key is already loaded in `ssh-agent`, which is worth arranging
+before any scripted polling.
 
 **ARC or HTC.** The project `/data` space is mounted at the same path on both, so
 `_shared/hpc/arc_env.sh` serves either and no job script has to change. Only the
