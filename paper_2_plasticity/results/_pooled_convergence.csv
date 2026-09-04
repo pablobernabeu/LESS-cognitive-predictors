@@ -1,0 +1,12 @@
+"model","max_rhat","min_ess_bulk","min_ess_tail","n_divergent","n_treedepth","passed"
+"p2_cognition_prepost_asrt_learning",1.00063434385594,4827.49470018469,8724.4085849604,0,NA,TRUE
+"p2_cognition_prepost_digit_span",1.00115137038148,5206.11675531983,9883.195816358,0,NA,TRUE
+"p2_cognition_prepost_joint",1.0007814362038,11240.3826874876,15911.5764705313,0,NA,TRUE
+"p2_cognition_prepost_joint_signaligned",1.00063857617514,7486.07872153501,10552.2178104126,0,NA,TRUE
+"p2_cognition_prepost_stroop_interference",1.00054206026074,6068.48740799643,10580.4076870446,0,NA,TRUE
+"p2_predictive_trajectory_aperiodic",1.0007226456857,7398.50145264064,12995.9964464143,0,NA,TRUE
+"p2_predictive_trajectory_aperiodic_gender",1.00055497921135,6641.72464948263,11245.7209632388,0,NA,TRUE
+"p2_predictive_trajectory",1.00247976976053,1711.29651802037,3338.42439156823,0,NA,TRUE
+"p2_predictive_trajectory_gender",1.00307442009797,2058.00986544711,3411.67166041645,0,NA,TRUE
+"p2_predictive_trajectory_gender_weakprior",1.00072804033187,7865.02500222301,14509.6971003356,0,NA,TRUE
+"p2_predictive_trajectory_weakprior",1.00068647622653,7295.64364689971,13915.1514825862,0,NA,TRUE

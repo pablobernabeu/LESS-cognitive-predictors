@@ -1,0 +1,6 @@
+"check","severity","participant_lab_ID","detail"
+"non_monotonic_attendance","info","20","attended a later session after missing an earlier one"
+"accuracy_without_erp","warning","2","has usable judgement data but no usable ERP data"
+"incomplete_predictor_set","info","1","has a learning trajectory but at least one missing cognitive predictor, so listwise deletion removes them from the Paper 2 joint predictor model"
+"incomplete_predictor_set","info","5","has a learning trajectory but at least one missing cognitive predictor, so listwise deletion removes them from the Paper 2 joint predictor model"
+"incomplete_predictor_set","info","18","has a learning trajectory but at least one missing cognitive predictor, so listwise deletion removes them from the Paper 2 joint predictor model"

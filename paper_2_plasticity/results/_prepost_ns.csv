@@ -1,0 +1,11 @@
+"model","session","n_participants","n_obs"
+"p2_cognition_prepost_asrt_learning","pre",63,63
+"p2_cognition_prepost_asrt_learning","post",54,54
+"p2_cognition_prepost_digit_span","pre",63,63
+"p2_cognition_prepost_digit_span","post",54,54
+"p2_cognition_prepost_joint_signaligned","pre",63,188
+"p2_cognition_prepost_joint_signaligned","post",54,162
+"p2_cognition_prepost_joint","pre",63,188
+"p2_cognition_prepost_joint","post",54,162
+"p2_cognition_prepost_stroop_interference","pre",62,62
+"p2_cognition_prepost_stroop_interference","post",54,54

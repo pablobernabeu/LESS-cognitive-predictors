@@ -1,0 +1,5 @@
+"model","effect","group_sd","mean_posterior_se","reliability"
+"p2_predictive_trajectory","Intercept",1.301438245995,0.469576624066237,0.840830179906859
+"p2_predictive_trajectory","z_session_time",0.709259145625,0.327646435954528,0.749253134192797
+"p2_predictive_trajectory_gender","Intercept",1.47284855480875,0.592629380993756,0.793650711524258
+"p2_predictive_trajectory_gender","z_session_time",0.3866389213125,0.282328711017288,0.415872448648228

@@ -1,0 +1,3 @@
+"model","quantity","median","ci_low","ci_high"
+"p2_predictive_trajectory","end_training_attainment_accuracy",0.634035521116999,0.565051813752751,0.701522342790041
+"p2_predictive_trajectory_gender","end_training_attainment_accuracy",0.883016120077088,0.825110209787503,0.924722577230226

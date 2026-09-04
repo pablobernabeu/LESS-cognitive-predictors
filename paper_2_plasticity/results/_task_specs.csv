@@ -1,0 +1,8 @@
+task,spec,value,note
+asrt,n_blocks,25,distinct block values in the Session-1 ASRT exports
+asrt,modal_trials_per_block,87,modal trials/block observed in the raw export (range 80-1478; includes a leading practice triplet)
+asrt,trials_per_block,85,preregistered design value (85 scored trials/block); the manuscript previously stated 80 in error
+digit_span,scored_trials,48,modal number of scored response_text_entry trials/participant (expected 48)
+stroop,test_trials,100,"modal test trials/participant, excluding practice (expected 100)"
+stroop,congruent_trials,50,modal congruent test trials/participant (expected 50)
+stroop,incongruent_trials,50,modal incongruent test trials/participant (expected 50)

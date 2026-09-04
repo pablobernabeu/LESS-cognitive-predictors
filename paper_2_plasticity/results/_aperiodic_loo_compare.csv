@@ -1,0 +1,3 @@
+"stratum","raw_model","aperiodic_model","n_obs","n_participants","elpd_diff_aperiodic_minus_raw","se_diff","preferred_model"
+"pooled","p2_predictive_trajectory","p2_predictive_trajectory_aperiodic",26454,50,0.247724310717111,0.519575426897091,"neither clearly preferred (|elpd_diff| <= 2*SE)"
+"gender","p2_predictive_trajectory_gender","p2_predictive_trajectory_aperiodic_gender",12403,50,-0.145381771807235,0.992411427252274,"neither clearly preferred (|elpd_diff| <= 2*SE)"

@@ -1,0 +1,3 @@
+"stratum","raw_model","aperiodic_model","criterion","k","n_obs","n_participants","elpd_diff_aperiodic_minus_raw","se_diff","se_naive_independent","se_inflation_from_clustering","preferred_model"
+"pooled","p2_predictive_trajectory_commonsample","p2_predictive_trajectory_aperiodic","participant-grouped K-fold",10,26454,50,-56.4884817586824,51.2998509166244,7.91390172521903,6.48224512987677,"neither clearly preferred (|elpd_diff| <= 2*clustered SE)"
+"gender","p2_predictive_trajectory_gender_commonsample","p2_predictive_trajectory_aperiodic_gender","participant-grouped K-fold",10,12403,50,-20.9001875084413,31.3850207813703,7.33364343992257,4.2795945887576,"neither clearly preferred (|elpd_diff| <= 2*clustered SE)"
