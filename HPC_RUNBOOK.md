@@ -11,15 +11,13 @@
 The Bayesian fits run on Oxford's SLURM service, reached at `arc-login.arc.ox.ac.uk`,
 as user `educ1242` in project group `educ-intract`. Its two clusters, ARC and HTC, both
 use environment modules rather than a Singularity container, and access is by SSH key.
-`arc` is a host alias in the author's `~/.ssh/config`, not a name the service publishes: it
-resolves to `educ1242@arc-login.arc.ox.ac.uk` and reaches it by `ProxyJump` through
-`gateway.arc.ox.ac.uk`, which is what makes it work from off the university network. Because
-the key it uses carries a passphrase, `ssh arc` prompts unless that key is already loaded in
-`ssh-agent`, so scripted polling goes through a second alias configured for unattended use.
-On any other machine, define an equivalent alias first, with `ProxyJump` through
-`gateway.arc.ox.ac.uk`, and use its name everywhere below, including in the `scp` recipes. A
-bare `educ1242@arc-login.arc.ox.ac.uk` reaches the login node only from inside the Oxford
-network.
+`arc` in the recipes below is a host alias, not a name the service publishes. Define one in
+your own `~/.ssh/config` before running anything here, and use its name everywhere below,
+including in the `scp` recipes. From outside the university network the alias needs a
+`ProxyJump` through the service's gateway host; the login node is reachable directly only
+from inside that network. Access is by SSH key. If the key carries a passphrase, an
+interactive `ssh` will prompt for it unless the key is already loaded in `ssh-agent`, which
+is worth arranging before any scripted polling.
 
 **ARC or HTC.** The project `/data` space is mounted at the same path on both, so
 `_shared/hpc/arc_env.sh` serves either and no job script has to change. Only the

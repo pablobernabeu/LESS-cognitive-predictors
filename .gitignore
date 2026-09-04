@@ -27,3 +27,9 @@ paper_2_plasticity/results/*.rds
 .Rhistory
 .Rdata
 .Rproj.user/
+
+# Credential-bearing R startup files. SCOPUS_API_KEY is read from ~/.Renviron, and a
+# project-local .Renviron would carry it into the repository.
+.Renviron
+.Rprofile.local
+
