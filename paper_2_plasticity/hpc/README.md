@@ -76,6 +76,7 @@ sbatch paper_2_plasticity/hpc/00_install_dependencies.slurm
 | 8  | `09c_compare_grouped.slurm` | long | compares the same two models by participant-grouped K-fold CV, the criterion the Discussion rests on. Submit after 09b, whose cached common-sample refits it requires; 40 refits at about an hour each, hence `long` |
 | 9  | `10_descriptives.slurm` | short | the descriptive tables the manuscript and the supplement inject: cognitive and predictor descriptives, the raw predictor values, the predictor correlations, the resting-state descriptives and spectra, the accuracy trajectory and the task specifications, then the gamma transmission fractions. Needs stages 1a to 1c only, not the fits |
 | 10 | `11_predictor_reliability.slurm` | short | permutation split-half reliability of the three baseline cognitive indices → `_predictor_reliability.csv`. Needs stage 1a only, against whose indices the script self-validates |
+| 11 | `13_extract_task_durations.slurm` | short | participant-level elapsed durations for home tasks and laboratory-session phases, written to both papers' `results/` |
 
 Stages 9 and 10 write no fit and invalidate none, so they can be rerun at any point once
 their inputs exist. They are the only route to those artefacts: before they existed the

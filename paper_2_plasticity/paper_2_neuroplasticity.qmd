@@ -301,6 +301,7 @@ suppressPackageStartupMessages({
     library(depictr)
     depictr_options(base_size = LES_FIG_BASE_SIZE)
   }
+  source(here::here("_shared", "R", "07_task_durations.R"))
 })
 
 source(here::here("paper_2_plasticity", "manuscript_setup.R"))
@@ -525,11 +526,16 @@ in the online supplementary material (Section S1).
 
 Resting-state EEG (rs-EEG) was recorded once, at Session 2, with a 32-channel Brain
 Products LiveAmp (500 Hz) in separate eyes-closed and eyes-open recordings of about five
-minutes each. Preprocessing in BrainVision Analyzer comprised visual inspection,
+minutes each, whose order was counterbalanced between participants. Preprocessing in
+BrainVision Analyzer comprised visual inspection,
 re-referencing to the average of the mastoids, zero-phase Butterworth filtering (0.1--30
 Hz, no notch) and ocular correction by independent component analysis. The full five
 minutes was retained for every participant in both conditions, and the acquisition and
-preprocessing details are given in the online supplementary material (Section S2). Power
+preprocessing details are given in the online supplementary material (Section S2). Across
+the laboratory sessions, participants were instructed to minimise movement and blinking,
+especially during the presentation of words. During pauses in these long sessions,
+experimenters monitored the signal and intervened when necessary to maintain low electrode
+impedance and acceptable signal quality. Power
 spectral density was estimated over eight occipito-parietal electrodes (O1, Oz, O2, P3,
 Pz, P4, P7, P8) by Welch's method [@welch1967] and integrated over delta (1--4 Hz), theta
 (4--8 Hz), alpha (8--13 Hz), beta (13--30 Hz) and gamma (30--45 Hz). The individual alpha
@@ -567,6 +573,32 @@ and the predictors are directly comparable with one another [@brauer2018;
 a Session 1 battery and the resting-state predictors over every eyes-closed recording, so
 a unit is a standard deviation of the measured sample, a slightly wider frame than the
 fitted one.
+
+The observed elapsed duration of each home task and of each phase of the laboratory
+sessions is shown in @fig-home-task-duration and @fig-lab-phase-duration. These are
+descriptive timing checks, not additional outcomes: home-task duration runs from the
+first to the last Gorilla event for each participant and task, whereas lab-phase duration
+uses the OpenSesame phase markers and the final event in a phase when the next phase was
+recorded in a separate export.
+`r les_task_duration_median_text(task_duration_home, task_duration_lab)`
+
+```{r}
+#| label: fig-home-task-duration
+#| fig-cap: "Duration of the Home Cognitive Tasks by Session"
+#| apa-note: "Each box summarises the distribution across participants of elapsed time from the first to the last raw Gorilla event for one task and session; the centre line is the median, the box spans the interquartile range, and whiskers extend to 1.5 times the interquartile range. Sessions 1 and 5 are baseline and post-training, respectively. Durations therefore include instructions, practice and test material when those events are present in the export. The ordinate is logarithmic because five exports contain multi-hour idle gaps; those observations remain as outliers. Participants without a linked enrolled-participant key are excluded."
+#| fig-width: 6.5
+#| fig-height: 2.9
+les_task_duration_home_plot(task_duration_home)
+```
+
+```{r}
+#| label: fig-lab-phase-duration
+#| fig-cap: "Duration of the Laboratory-Session Phases"
+#| apa-note: "Each box summarises the distribution across participants of elapsed time in one laboratory-session phase and session; the centre line is the median, the box spans the interquartile range, and whiskers extend to 1.5 times the interquartile range. Phase duration is measured between the recorded phase-start markers, or from a phase start to the last phase-specific event when the next phase was exported separately. Sessions 2, 3 and 4 are training sessions and Session 6 is the retention session."
+#| fig-width: 6.5
+#| fig-height: 3.0
+les_task_duration_lab_plot(task_duration_lab)
+```
 
 ## Learning outcome and model structure (Part A)
 
@@ -837,9 +869,14 @@ collection was preregistered for two sites, Norway and Spain, and only the Norwe
 cohort (first-language Norwegian, second-language English) is analysed here, so the
 findings generalise only to first-language-Norwegian learners. Finally, the preregistered
 protocol required participants to score above 80% on a post-training behavioural test in
-each grammar session (with a second attempt allowed) before they could proceed, a gate
-that shapes which participant-sessions contribute learning data and is part of the
-attrition described above.
+each grammar session before they could proceed. After a few participants had been tested,
+we recognised that this criterion was too strict and modified the procedure: when the
+first test score was below 80%, pretraining, training and the test were repeated; after
+the second attempt, participants proceeded to the experiment regardless of their score.
+Participants were shown their percentage correct at the end of each test attempt. The 80%
+threshold therefore describes the first-attempt gate, not a requirement imposed on the
+second attempt. The gate shapes which participant-sessions contribute learning data and
+is part of the attrition described above.
 
 # Results
 
