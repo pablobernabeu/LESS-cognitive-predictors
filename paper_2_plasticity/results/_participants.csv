@@ -16,3 +16,4 @@
 "eng_years",18.2063492063492,7.51591586537814,63,0,44,"English years of use (LHQ3 item-7)"
 "eng_l2_proficiency",0.81640625,0.158968572190998,64,0.14,1,"LHQ3 L2 (English) self-rated proficiency, 0-1"
 "multilingual_diversity",1.359375,0.27530574634078,64,0.93,1.89,"LHQ3 Multilingual Language Diversity Score"
+"n_other_language",48,NA,64,NA,NA,"participants naming a language beyond Norwegian and English in LHQ3 item 7"

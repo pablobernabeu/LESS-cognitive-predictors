@@ -2,34 +2,199 @@
 title: "Cognitive and Resting-State EEG Predictors of Intensive Multilingual Learning, and Change in Executive Function across Training: A Bayesian Multilevel Study"
 shorttitle: "Predictors and Plasticity in Multilingual Learning"
 author:
-  - name: "[Author One]"
+  - name: Pablo Bernabeu
     corresponding: true
-    email: "author.one@example.org"
+    orcid: 0000-0003-1083-2460
+    email: pcbernabeu@gmail.com
     affiliations:
-      - name: "[Institution]"
-  - name: "[Author Two]"
+      # The affiliation that carries the postal address is listed first because the two
+      # outputs build the correspondence note differently: the Word and HTML route takes
+      # the corresponding author's FIRST affiliation (frontmatter.lua), while the PDF
+      # route takes whichever affiliation carries an `address` (title.tex). Listing
+      # Oxford first is what makes them agree, and Bilingualism: Language and Cognition
+      # requires the corresponding author's postal address on the title page.
+      - id: oxford
+        name: University of Oxford
+        department: Department of Education
+        address: 15 Norham Gardens
+        city: Oxford
+        postal-code: OX2 6PY
+        country: United Kingdom
+      - id: clabl
+        name: UiT The Arctic University of Norway
+        department: Center for Language, Brain and Learning (C-LaBL)
+        city: Tromsø
+        country: Norway
+    roles:
+      - role: Conceptualization
+      - role: Methodology
+      - role: Software
+      - role: Formal analysis
+      - role: Data curation
+      - role: Visualization
+      - role: Writing – original draft
+      - role: Writing – review & editing
+  - name: Christina Athanasiadi
     affiliations:
-      - name: "[Institution]"
+      - ref: clabl
+    roles:
+      - role: Data curation
+      - role: Project administration
+      - role: Writing – review & editing
+  - name: Stella L. Pischinger
+    affiliations:
+      - ref: clabl
+    roles:
+      - role: Data curation
+      - role: Writing – review & editing
+  - name: Gabriella Silva
+    orcid: 0000-0002-5349-7036
+    affiliations:
+      - ref: nebrija
+    roles:
+      - role: Conceptualization
+      - role: Methodology
+      - role: Investigation
+      - role: Writing – review & editing
+  - name: My Ngoc Giang Hoang
+    affiliations:
+      - ref: clabl
+    roles:
+      - role: Data curation
+      - role: Writing – review & editing
+  - name: Vincent DeLuca
+    orcid: 0000-0002-2275-209X
+    affiliations:
+      - ref: clabl
+    roles:
+      - role: Conceptualization
+      - role: Methodology
+      - role: Supervision
+      - role: Writing – review & editing
+  - name: Jason Rothman
+    orcid: 0009-0003-3936-6384
+    affiliations:
+      - id: nebrija
+        name: Nebrija University
+        department: Nebrija Research Center in Cognition (CINC)
+        city: Madrid
+        country: Spain
+      - id: lancaster
+        name: Lancaster University
+        department: Department of Linguistics and English Language
+        city: Lancaster
+        country: United Kingdom
+      - ref: clabl
+    roles:
+      - role: Conceptualization
+      - role: Funding acquisition
+      - role: Resources
+      - role: Supervision
+      - role: Writing – review & editing
+  - name: Iva Ivanova
+    affiliations:
+      - id: utep
+        name: University of Texas at El Paso
+        department: Department of Psychology
+        city: El Paso
+        region: Texas
+        country: United States
+    roles:
+      - role: Conceptualization
+      - role: Methodology
+      - role: Writing – review & editing
+  - name: Claudia Poch
+    orcid: 0000-0002-9357-4948
+    affiliations:
+      - ref: nebrija
+    roles:
+      - role: Methodology
+      - role: Validation
+  - name: Jorge González Alonso
+    orcid: 0000-0001-5047-3226
+    affiliations:
+      - ref: clabl
+      - ref: nebrija
+    roles:
+      - role: Conceptualization
+      - role: Methodology
+      - role: Funding acquisition
+      - role: Project administration
+      - role: Supervision
+      - role: Writing – review & editing
+author-note:
+  correspondence-note: >
+    Correspondence concerning this article should be addressed to Pablo Bernabeu,
+    Department of Education, University of Oxford, 15 Norham Gardens, Oxford OX2 6PY,
+    United Kingdom, Email: pcbernabeu@gmail.com; or Jorge González Alonso, Nebrija
+    Research Center in Cognition (CINC), Nebrija University, Calle de Asura 90, 28043
+    Madrid, Spain, Email: jgonzalezal@nebrija.es.
+  disclosures:
+    study-registration: "The study design, tasks and session protocol were preregistered on the Open Science Framework (https://osf.io/tjr54)."
+    data-sharing: "Data, code and materials are available at the locations given under Data and code availability."
+    related-report: "The electrophysiological and behavioural signatures of transfer in the same sample are reported in a companion manuscript submitted to the Journal of Neurolinguistics."
+    conflict-of-interest: "Competing interests: The authors declare none."
+    financial-support: "This work was supported by the Research Council of Norway (grant 326487-FORSKER21) and by the Comunidad de Madrid (grant 2020-T1/HUM-20037), both awarded to Jorge González Alonso."
+    gratitude: >-
+      We thank Mona Kirkness Fossum for assistance with translating materials;
+      Gaute Berglund, Anders Gabrielsen and Tekabe Legesse Feleke for assistance with session
+      piloting; Teodóra Vékony for advice on the alternating serial reaction
+      time task; Björn Lundquist for assistance with implementation in OpenSesame; and
+      Antonio Fábregas, Natalia Mitrofanova, Yulia Rodina, Marit Westergaard, Merete
+      Anderssen and Fatih Bayram for advice and assistance with the design and translation of
+      materials and participant recruitment. Models were fitted on High-Performance Computing
+      (HPC) clusters at Sigma2 (Norway) and the Advanced Research Computing facility of the
+      University of Oxford.
+      Generative AI statement: the authors used Claude Code (version 2.1, Anthropic),
+      running primarily the Claude Opus and Claude Fable models and accessed through
+      Anthropic's Claude service (https://claude.com/claude-code) between July 2026 and
+      September 2026, to support the research, the analyses and the writing. It drafted
+      and revised text and code and checked the manuscript against its analysis artefacts.
+      The authors reviewed all of its output and take responsibility for the content.
+    credit-introduction: "Author roles were classified using the Contributor Role Taxonomy (CRediT; https://credit.niso.org/) as follows:"
+    credit-authors:
+      - name: Pablo Bernabeu
+        roles: "Conceptualization, Methodology, Software, Formal analysis, Data curation, Visualization, Writing – original draft, Writing – review & editing."
+      - name: Christina Athanasiadi
+        roles: "Data curation, Project administration, Writing – review & editing."
+      - name: Stella L. Pischinger
+        roles: "Data curation, Writing – review & editing."
+      - name: Gabriella Silva
+        roles: "Conceptualization, Methodology, Investigation, Writing – review & editing."
+      - name: My Ngoc Giang Hoang
+        roles: "Data curation, Writing – review & editing."
+      - name: Vincent DeLuca
+        roles: "Conceptualization, Methodology, Supervision, Writing – review & editing."
+      - name: Jason Rothman
+        roles: "Conceptualization, Funding acquisition, Resources, Supervision, Writing – review & editing."
+      - name: Iva Ivanova
+        roles: "Conceptualization, Methodology, Writing – review & editing."
+      - name: Claudia Poch
+        roles: "Methodology, Validation, Writing – review & editing."
+      - name: Jorge González Alonso
+        roles: "Conceptualization, Methodology, Funding acquisition, Project administration, Supervision, Writing – review & editing."
 abstract: |
-  Adults vary widely in how quickly and how well they learn a new language. We related
-  baseline executive function (working memory, inhibitory control), statistical learning
-  and resting-state EEG to the trajectory of grammaticality-judgement accuracy as
-  Norwegian--English bilinguals acquired one of two artificial languages. We also tested
-  change in executive function across training. Trial-level accuracy was modelled in a
-  joint Bayesian multilevel framework with no per-learner derived slopes. Working memory
-  predicted the level of grammatical knowledge learners reached, credibly so for the
-  fully sampled gender-agreement property. Inhibitory control, statistical learning and
-  the resting-state measures were largely uninformative, and no neural measure added
-  predictive information beyond the behavioural ones. Working-memory span itself rose
-  between the first and fifth sessions, so the capacity that predicted learning also
-  changed over the training period. Attainment was estimated more reliably than learning
-  rate, which bears on how slope-indexed aptitude findings should be read.
+  Adults vary widely in how well they learn a new language. We related baseline working
+  memory, inhibitory control, statistical learning and resting-state
+  electroencephalography (EEG) to grammaticality-judgement accuracy as Norwegian--English
+  bilinguals learned one of two artificial languages. We also tested change in executive
+  function across training. Trial-level accuracy was modelled jointly in one Bayesian
+  multilevel model, without per-learner derived slopes. Working memory was positively associated with overall
+  judgement accuracy, credibly so in the fully sampled gender-agreement property and
+  with a pooled interval that narrowly included zero. Inhibitory control and statistical
+  learning showed no credible association, the intercorrelated band powers could not be
+  resolved individually, and the projection-predictive selection retained no neural
+  measure. Working-memory span rose between the first and fifth sessions, so the
+  capacity that predicted learning also changed over training. The by-participant level
+  was estimated more reliably than the learning rate, which bears on how slope-indexed
+  aptitude findings are read.
 keywords: [second language acquisition, working memory, statistical learning, resting-state EEG, individual alpha frequency, Bayesian multilevel models, individual differences]
 bibliography: references.bib
 floatsintext: true
 format:
   apaquarto-pdf:
     documentmode: man
+    pdf-engine: lualatex
     include-in-header:
       - text: |
           % apaquarto's template decrements the table counter at the end of every
@@ -54,10 +219,18 @@ format:
           % caption.sty is already loaded by the apa7 class, so only its settings are
           % adjusted here; loading it again risks an option clash.
           \captionsetup{aboveskip=10pt, belowskip=10pt}
-          \setlength{\abovedisplayskip}{6pt plus 2pt minus 2pt}
-          \setlength{\belowdisplayskip}{6pt plus 2pt minus 2pt}
-          \setlength{\abovedisplayshortskip}{3pt plus 1pt minus 1pt}
-          \setlength{\belowdisplayshortskip}{3pt plus 1pt minus 1pt}
+          % Keep multi-line displays compact without changing the manuscript's
+          % double spacing in ordinary prose.
+          \AtBeginDocument{%
+            \setlength{\jot}{0pt}%
+            \setlength{\abovedisplayskip}{4pt}%
+            \setlength{\belowdisplayskip}{4pt}%
+            \setlength{\abovedisplayshortskip}{2pt}%
+            \setlength{\belowdisplayshortskip}{2pt}%
+          }
+          % Keep paragraph spacing stable rather than letting apa7's flushbottom
+          % setting create page-specific gaps in a double-spaced manuscript.
+          \raggedbottom
           % Heading spacing is left to the apa7 class. The titlesec package cannot parse
           % that class's redefined heading levels: it fails at \ttl@extract\subparagraph
           % with 'Argument of \subparagraph has an extra }', and the document does not
@@ -72,10 +245,17 @@ format:
           % name into the next column). Shrink any over-wide table to the measure.
           \usepackage{etoolbox}
           \usepackage{graphicx}
-          \AtBeginEnvironment{longtable}{\small}
+          \usepackage{needspace}
+           \AtBeginEnvironment{longtable}{\footnotesize\setlength{\tabcolsep}{3pt}}
           \makeatletter
           \g@addto@macro\@floatboxreset{\centering}
           \makeatother
+    # cairo_pdf embeds the fonts it uses and renders the Unicode minus, micro and
+    # multiplication signs the figures contain; R's default pdf() device references
+    # Helvetica without embedding it, which submission systems flag.
+    knitr:
+      opts_chunk:
+        dev: "cairo_pdf"
   apaquarto-html: default
   apaquarto-docx:
     fig-dpi: 600
@@ -93,6 +273,8 @@ editor: source
 # Render-anytime: before the HPC models exist it prints clearly-marked placeholders;
 # once results/_pooled_*.csv are present every number is populated from those
 # artefacts (Marwick, Boettiger & Mullen, 2018, https://doi.org/10.1080/00031305.2017.1375986).
+# The results loading and the reporting helpers live in manuscript_setup.R, sourced at
+# the end of this chunk, so that supplement.qmd renders from the same definitions.
 # =============================================================================
 # Figure text size, set once and inherited by every figure through les_theme(). Each
 # figure is authored at the width of the text block, so nothing is scaled on placement and
@@ -106,6 +288,9 @@ suppressPackageStartupMessages({
   source(here::here("_shared", "R", "00_paths.R"))
   source(here::here("_shared", "R", "05_funnel.R"))   # les_funnel(), shared with Paper 1
   source(here::here("paper_2_plasticity", "scripts", "_config.R"))
+  # les_theme(), les_div, the number formatters, .read_csv_if(), prov(), flow_n() and
+  # pstat(), shared with Paper 1 so both manuscripts report by one set of rules.
+  source(here::here("_shared", "R", "06_manuscript_helpers.R"))
   library(dplyr)
   library(ggplot2)
   # depictr supplies the figure theme and colour system, shared with the companion
@@ -118,609 +303,120 @@ suppressPackageStartupMessages({
   }
 })
 
-# Figure theme: depictr when present, base ggplot2 otherwise. Legend entries get room
-# between them; the default packs the factor levels tight enough that the key squares
-# read as a single block.
-les_theme <- function(base_size = LES_FIG_BASE_SIZE) {
-  base <- if (has_depictr) depictr::theme_depictr(base_size = base_size)
-          else ggplot2::theme_minimal(base_size = base_size)
-  base + ggplot2::theme(
-    legend.key.spacing.y = ggplot2::unit(3, "pt"),
-    legend.key.spacing.x = ggplot2::unit(8, "pt"),
-    legend.text  = ggplot2::element_text(margin = ggplot2::margin(r = 6)),
-    legend.title = ggplot2::element_text(margin = ggplot2::margin(b = 4)))
-}
-
-# Endpoints and midpoint of the diverging scale for signed quantities (the predictor
-# correlation matrix here; the scalp topography in the companion paper). Taken from
-# depictr so both papers share one diverging scale.
-les_div <- if (has_depictr) depictr::depictr_palette(5, "diverging")[c(5, 3, 1)] else
-  c("#005B96", "#F7F7F7", "#B2182B")
-
-# --- Collinearity among the Part A baseline predictors -------------------------
-# The band powers are entered simultaneously, so each coefficient is a partial effect.
-# Variance inflation factors quantify how much that costs in precision, and are computed
-# here from the actual predictor frame rather than transcribed. VIF_j = 1/(1 - R^2_j) from
-# regressing predictor j on the others; sqrt(VIF) is the factor by which the coefficient's
-# interval is widened relative to an orthogonal predictor.
-# Computed lazily on first use and then cached, so this does not depend on being placed
-# after the CSV loaders in the setup chunk.
-.les_vif_cache <- NULL
-.les_vif <- function() {
-  if (!is.null(.les_vif_cache)) return(.les_vif_cache)
-  f <- paper2_results("_predictor_values.csv")
-  if (!file.exists(f)) return(NULL)
-  pv <- utils::read.csv(f, stringsAsFactors = FALSE)
-  w <- stats::reshape(pv, idvar = "participant_lab_ID", timevar = "predictor",
-                      direction = "wide")
-  names(w) <- sub("^value[.]", "", names(w))
-  keep <- intersect(c("digit_span", "stroop_interference", "asrt_learning",
-                      "delta", "theta", "alpha", "beta", "gamma", "iaf"), names(w))
-  d <- w[, keep, drop = FALSE]
-  d <- d[stats::complete.cases(d), , drop = FALSE]
-  if (nrow(d) < length(keep) + 2) return(NULL)
-  v <- vapply(names(d), function(p) {
-    r2 <- summary(stats::lm(stats::as.formula(paste(p, "~ .")), data = d))$r.squared
-    1 / (1 - r2)
-  }, numeric(1))
-  .les_vif_cache <<- v
-  v
-}
-vif_of <- function(p) {
-  v <- .les_vif()
-  if (is.null(v) || is.na(v[p])) "NN" else formatC(v[[p]], format = "f", digits = 2)
-}
-vif_range <- function(ps) {
-  v <- .les_vif(); if (is.null(v)) return("NN")
-  v <- v[intersect(ps, names(v))]; if (!length(v)) return("NN")
-  paste0(formatC(min(v), format = "f", digits = 1), " to ",
-         formatC(max(v), format = "f", digits = 1))
-}
-vif_widen <- function(ps) {
-  v <- .les_vif(); if (is.null(v)) return("NN")
-  v <- sqrt(v[intersect(ps, names(v))]); if (!length(v)) return("NN")
-  paste0(formatC(min(v), format = "f", digits = 1), " to ",
-         formatC(max(v), format = "f", digits = 1), " times")
-}
-
-if (requireNamespace("papaja", quietly = TRUE)) {
-  apa_num <- papaja::apa_num; apa_p <- papaja::apa_p
-} else {
-  apa_num <- function(x, digits = 2, ...) formatC(x, format = "f", digits = digits)
-  apa_p   <- function(p, ...) ifelse(p < .001, "< .001", sub("^0", "", formatC(p, format = "f", digits = 3)))
-}
-
-.read_csv_if <- function(path) if (file.exists(path)) utils::read.csv(path, stringsAsFactors = FALSE) else NULL
-post_tbl       <- .read_csv_if(paper2_results("_pooled_posterior_summaries.csv"))
-conv_tbl       <- .read_csv_if(paper2_results("_pooled_convergence.csv"))
-attainment_tbl <- .read_csv_if(paper2_results("_attainment.csv"))
-reliability_tbl<- .read_csv_if(paper2_results("_reliability.csv"))
-sens_tbl       <- .read_csv_if(paper2_results("_prior_sensitivity.csv"))
-results_ready  <- !is.null(post_tbl)
-
-# --- Raw-data descriptives shared with Paper 1 (participant flow + demographics,
-# written by paper_1_transfer/scripts/00_extract_participants.R to both papers'
-# results/) plus Paper-2 predictor/outcome descriptives (10_extract_descriptives.R).
-# Injected inline so no count, demographic or task specification is transcribed.
-flow_tbl        <- .read_csv_if(paper2_results("_sample_flow.csv"))
-parts_tbl       <- .read_csv_if(paper2_results("_participants.csv"))
-task_spec_tbl   <- .read_csv_if(paper2_results("_task_specs.csv"))
-predictor_desc  <- .read_csv_if(paper2_results("_predictor_descriptives.csv"))
-predictor_corr  <- .read_csv_if(paper2_results("_predictor_correlations.csv"))
-psd_tbl         <- .read_csv_if(paper2_results("_resting_state_psd.csv"))
-acc_traj_tbl    <- .read_csv_if(paper2_results("_accuracy_trajectory_descriptives.csv"))
-
-# Resting-state descriptives (03/10). Carries the count of recordings in which the
-# aperiodic decomposition resolves an alpha peak, which is what licenses or withholds
-# trust in an individual-alpha-frequency value: the argmax estimator returns the lower
-# bound of its search range for a spectrum that merely decays across it, so a value at
-# that bound is not necessarily a measured peak. Injected rather than transcribed.
-rseeg_desc <- .read_csv_if(paper2_results("_rseeg_descriptives.csv"))
-rseeg_peak <- function(what = c("resolvable", "recorded"), condition_ = "eyes_closed") {
-  what <- match.arg(what)
-  if (is.null(rseeg_desc) ||
-      !all(c("condition", "n_participants_with_resolvable_alpha_peak") %in% names(rseeg_desc)))
-    return("NN")
-  r <- rseeg_desc[rseeg_desc$condition == condition_ &
-                    !is.na(rseeg_desc$n_participants_with_resolvable_alpha_peak), , drop = FALSE]
-  if (nrow(r) < 1) return("NN")
-  as.character(if (what == "resolvable")
-    r$n_participants_with_resolvable_alpha_peak[1] else r$n[1])
-}
-
-# Raw pre/post means of the three cognitive indices in their own task units
-# (10_extract_descriptives.R). Part B otherwise reports only standardised posteriors,
-# which leaves a reader unable to see the size of the change on the measured scale.
-cog_desc <- .read_csv_if(paper2_results("_cognitive_descriptives.csv"))
-cog_mean <- function(index_, session_) {
-  if (is.null(cog_desc)) return("NN")
-  r <- cog_desc[cog_desc$index == index_ & cog_desc$session == session_, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r$mean[1])) return("NN")
-  apa_num(r$mean[1], digits = 1)
-}
-
-# Per-model, per-session participant and observation counts for the Part B pre/post
-# models, written by the cluster summaries job. Until that artefact lands, the
-# Participants sentence prints a clearly-marked pending phrase.
-prepost_tbl <- .read_csv_if(paper2_results("_prepost_ns.csv"))
-prepost_n <- function(model_, session_) {
-  if (is.null(prepost_tbl)) return("NN")
-  r <- prepost_tbl[prepost_tbl$model == model_ & prepost_tbl$session == session_, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r$n_participants[1])) return("NN")
-  as.character(r$n_participants[1])
-}
-prepost_ns_phrase <- function() {
-  if (is.null(prepost_tbl)) return("*[per-model session counts pending the summaries run]*")
-  sprintf(paste0("%s at Session 1 and %s at Session 5 for digit span, %s and %s for ",
-                 "Stroop interference, and %s and %s for statistical learning"),
-          prepost_n("p2_cognition_prepost_digit_span", "pre"),
-          prepost_n("p2_cognition_prepost_digit_span", "post"),
-          prepost_n("p2_cognition_prepost_stroop_interference", "pre"),
-          prepost_n("p2_cognition_prepost_stroop_interference", "post"),
-          prepost_n("p2_cognition_prepost_asrt_learning", "pre"),
-          prepost_n("p2_cognition_prepost_asrt_learning", "post"))
-}
-
-# Gamma-band retained-power fractions under the 30 Hz low-pass, from
-# scripts/12_extract_gamma_attenuation.R. Injected so the attenuation quantiles are
-# computed from the stored per-participant artefact rather than transcribed; written
-# defensively so the prose falls back to a marked approximation if the artefact is
-# absent or its columns change.
-gamma_att_tbl <- .read_csv_if(paper2_results("_gamma_attenuation.csv"))
-gamma_att <- function(what = c("median", "q25", "q75"),
-                      col = "retained_fraction") {
-  what <- match.arg(what)
-  if (is.null(gamma_att_tbl) || !col %in% names(gamma_att_tbl)) return(NA_character_)
-  v <- gamma_att_tbl[[col]]
-  if (!length(v) || all(is.na(v))) return(NA_character_)
-  q <- stats::quantile(v, c(.25, .5, .75), na.rm = TRUE)
-  val <- switch(what, q25 = q[[1]], median = q[[2]], q75 = q[[3]])
-  # Plain "%" (not "\\%"): the value lands in markdown prose, where Pandoc escapes it.
-  paste0(formatC(100 * val, format = "f", digits = 1), "%")
-}
-gamma_att_ready <- function() !is.na(gamma_att("median"))
-gamma_att_clause <- function() {
-  if (gamma_att_ready()) {
-    sprintf(paste0("the retained power across that band has a median of %s of what an ",
-                   "unfiltered recording would have carried (interquartile range %s to %s), ",
-                   "and no more than a median of %s even under the most permissive ",
-                   "single-pass reading of the zero-phase filter"),
-            gamma_att("median"), gamma_att("q25"), gamma_att("q75"),
-            gamma_att("median", col = "retained_fraction_singlepass"))
-  } else {
-    paste0("the retained power across that band has a median of about a third of what an ",
-           "unfiltered recording would have carried (interquartile range roughly a quarter ",
-           "to a half) *[approximate; pending the gamma-attenuation artefact]*")
-  }
-}
-
-# Companion clause: the empirically observed 30-45 Hz power relative to the
-# extrapolated aperiodic background. Values far above the filter's transmission mean
-# the residual band is dominated by energy the low-pass did not remove in proportion
-# (mains spill, EMG, the noise floor).
-gamma_att_obs_clause <- function() {
-  if (!gamma_att_ready() ||
-      !"observed_over_extrapolated" %in% names(gamma_att_tbl)) {
-    return("*[observed-band ratio pending the gamma-attenuation artefact]*")
-  }
-  sprintf("a median of %s of the extrapolated background, against the %s the filter would pass",
-          gamma_att("median", col = "observed_over_extrapolated"),
-          gamma_att("median"))
-}
-
-# Computational provenance recorded at fit time by _shared/R/04_provenance.R, so the
-# reported versions are those of the run that produced these results rather than of the
-# machine rendering the document. Absent until the pipeline is next run.
-# Split-half (Spearman-Brown) internal consistency of the three baseline cognitive
-# predictors, from scripts/11_extract_predictor_reliability.R.
-predrel_tbl <- .read_csv_if(paper2_results("_predictor_reliability.csv"))
-predrel <- function(p) {
-  if (is.null(predrel_tbl)) return("NN")
-  r <- predrel_tbl[predrel_tbl$predictor == p, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r$reliability_sb[1])) return("NN")
-  sub("^0", "", formatC(r$reliability_sb[1], format = "f", digits = 2))
-}
-
-.prov_tbl <- .read_csv_if(paper2_results("_provenance.csv"))
-prov <- function(component, fallback = "*[version pending a pipeline run]*") {
-  if (is.null(.prov_tbl)) return(fallback)
-  r <- .prov_tbl[.prov_tbl$component == component, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r$version[1])) return(fallback)
-  as.character(r$version[1])
-}
-
-# --- Part A projection-predictive selection paths (one per reference model) and the
-# aperiodic-vs-raw PSIS-LOO comparison. Solution paths come from 08_projpred_selection.R
-# (grouped 10-fold, validate_search = TRUE); the LOO comparison from
-# 09b_compare_aperiodic_commonsample.R (09_compare_aperiodic.R is superseded).
-# Injected so the selection ranking, suggested size and comparison verdict are read from
-# stored artefacts rather than transcribed.
-projpath_raw  <- .read_csv_if(paper2_results("p2_predictive_trajectory_projpred_path.csv"))
-projpath_aper <- .read_csv_if(paper2_results("p2_predictive_trajectory_aperiodic_projpred_path.csv"))
-projpath_gender <- .read_csv_if(paper2_results("p2_predictive_trajectory_gender_projpred_path.csv"))
-aper_loo_tbl  <- .read_csv_if(paper2_results("_aperiodic_loo_compare.csv"))
-
-# Which strata actually have a selection path on disk. The paper reports a gender-only
-# reference model alongside the pooled one, so a reader is entitled to know whether the
-# selection was run on both or only on the pooled stratum. Reading it from the artefacts
-# rather than asserting it means the sentence becomes correct on its own once the missing
-# stratum is fitted, instead of having to be remembered and edited.
-projpred_strata <- function() {
-  have <- c(pooled = !is.null(projpath_raw), gender = !is.null(projpath_gender))
-  if (all(have)) return("both the pooled and the gender-agreement reference models")
-  if (have[["pooled"]]) return("the pooled reference model only")
-  if (have[["gender"]]) return("the gender-agreement reference model only")
-  "neither reference model"
-}
-projpred_gender_caveat <- function() {
-  if (!is.null(projpath_gender)) return("")
-  paste0(" The gender-agreement stratum, which carries this paper's headline",
-         " individual-difference claim, has not yet been through the same selection, so",
-         " the ranking below should not be read as established for it.")
-}
-
-# The gender-stratum result, written only once that selection exists. It matters
-# separately from the pooled one for two reasons: it is the stratum the paper's headline
-# individual-difference claim rests on, and its search ran to the full candidate set, so
-# the terms the pooled search never reached were actually evaluated there.
-projpred_gender_result <- function() {
-  if (is.null(projpath_gender)) return("")
-  reached <- function(term) any(grepl(term, projpath_gender$predictor, fixed = TRUE))
-  tail_terms <- reached("z_gamma") && reached("z_iaf")
-  out <- sprintf(paste0(
-    "The gender-agreement stratum, fitted to that property alone, gives the same answer:",
-    " a suggested size of %s, with working memory again the first individual-difference",
-    " predictor to enter, at step %s, and inhibitory control and statistical learning",
-    " entering beyond it (steps %s and %s)."),
-    proj_size(projpath_gender), proj_rank(projpath_gender, "z_digit_span"),
-    proj_rank(projpath_gender, "z_stroop"), proj_rank(projpath_gender, "z_asrt"))
-  if (tail_terms) {
-    out <- paste0(out, sprintf(paste0(
-      " That search ran over the full candidate set rather than projpred's default path",
-      " length, so gamma power and the individual alpha frequency were evaluated and not",
-      " truncated away, and they rank last of all (steps %s and %s). The full-length",
-      " search was run only for this stratum, the one the individual-difference claim",
-      " rests on. There, neither term added anything the retained predictors had missed,",
-      " and how far beyond the suggested size a term lands is not interpreted."),
-      proj_rank(projpath_gender, "z_gamma"), proj_rank(projpath_gender, "z_iaf")))
-  }
-  out
-}
-
-flow_n <- function(stage, col = "n_total") {
-  if (is.null(flow_tbl)) return("NN")
-  r <- flow_tbl[flow_tbl$stage == stage, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r[[col]])) return("NN")
-  as.character(r[[col]])
-}
-pstat <- function(metric, col = "value", digits = 1) {
-  if (is.null(parts_tbl)) return("NN")
-  r <- parts_tbl[parts_tbl$metric == metric, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r[[col]])) return("NN")
-  v <- r[[col]]
-  if (is.numeric(v) && !isTRUE(all.equal(v, round(v)))) apa_num(v, digits = digits) else as.character(v)
-}
-# Task specification value (e.g. ASRT blocks / trials-per-block) from _task_specs.csv.
-task_spec <- function(task_, spec_) {
-  if (is.null(task_spec_tbl)) return("NN")
-  r <- task_spec_tbl[task_spec_tbl$task == task_ & task_spec_tbl$spec == spec_, , drop = FALSE]
-  if (nrow(r) < 1 || is.na(r$value[1])) return("NN")
-  as.character(r$value[1])
-}
-# By-participant reliability (.NN style) of an effect from _reliability.csv.
-# (Named relv, not rel: the tbl-reliability chunk assigns a data.frame to `rel`.)
-relv <- function(model_id, effect_) {
-  if (is.null(reliability_tbl)) return("NN")
-  r <- reliability_tbl[reliability_tbl$model == model_id & reliability_tbl$effect == effect_, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r$reliability)) return("NN")
-  sub("^0", "", formatC(r$reliability, format = "f", digits = 2))
-}
-
-# projpred suggested (parsimonious) size, and the forward-search step (the `size`
-# column) at which a given predictor first enters the solution path.
-proj_size <- function(tbl) if (is.null(tbl) || !nrow(tbl)) "NN" else as.character(tbl$suggested_size[1])
-proj_n    <- function(tbl) if (is.null(tbl) || !nrow(tbl)) "NN" else as.character(tbl$n_participants[1])
-proj_rank <- function(tbl, term) {
-  if (is.null(tbl)) return("NN")
-  w <- which(tbl$predictor == term)
-  if (!length(w)) return("NN")
-  as.character(tbl$size[w[1]])
-}
-# aperiodic-vs-raw PSIS-LOO within a stratum: the elpd difference (aperiodic - raw),
-# its SE, or the preferred-model verdict. Reads _aperiodic_loo_compare.csv.
-aper_loo <- function(stratum_, what = c("verdict", "elpd", "se")) {
-  what <- match.arg(what)
-  if (is.null(aper_loo_tbl)) return(if (what == "verdict") "*[pending LOO comparison]*" else "NN")
-  r <- aper_loo_tbl[aper_loo_tbl$stratum == stratum_, , drop = FALSE]
-  if (nrow(r) != 1) return("NN")
-  switch(what,
-    verdict = {
-      p <- as.character(r$preferred_model)
-      if (grepl("neither", p, ignore.case = TRUE))
-        "neither parameterisation was clearly preferred (the difference was within twice its standard error)"
-      else sprintf("the %s parameterisation was preferred", p)
-    },
-    elpd    = apa_num(r$elpd_diff_aperiodic_minus_raw, digits = 1),
-    se      = apa_num(r$se_diff, digits = 1))
-}
-# TRUE if a stratum's |elpd_diff| <= 2*se (neither parameterisation clearly preferred).
-aper_loo_tie <- function(stratum_) {
-  if (is.null(aper_loo_tbl)) return(NA)
-  r <- aper_loo_tbl[aper_loo_tbl$stratum == stratum_, , drop = FALSE]
-  if (nrow(r) != 1) return(NA)
-  abs(r$elpd_diff_aperiodic_minus_raw) <= 2 * r$se_diff
-}
-# Trials per participant in a stratum. This is what makes the trial-level LOO
-# comparison uninformative about participant-level predictors: the more trials each
-# participant contributes, the more completely their random intercept is pinned by
-# their own remaining data when one trial is held out, and the less any
-# between-participant predictor can add to predicting it.
-aper_loo_tpp <- function(stratum_) {
-  if (is.null(aper_loo_tbl)) return("NN")
-  r <- aper_loo_tbl[aper_loo_tbl$stratum == stratum_, , drop = FALSE]
-  if (nrow(r) != 1 || is.na(r$n_participants[1]) || r$n_participants[1] == 0) return("NN")
-  as.character(round(r$n_obs[1] / r$n_participants[1]))
-}
-
-# --- Participant-grouped K-fold comparison (09c) ------------------------------
-# The same two models scored by leaving out whole PARTICIPANTS rather than single trials,
-# which is the criterion the question actually calls for. Its standard error is clustered
-# on participants: loo_compare's own SE treats the pointwise differences as independent,
-# and under grouped CV they are not, so it understates the uncertainty severalfold. The
-# ratio is reported in the artefact and quoted in the text, because the corrected and
-# uncorrected numbers support different conclusions and the reader is entitled to see that.
-aper_kf_tbl <- .read_csv_if(paper2_results("_aperiodic_kfold_compare.csv"))
-aper_kf_ready <- function() !is.null(aper_kf_tbl) && nrow(aper_kf_tbl) >= 2
-aper_kf <- function(stratum_, what = c("elpd", "se", "se_naive", "inflation", "k")) {
-  what <- match.arg(what)
-  if (is.null(aper_kf_tbl)) return("NN")
-  r <- aper_kf_tbl[aper_kf_tbl$stratum == stratum_, , drop = FALSE]
-  if (nrow(r) != 1) return("NN")
-  switch(what,
-    elpd      = apa_num(r$elpd_diff_aperiodic_minus_raw, digits = 1),
-    se        = apa_num(r$se_diff, digits = 1),
-    se_naive  = apa_num(r$se_naive_independent, digits = 1),
-    inflation = apa_num(r$se_inflation_from_clustering, digits = 1),
-    k         = as.character(r$k[1]))
-}
-# TRUE only if BOTH strata are ties on the clustered SE, so the sentence below cannot
-# describe a split verdict as a single one.
-aper_kf_tie <- function() {
-  if (!aper_kf_ready()) return(NA)
-  all(abs(aper_kf_tbl$elpd_diff_aperiodic_minus_raw) <= 2 * aper_kf_tbl$se_diff)
-}
-# The sentence reporting the grouped comparison. Emitted only once the artefact exists, so
-# the paragraph reads correctly before the job has run and does not have to be remembered
-# and edited afterwards.
-aper_kf_sentence <- function() {
-  if (!aper_kf_ready()) {
-    return(paste0(" A direct participant-grouped elpd comparison would complement it and",
-                  " is pending."))
-  }
-  tie <- isTRUE(aper_kf_tie())
-  paste0(
-    sprintf(paste0(
-      "\n\nWe then ran the participant-grouped comparison directly, refitting both models on",
-      " the common sample under the %s-fold participant-blocked scheme described in the",
-      " Method. The aperiodic-minus-raw difference was %s in the pooled stratum and %s for",
-      " gender agreement."),
-      aper_kf("pooled", "k"), aper_kf("pooled", "elpd"), aper_kf("gender", "elpd")),
-    sprintf(paste0(
-      " These are reported with standard errors clustered on participants (%s and %s"),
-      aper_kf("pooled", "se"), aper_kf("gender", "se")),
-    sprintf(paste0(
-      "): the usual standard error treats the pointwise contributions as independent,",
-      " which under participant-blocked folds they are not, and doing so understates the",
-      " uncertainty here by factors of %s and %s."),
-      aper_kf("pooled", "inflation"), aper_kf("gender", "inflation")),
-    if (tie) {
-      sprintf(paste0(
-        " On that corrected scale, neither difference reaches twice its standard error,",
-        " so neither characterisation predicts a held-out participant's trajectory",
-        " detectably better than the other. Both differences favour the raw bands in",
-        " direction, but neither is distinguishable from zero, and we draw no",
-        " conclusion from the sign. The comparison is also blunt: at these clustered",
-        " standard errors only a difference beyond about %s nats in the pooled stratum",
-        " and %s for gender agreement would be read as decisive, so this is a tie that",
-        " bounds the comparison rather than one that establishes equivalence. That is the",
-        " same verdict the trial-level comparison returned, now reached on the criterion",
-        " the question calls for."),
-        apa_num(2 * abs(as.numeric(aper_kf_tbl$se_diff[aper_kf_tbl$stratum == "pooled"][1])), digits = 0),
-        apa_num(2 * abs(as.numeric(aper_kf_tbl$se_diff[aper_kf_tbl$stratum == "gender"][1])), digits = 0))
-    } else {
-      # Report the per-stratum verdict in prose. Directing the reader to a CSV would put a
-      # repository file path into the Results, and the verdict is a one-clause statement.
-      .kf_verdict <- function(s) {
-        d <- suppressWarnings(as.numeric(aper_kf_tbl$elpd_diff_aperiodic_minus_raw[
-          aper_kf_tbl$stratum == s][1]))
-        e <- suppressWarnings(as.numeric(aper_kf_tbl$se_diff[aper_kf_tbl$stratum == s][1]))
-        if (is.na(d) || is.na(e)) return("could not be evaluated")
-        if (abs(d) > 2 * e)
-          sprintf("favours the %s characterisation", if (d > 0) "aperiodic" else "raw-band")
-        else "leaves the two indistinguishable"
-      }
-      sprintf(paste0(" On that corrected scale, the comparison %s in the pooled stratum",
-                     " and %s for gender agreement."),
-              .kf_verdict("pooled"), .kf_verdict("gender"))
-    })
-}
-
-# Median widening of credible intervals under weakly-informative vs informative priors.
-prior_ci_widening <- function(tbl = sens_tbl) {
-  if (is.null(tbl)) return("*[pending sensitivity run]*")
-  r <- stats::median(tbl$ci_width_weak / tbl$ci_width_inf, na.rm = TRUE)
-  paste0(round(100 * (r - 1)), "%")
-}
-
-# Prior-sensitivity inline reporter: an effect's posterior median and interval under
-# the weakly-informative ("weak") or the informative ("inf") prior, read from
-# _prior_sensitivity.csv rather than transcribed.
-sens_effect <- function(model_id, term, which = c("weak", "inf")) {
-  which <- match.arg(which)
-  if (is.null(sens_tbl)) return("*[pending sensitivity run]*")
-  r <- sens_tbl[sens_tbl$model == model_id & sens_tbl$parameter == term, , drop = FALSE]
-  if (nrow(r) != 1) return("NN")
-  med <- r[[paste0("median_", which)]]
-  lo  <- r[[paste0("ci_low_", which)]]
-  hi  <- r[[paste0("ci_high_", which)]]
-  d <- .les_digits(med, lo, hi)
-  sprintf("$b = %s$, 95%% CrI $[%s, %s]$",
-          apa_num(med, digits = d), apa_num(lo, digits = d), apa_num(hi, digits = d))
-}
-# Largest weak-prior probability of direction among the nine predictor-by-session
-# interactions, across both Part A models: the value that shows the attainment-not-rate
-# asymmetry survives flat priors. Deliberately excludes the design terms
-# (session-by-property), whose pd is 1 by construction.
-sens_max_rate_pd <- function() {
-  if (is.null(sens_tbl)) return("*[pending sensitivity run]*")
-  rate_terms <- paste0("z_session_time:z_",
-                       c("digit_span", "stroop", "asrt",
-                         "delta", "theta", "alpha", "beta", "gamma", "iaf"))
-  r <- sens_tbl[sens_tbl$parameter %in% rate_terms, , drop = FALSE]
-  if (!nrow(r)) return("NN")
-  sub("^0", "", formatC(max(r$pd_weak, na.rm = TRUE), format = "f", digits = 2))
-}
-
-.pretty_term <- function(x) {
-  x |>
-    gsub("^b_", "", x = _) |>
-    gsub("z_session_time", "Session", x = _) |>
-    gsub("z_digit_span", "Working memory", x = _) |>
-    gsub("z_stroop", "Inhibitory control", x = _) |>
-    gsub("z_asrt", "Statistical learning", x = _) |>
-    gsub("z_iaf", "IAF", x = _) |>
-    gsub("z_alpha", "Alpha", x = _) |> gsub("z_theta", "Theta", x = _) |>
-    gsub("z_beta", "Beta", x = _) |> gsub("z_delta", "Delta", x = _) |> gsub("z_gamma", "Gamma", x = _) |>
-    gsub("grammatical_property", "Property:", x = _) |>
-    gsub(":", " x ", x = _)
-}
-
-# Decimal precision that keeps a credible interval visibly clear of zero. A bound
-# can sit very close to zero without touching it (the working-memory predictor's
-# lower bound is .005), and at a fixed two decimals such an interval prints as though
-# it reached zero, contradicting the credibility being claimed for it. Widen only
-# where that would happen, capped at four decimals; everything else stays at two.
-# Kept identical to the companion paper's helper so both report on the same rule.
-.les_digits <- function(med, lo, hi, min_d = 2L, max_d = 4L) {
-  # The rule is simply that no non-zero quantity may print as zero. That matters most
-  # for a credible interval, where a "0.00" bound contradicts the credibility claimed
-  # for it in the text, but it applies equally to a median, which would otherwise
-  # appear as the signed zero "-0.00". Two decimals is the floor and four the ceiling,
-  # so effects large enough to be read at two decimals are unaffected and precision
-  # widens only where the alternative is a misleading or malformed number.
-  # Kept identical to the companion paper's helper so both report on the same rule.
-  v <- abs(c(med, lo, hi))
-  v <- v[is.finite(v) & v > 0]
-  if (!length(v)) return(min_d)
-  d <- min_d
-  while (d < max_d && round(min(v), d) == 0) d <- d + 1L
-  d
-}
-
-# Inline reporter: "b = m, 95% CrI [lo, hi], pd = p%"
-report_effect <- function(model_id, term, tbl = post_tbl) {
-  if (is.null(tbl)) return("*[pending model fit]*")
-  row <- tbl[tbl$model == model_id & tbl$parameter == term, , drop = FALSE]
-  if (nrow(row) != 1) return("*[term not found]*")
-  d <- .les_digits(row$median, row$ci_low, row$ci_high)
-  sprintf("$b = %s$, 95%% CrI $[%s, %s]$, $p_d = %s\\%%$",
-          apa_num(row$median, digits = d), apa_num(row$ci_low, digits = d),
-          apa_num(row$ci_high, digits = d), apa_num(100 * row$pd, digits = 1))
-}
-
-# Probability of direction alone, as an inline percentage: for the places where the
-# prose refers back to an effect already reported in full, so the pd cannot silently
-# go stale on a refit.
-pd_of <- function(model_id, term, tbl = post_tbl) {
-  if (is.null(tbl)) return("NN")
-  row <- tbl[tbl$model == model_id & tbl$parameter == term, , drop = FALSE]
-  if (nrow(row) != 1 || is.na(row$pd)) return("NN")
-  apa_num(100 * row$pd, digits = 1)
-}
+source(here::here("paper_2_plasticity", "manuscript_setup.R"))
 ```
 
 Adults differ markedly in the speed and the ultimate success with which they learn a
 new language, and explaining that variation is a central goal of the cognitive
 neuroscience of language.
 Three families of predictor recur in the literature. Working memory is the
-best-evidenced cognitive correlate of second-language outcomes, with a small-to-moderate
-positive meta-analytic association [@linck2014] that is stronger for executive and
-complex-span measures than for simple storage span. In the phonological short-term
-memory literature, associations with second-language vocabulary learning are likewise
-stronger for nonword repetition than for digit span [@kurokawa2026]. Statistical or
-implicit learning, the ability to extract distributional regularities, relates positively
-but only weakly to language ability across 97 studies, with the size of the correlation
-depending on the task and the stimulus modality [@zhou2024]. In one individual-differences
-study, nonadjacent statistical learning predicted comprehension of particular
-native-language sentence types [@misyak2012].
-Inhibitory control is the least settled. The bilingual-advantage literature finds no reliable
-executive-function benefit of bilingualism [@paap2013; @dick2019], and direct tests of
-inhibition against second-language outcomes are mixed, reporting null [@huensch2024;
-@linckweiss2015] as well as positive [@chen2022] associations.
+best-evidenced domain-general cognitive correlate of second-language outcomes,
+language-specific aptitude aside [@li2015], with a small-to-moderate positive
+meta-analytic association [@linck2014] that is stronger for executive and complex-span
+measures than for simple storage span and, for vocabulary learning, stronger for nonword
+repetition than for digit span [@kurokawa2026]. Statistical or implicit learning, the
+ability to extract distributional regularities, relates positively but only weakly to
+language ability across 97 studies, with the size of the correlation depending on the
+task and the stimulus modality [@zhou2024], and nonadjacent statistical learning has
+predicted comprehension of particular native-language sentence types [@misyak2012]. Two
+artificial-language training studies that tracked their predictors across five sessions
+found the contribution of statistical learning concentrated in the earliest exposure,
+after which explicit learning aptitude [@kenanidis2026] or cognitive control [@chen2022]
+carried more of the variance. Inhibitory control is the least settled. The
+bilingual-advantage literature finds no reliable executive-function benefit of
+bilingualism [@paap2013; @dick2019], and direct tests of inhibition against
+second-language outcomes have returned null associations, for phonological processing
+[@huensch2024], for classroom learning gains [@linckweiss2015] and for
+artificial-grammar learning, where a flanker index of inhibition predicted at no stage
+[@chen2022].
 
-Alpha and theta dynamics in the resting EEG, and the individual alpha frequency in
-particular, index memory and cognitive performance [@klimesch1999]. Baseline oscillatory
-power has also predicted the rate of adult second-language learning directly, with faster
-learners distinguished mainly by higher-frequency (beta and low-gamma) rhythms
-[@prat2016; @prat2019]. In the later of those studies, only the coherence measures survived
+Alpha and theta dynamics in the resting electroencephalogram (EEG) index memory and
+cognitive performance
+[@klimesch1999]. The individual alpha frequency is a stable, trait-like measure
+[@grandy2013trait] that has correlated positively with general cognitive ability
+[@grandy2013], so a positive association with learning is the direction the
+cross-sectional literature would suggest. That association did not hold in a larger
+sample, where the frequency shared variance with processing speed alone [@ociepka2022],
+and the prior placed on it here is not directional (see *Priors*). Baseline
+oscillatory power has
+also predicted the rate of adult second-language learning directly, with faster learners
+distinguished mainly by higher-frequency (beta and low-gamma) rhythms [@prat2016;
+@prat2019]. In the later of those studies, only the coherence measures survived
 correction for multiple comparisons, so the band-power precedent rests chiefly on the
-earlier one, together with a ten-participant pilot in which resting beta power predicted an
-attainment-normalised progress score in older adults [@kliesch2021]. We therefore enter
-five canonical bands (delta,
-theta, alpha, beta, gamma) and the individual alpha frequency as baseline predictors.
-That precedent implicates higher-frequency bands recorded over right temporoparietal cortex.
-Our own reduction is over posterior electrodes, so we do not expect it to transfer directly,
-and the bands enter without a directional prior (see *Priors*). Although intensive language learning can reshape the underlying neural
-architecture [@li2014; @martensson2012], the EEG here is measured only at baseline and used
-to predict subsequent learning.
+earlier one and on a 10-participant pilot in older adults, in which resting low-beta
+power predicted progress relative to the room left for improvement at baseline
+[@kliesch2021]. We therefore enter five canonical bands (delta, theta, alpha, beta,
+gamma) and the individual alpha frequency as baseline predictors. That precedent
+implicates higher-frequency bands over right temporoparietal cortex, whereas our
+reduction is over posterior electrodes, so the bands enter without a directional prior
+(see *Priors*). Although intensive language learning can reshape the underlying neural
+architecture [@li2014; @martensson2012], the EEG here is measured only at baseline and
+used to predict subsequent learning.
 
 Raw band power is, moreover, an ambiguous quantity. It conflates genuine oscillatory
 activity with the broadband aperiodic ($1/f$) background on which the peaks sit, and the
 two components carry different information [@donoghue2020]. The aperiodic exponent has
 been proposed as a non-invasive proxy for cortical excitation--inhibition balance
 [@gao2017], varies systematically across individuals and with age [@voytek2015], and can
-drive associations that appear on the surface to belong to band power [@ouyang2020]. A
-claim that a resting rhythm predicts learning should therefore survive the separation of
-the two components, and we test that directly.
+drive associations that appear on the surface to belong to band power [@ouyang2020].
+Separating the two components therefore gives a test that can fail in either direction.
+An apparent band-power association should survive it, and an association carried by the
+aperiodic background should appear only once it is made. We run both.
 
 A question cuts across all three families: whether an aptitude expresses itself in how
-fast learners improve or in the level they reach. Most individual-difference studies index learning by a per-learner slope estimated in a first stage, a design that biases the predictor effects (see *Learning outcome and model structure*). We therefore model rate and attainment jointly at trial level and ask
-which of the two the predictors act on.
+fast learners improve or in the level they reach. Most individual-difference studies
+index learning by a per-learner slope estimated in a first stage, a design that treats an
+error-laden slope as an error-free quantity (see *Learning outcome and model structure*).
+We therefore model rate and level jointly at trial level and ask which of the two the
+predictors act on.
 
 This study brings these strands together in a controlled, longitudinal
 artificial-language paradigm. Norwegian--English bilinguals learn one of two miniature
-languages across a series of laboratory sessions. At baseline, we measure executive
-function (working memory via digit span, inhibitory control via the Stroop
-task [@stroop1935]), resting-state EEG and statistical learning, the last by an alternating
-serial reaction-time task [@howard1997], an alternating-sequence variant of the serial
-reaction-time paradigm [@nissen1987]. Across the training sessions, we track the developing
-accuracy of grammaticality
-judgements. Designs in which a controlled training outcome is predicted from a baseline neural recording remain rare. Most evidence linking resting EEG to cognition is cross-sectional, and the few longitudinal precedents [@prat2016; @prat2019; @kliesch2021] indexed learning by a derived rate or gain score. The present study models the full trial-level trajectory jointly, separating attainment from rate and quantifying the reliability of each. It also asks the neural question twice, of the raw band powers and of their aperiodic-adjusted decomposition, so that which characterisation of the resting spectrum the data prefer is itself treated as an empirical question.
+languages across a series of laboratory sessions. At baseline, we measure working
+memory, inhibitory control, statistical learning and resting-state EEG, and across the
+training sessions we track the developing accuracy of grammaticality judgements. Designs
+that predict a controlled training outcome from a baseline neural
+recording remain uncommon, and the longitudinal precedents [@prat2016; @prat2019;
+@prat2020; @kliesch2021; @kliesch2022] indexed learning by a derived rate or gain score.
+The present study models the full trial-level trajectory jointly, separating the level
+reached from the rate of change and quantifying the reliability of each, and it asks the
+neural question of both the raw band powers and their aperiodic-adjusted decomposition,
+so that which characterisation of the resting spectrum the data prefer is itself an
+empirical question.
 
 Two questions follow. Part A asks whether the baseline cognitive and neural
 measures predict the rate and attainment of learning. Part B asks whether executive
 function changes between the first and fifth sessions, and whether any change is confined
-to one index or broad across the battery. Part A bears on a standing question in the
-individual-differences literature: whether successful adult grammar learning is
-underwritten by a general advantage or by a specific capacity. A general advantage should
-be evident across a battery of cognitive and neural measures assessed and modelled
-identically. A specific capacity would leave one predictor associated with attainment and
-its co-measured companions unrelated to it. The two accounts are
-separable here to the extent that every predictor enters the same joint model of the
-same outcome under priors of comparable scale. Identical modelling does not, however,
-confer comparable reliability on the measures themselves, and which comparators can bear
-the contrast is set out under *Limitations and future directions*. Part B has a stake of its own. Whether
-cognitive capacities improve with demanding training is itself contested, since apparent gains often turn out to reflect retest artefacts and expectancy [@boot2013; @simons2016]. The three indices are therefore co-administered and used as internal controls on one another, because generic retest and expectancy effects act broadly across a battery.
+to one index or broad across the battery. Part A bears on a question that recurs in the
+individual-differences literature [@linck2014; @li2015]: whether success in adult
+grammar learning reflects a broad cognitive advantage or a single capacity. Because no
+language-specific aptitude test was administered, the contrast drawn here is between one
+domain-general capacity and several (see *Limitations and future directions*). A broad
+advantage should be evident across a battery of cognitive and neural measures assessed
+and modelled identically. A single capacity would leave one predictor associated with
+overall accuracy and its co-measured companions unrelated to it. Which memory or control
+ability predicts grammar learning has been found to depend on the stage of learning, in
+an artificial language [@morganshort2014], and on the learning condition and the
+difficulty of the rule, in second-language grammar [@rivera2023]. The question is
+therefore put here to a battery assessed once at baseline and modelled across the whole
+trajectory, and the two accounts are separable to the extent that every predictor enters
+the same joint model under priors of comparable scale, subject to the reliability of each
+measure (see *Limitations and future directions*). Part B has a stake of its own. Whether cognitive capacities improve with demanding training is contested. Apparent
+gains often turn out to reflect retest artefacts and expectancy [@boot2013; @simons2016],
+and for language learning specifically an 11-week randomised trial in older adults
+found no gain in working memory, memory or intelligence over a relaxation control
+[@berggren2020]. The three indices, administered together at both sessions, are used as
+internal controls on one another, because generic retest and expectancy effects act
+broadly across a battery.
 
 # Method
 
 ## Participants
 
-The participants are those of the companion study: Norwegian--English bilinguals
-(first language Norwegian, second language English) who learned one of two miniature
-languages. One participant was aged 16 at enrolment according to the language-history
-questionnaire, and all others were adults. The companion paper reports the full age
-distribution and the ethical approval and consent procedures covering the sample. Of the
+The participants are those of the companion study [@lesstransfer2026], drawn from the
+longitudinal artificial-language project reported by @gonzalezalonso2025:
+Norwegian--English bilinguals (first language Norwegian, second language English) who
+learned one of two miniature languages. `r if (nzchar(minor_age())) paste0("One participant was aged ", minor_age(), " at enrolment according to the language-history questionnaire, and all others were adults.") else ""` Of the
 `r flow_n("enrolled")` enrolled, `r flow_n("usable_accuracy")`
 contributed grammaticality-judgement trajectories
 (`r flow_n("usable_accuracy", "n_mini_english")` Mini-English,
@@ -730,9 +426,9 @@ contributed grammaticality-judgement trajectories
 joint predictor model, and `r flow_n("usable_rseeg")` also had usable baseline
 resting-state EEG. Because the
 joint model requires complete data on every predictor, the fitted raw-band model
-comprises `r proj_n(projpath_raw)` of those participants. The difference is that one
-participant with usable resting-state EEG had a baseline Stroop score excluded under the
-task's minimum-observation rule, and listwise deletion removes them. The aperiodic variant
+comprises `r proj_n(projpath_raw)` of those participants. The difference is one
+participant with usable resting-state EEG and no baseline Stroop score, whom listwise
+deletion removes. The aperiodic variant
 described below comprises `r proj_n(projpath_aper)` participants, the subset for which
 the specparam re-parameterisation is defined. That decomposition returns no individual
 alpha frequency for a spectrum in which it fits no alpha peak, and listwise deletion then
@@ -744,13 +440,7 @@ the by-participant intercept. Participants tested only once inform the intercept
 contribute no within-participant change. @fig-flow traces
 attendance and the resulting analysis samples across the six sessions.
 
-These are the samples the models are fitted to. The descriptive displays reported below
-are computed on wider frames, each named in the caption that carries it, and
-those counts are not interchangeable with these. A descriptive summary of the predictors
-requires only that a participant have the measure in question, not complete data on every
-predictor, and in places not even the usability judgement behind the
-`r flow_n("usable_rseeg")` above. No descriptive frame in this paper is smaller than the
-`r proj_n(projpath_raw)` participants the raw-band model is fitted to. Of the
+Of the
 `r pstat("n_lhq3", "value", 0)` participants with a Language History Questionnaire record
 [LHQ3; @lhq3], the mean age was `r pstat("age_years")` years
 ($SD = `r pstat("age_years", "sd")`$, range `r pstat("age_years", "vmin", 0)`--`r pstat("age_years", "vmax", 0)`).
@@ -761,9 +451,12 @@ did not disclose their gender. Most were right-handed
 (`r pstat("hand_right", "value", 0)` of `r pstat("hand_reported_n", "value", 0)` who
 reported handedness). English had been acquired early (age of first exposure
 $M = `r pstat("eng_aoa_listen")`$ years) and used for many years, with high self-rated
-proficiency ($M = `r pstat("eng_l2_proficiency", "value", 2)`$ on a 0--1 scale). The study was
-conducted with institutional research-ethics approval (reference to be added) and written
-informed consent from all participants.
+ proficiency ($M = `r pstat("eng_l2_proficiency", "value", 2)`$ on a 0--1 scale). The project
+ was registered with the Norwegian Agency for Shared Services in Education and Research
+ (Sikt; project 2559611). All participants gave written informed consent. The authors assert that all
+procedures contributing to this work comply with the ethical standards of the relevant
+national and institutional committees on human experimentation and with the Helsinki
+Declaration of 1975, as revised in 2008.
 
 ```{r}
 #| label: fig-flow
@@ -783,9 +476,9 @@ if (!is.null(flow_tbl)) {
                stringsAsFactors = FALSE),
     data.frame(
       label = c("Contributed a learning trajectory",
-                "…and a usable baseline battery",
-                "…and usable baseline resting-state EEG",
-                "…and complete data on every predictor (fitted raw-band model)"),
+                "...and a usable baseline battery",
+                "...and usable baseline resting-state EEG",
+                "...and complete data on every predictor (fitted raw-band model)"),
       # The final stage is the model's own fitted sample, read from the projpred
       # solution path rather than from the flow artefact, which records candidacy
       # stages and not the listwise deletion the joint model applies. Without it the
@@ -808,132 +501,146 @@ if (!is.null(flow_tbl)) {
 ## Cognitive and neural indices
 
 The cognitive battery was administered at Sessions 1 (baseline) and 5 (post) as
-browser-based tasks on the Gorilla experiment platform [@anwylirvine2020]. Records from
-individuals who completed the online battery without enrolling in the study were excluded
-at extraction, since they have no consent linkage to the participant key. Working memory
-was measured by digit span (forward and backward, list lengths 3--8
-with four items each, `r task_spec("digit_span", "scored_trials")` scored trials, the index
-being the number correct). Inhibitory
-control was measured by a four-colour Stroop task
+browser-based tasks on the Gorilla experiment platform [@anwylirvine2020], and records
+from individuals who completed the battery without enrolling were excluded at extraction,
+having no consent linkage to the participant key. Working memory was measured by digit
+span (forward and backward, list lengths 3--8 with four items each,
+`r task_spec("digit_span", "scored_trials")` scored trials, the index being the number
+correct). Inhibitory control was measured by a four-colour Stroop task [@stroop1935]
 (`r task_spec("stroop", "test_trials")` test trials,
 `r task_spec("stroop", "congruent_trials")` of them congruent, the index being the
-incongruent-minus-congruent mean reaction time). Higher Stroop scores
-therefore index poorer inhibitory control, so a positive coefficient for this predictor
-would mean poorer inhibition predicting higher accuracy. Statistical learning was
+incongruent-minus-congruent mean reaction time, so that higher scores index poorer
+inhibitory control). Statistical learning was
 measured by an alternating serial reaction-time (ASRT) task [@howard1997], the
 alternating-sequence variant of the serial reaction-time paradigm [@nissen1987], of
 `r task_spec("asrt", "n_blocks")` blocks of `r task_spec("asrt", "trials_per_block")`
 trials in which pattern and random trials alternate. The index is the
 low-minus-high-probability-triplet mean reaction-time difference, with higher scores
-indexing stronger learning. Reaction times were
-trimmed to 50--5000 ms with within-cell outliers beyond three standard deviations removed.
+indexing stronger learning. Reaction times were trimmed to 50--5000 ms and within-cell
+outliers beyond three standard deviations were removed, with both indices averaged over
+correct and incorrect responses alike. The Stroop index includes the practice block,
+which the export records in the same response zone as the test trials and which no
+filter removes at extraction. The trimming cells and the minimum trial counts are given
+in the online supplementary material (Section S1).
 
-Resting-state EEG (rs-EEG) was recorded once, at Session 2, with a 32-channel Brain Products LiveAmp
-(500 Hz) in separate eyes-closed and eyes-open recordings of about
-five minutes each, each delimited by its own onset and offset markers. Preprocessing in
-BrainVision Analyzer followed the order: visual inspection of the continuous record,
-re-referencing to the average of the mastoids (TP9, TP10), band-pass filtering with
-zero-phase-shift Butterworth filters (high-pass 0.1 Hz, low-pass 30 Hz, fourth order, no
-notch), ocular correction by independent component analysis, and segmentation into the two
-resting blocks. Artefact handling was by visual inspection only, with no automatic
-amplitude, gradient or low-activity criteria. Essentially all marked intervals fell in the task portions of the recording and not in the resting blocks. The full five minutes was therefore retained for every participant in both conditions, and retention does not vary across the
-sample. Because no dedicated electro-oculogram electrodes were recorded, the ocular
-correction used surrogate channels derived from the montage. Power spectral density was estimated over eight occipito-parietal
-electrodes (O1, Oz, O2, P3, Pz, P4, P7, P8) by Welch's method [@welch1967] (2-s Hann
-windows, 50% overlap) and integrated into band power for delta (1--4 Hz), theta (4--8 Hz),
-alpha (8--13 Hz), beta (13--30 Hz) and gamma (30--45 Hz). The individual alpha frequency
-(IAF) was the frequency of maximum power in the 7--13 Hz range [@klimesch1999].
-@corcoran2018 recommend a smoothed peak-alpha or centre-of-gravity estimator in
-preference to this argmax. The specparam IAF recovered in the aperiodic decomposition
-serves as the cross-check here.
+Resting-state EEG (rs-EEG) was recorded once, at Session 2, with a 32-channel Brain
+Products LiveAmp (500 Hz) in separate eyes-closed and eyes-open recordings of about five
+minutes each. Preprocessing in BrainVision Analyzer comprised visual inspection,
+re-referencing to the average of the mastoids, zero-phase Butterworth filtering (0.1--30
+Hz, no notch) and ocular correction by independent component analysis. The full five
+minutes was retained for every participant in both conditions, and the acquisition and
+preprocessing details are given in the online supplementary material (Section S2). Power
+spectral density was estimated over eight occipito-parietal electrodes (O1, Oz, O2, P3,
+Pz, P4, P7, P8) by Welch's method [@welch1967] and integrated over delta (1--4 Hz), theta
+(4--8 Hz), alpha (8--13 Hz), beta (13--30 Hz) and gamma (30--45 Hz). The individual alpha
+frequency (IAF) was the frequency of maximum power in the 7--13 Hz range [@klimesch1999],
+an argmax for which @corcoran2018 recommend a smoothed alternative, so the specparam IAF
+recovered in the aperiodic decomposition serves as the cross-check.
 
-That argmax has a failure mode that matters here, because the one suggestive neural
-result rests on this measure. For a spectrum that merely decays across the search range,
-with no peak in it, the argmax returns the lower bound of the range, so a value at 7 Hz is
-not necessarily a measured peak. The aperiodic decomposition resolves an alpha peak in
-`r rseeg_peak("resolvable")` of the `r rseeg_peak("recorded")` eyes-closed recordings. For
-the remainder, the individual alpha frequency should be read as unresolved. No analysis
-excluding those recordings is reported here, so the
-individual-alpha-frequency association below is provisional in that respect.
+Because the one suggestive neural result rests on this measure, one failure mode of the
+argmax matters here. For a spectrum that merely decays across the search range it returns
+the lower bound, so a value at 7 Hz is not necessarily a peak. The argmax lies strictly
+inside the range for `r rseeg_peak("resolvable")` of the
+`r rseeg_peak("recorded")` eyes-closed recordings, and the aperiodic decomposition
+described below fits a peak within that window in `r specparam_peak_n()` of the
+`r specparam_rec_n()`. For the recordings in
+which the decomposition fits no such peak, the individual alpha frequency should be read
+as unresolved. Two of them are pinned at the 7 Hz floor with no fitted peak, and the
+others carry interior argmax values. `r iafres_sentence()`
 
-The gamma band requires an explicit caveat, because it lies entirely above the offline
-low-pass corner. With the low-pass at 30 Hz, the whole 30--45 Hz band sits at or beyond the
-filter's $-3$ dB point. The filter's transmission was weighted by each participant's own
-extrapolated aperiodic background (the broadband $1/f$ component on which the oscillatory
-peaks sit), and the quantiles were taken across every recorded resting-state spectrum
-rather than across a fitted model's sample. On that basis, `r gamma_att_clause()`.
-What survives is further contaminated. No notch filter was applied, and appreciable mains
-energy at 50 Hz persists through the low-pass, so part of the residual band is line noise.
-Consistent with that, the power observed across
-30--45 Hz far exceeds what the filter would transmit of the aperiodic background
-(`r gamma_att_obs_clause()`), so most of the residual band is not filtered neural
-background at all. The gamma predictor is therefore not a valid index of
-gamma-band activity, and we do not interpret it. We retain it in the reported models only
-so that the predictor set is not silently altered after the fact. Its null result should be disregarded, and on no account read as evidence that gamma-band activity is unrelated to learning.
-
-We considered recomputing the band from the unfiltered continuous recordings, whose acquisition bandwidth of DC--131 Hz retains the frequencies of interest, and decided against it, because the resulting measure would not be interpretable either.
-Surface 30--45 Hz activity overlaps completely with the spectrum of cranial
-electromyogram, which extends from roughly 20 Hz upwards. Recordings made under
-complete neuromuscular blockade show differences of one to two orders of magnitude in
-scalp power above 20 Hz relative to the unparalysed state
-[@whitham2007; @muthukumaraswamy2013]. Separating neuronal from myogenic contributions in
-this range requires either explicit modelling of that separation or dedicated
-electromyogram channels [@hipp2013], and this montage provides neither. Recovering the
-band would therefore replace a filter-attenuated measure with a muscle-dominated one, and
-would additionally change a pre-specified predictor after the analysis had been run. We report the band as unmeasurable in this dataset and treat a properly acquired gamma measure as a design requirement for future work, since nothing here can retrieve it.
+The gamma band (30--45 Hz) lies entirely above the 30 Hz corner of the offline low-pass,
+so `r gamma_att_clause()`. The power observed there far exceeds what the filter would
+transmit of the aperiodic background (`r gamma_att_obs_clause()`), consistent with mains
+energy at 50 Hz persisting through a filter applied without a notch. The gamma predictor
+is therefore not a valid index of gamma-band activity. It is retained only so that the
+predictor set is not altered after the fact, we do not interpret it, and its null result
+is not evidence about gamma-band activity. The transmission analysis is given in the
+online supplementary material (Section S3).
 
 The eyes-closed values serve as the neural predictors, since the alpha rhythm and its peak
 are most reliably estimated with the eyes closed. The reduction reproduces the expected
-posterior alpha-blocking on eye opening, which we treat as a check on the recording.
-Had it been absent, it would have indicated a problem with the montage or the reference
-before any predictor built from these data could be trusted. All continuous predictors were
-$z$-scored, so each coefficient is expressed per standard deviation of its predictor and the
-predictors are directly comparable with one another.
+posterior alpha-blocking on eye opening, a check on the recording whose absence would
+have indicated a problem with the montage or the reference. All continuous predictors
+were $z$-scored, so each coefficient is expressed per standard deviation of its predictor
+and the predictors are directly comparable with one another [@brauer2018;
+@schielzeth2010]. The cognitive predictors were standardised over every participant with
+a Session 1 battery and the resting-state predictors over every eyes-closed recording, so
+a unit is a standard deviation of the measured sample, a slightly wider frame than the
+fitted one.
 
 ## Learning outcome and model structure (Part A)
 
 The learning outcome is the longitudinal trajectory of grammaticality-judgement accuracy,
-modelled jointly at trial level. The two-stage alternative
-is what most aptitude studies do: fit a slope per learner, then regress
-those slopes on the predictors. It biases the predictor effects through regression
-dilution, because a slope estimated from few noisy trials is treated as if it were measured
-without error, and it understates uncertainty for the same reason [@gelman2005;
-@humberg2024]. We therefore fit a single Bayesian multilevel Bernoulli model of trial-level
+modelled jointly at trial level. The two-stage alternative most aptitude studies take, a
+slope fitted per learner and then regressed on the predictors, treats a slope estimated
+from few noisy trials as if it were measured without error, ignores the heterogeneous
+precision of those estimates and uses the data inefficiently [@gelman2005]. Any
+standardised association is attenuated in proportion to the slopes' unreliability
+[@hedge2018], and where estimated slopes serve as predictors, as in the designs
+@humberg2024 evaluate, the attenuation becomes a regression dilution of the coefficient
+itself. We therefore fit a single Bayesian multilevel Bernoulli model of trial-level
 accuracy. The learning *rate* is a by-participant random slope for session and the
 predictors enter as interactions with session [@barr2013], so that under partial pooling a
 learner whose slope is poorly determined contributes proportionately less to the predictor
 estimate [@gelmanhill2007]:
 $$
-\text{correct} \sim \text{Session} \times \text{Property}
- + \text{Session} \times (\text{WM} + \text{Inhibition} + \text{StatLearning} + \text{rs-EEG})
- + (1 + \text{Session} \mid \text{participant}).
+\begin{aligned}
+\text{correct} \sim\; & \text{Session} \times \text{Property} \\
+ & + \text{Session} \times (\text{WM} + \text{Inhibition} + \text{StatLearning} + \text{rs-EEG}) \\
+ & + (1 + \text{Session} \mid \text{participant}).
+\end{aligned}
 $$
 
+The model carries no by-item term. The judgement sentences are generated combinatorially
+from each grammar, so each distinct sentence is presented to only a few participants and
+item variance is thinly sampled, as the companion paper sets out [@lesstransfer2026].
+That variance is absorbed into the residual.
+
 Session was coded as a continuous standardised variable so that the rate is a single
-slope. A linear effect of session is the parsimonious default. A generalised additive
-mixed-model (GAMM) form was held in reserve should the trajectory prove nonlinear
-[@winterwieling2016; @soskuthy2017], since averaging across learners can distort the
-apparent functional form of a learning curve [@heathcote2000; @murre2011]. That reserve
-analysis was not in the end fitted, and no formal test of linearity is reported, so the
-session term stands as a linear approximation to the observed trajectories.
-@fig-accuracy-trajectory is where its adequacy can
-be judged, and the gender-agreement trajectories in particular are not monotone.
+slope. The four judgement sessions enter at equal steps, although Sessions 2 to 4 were
+one week apart and Session 6 was an unrehearsed retention test about four months after
+Session 4 (see the companion paper), so the slope is per session step, whatever the
+elapsed time between sessions. Session was standardised over the pooled trial frame
+before any listwise deletion, so one unit is close to one step of the session index and
+zero falls at the trial-weighted mean session, which the cumulative design places
+between Sessions 3 and 4. The gender-agreement model inherits that scaling, so its main
+effects and its intercept are evaluated at the same session index, which lies later than
+that stratum's own mean session. Grammatical
+property entered as a three-level factor under treatment coding with differential object
+marking, the first level alphabetically, as the reference, so the population-level
+session term is that property's slope and the two session-by-property terms are the
+other properties' departures from it. The predictor terms do not interact with property,
+so their estimates do not depend on this choice. A linear effect of session is the
+parsimonious default. A generalised additive form [@winterwieling2016; @soskuthy2017] was
+held in reserve, since averaging across learners can distort the apparent form of a
+learning curve [@heathcote2000; @murre2011], and it was not fitted. Because linearity
+was not formally tested, the session term is interpreted as a linear approximation to
+the trajectories in @fig-accuracy-trajectory, where the gender-agreement trajectories in
+particular are not monotone.
 
 We report both the learning rate (the predictor-by-session
 interactions) and the attainment (the model-implied end-of-training accuracy), and assess
-the reliability of the by-participant rate and attainment before interpreting either as an
-individual difference [@hedge2018; @hedge2021]. These are single-occasion, model-based
-separation reliabilities estimated within this sample, computed as the variance of the
-shrunken by-participant posterior means relative to the model's between-participant
-variance, $\mathrm{Var}(\hat{u}_i)/\tau^2$ (by the normal-theory identity, approximately
-$1 - \overline{\mathrm{Var}(u_i \mid \text{data})}/\tau^2$).
-They are not test-retest reliabilities, which would require a second measurement wave [@rouderhaaf2019].
-Because session is standardised, a predictor's main effect is its association with accuracy at the average session. We label the main effects as overall accuracy and reserve *attainment* for the model-implied end-of-training quantity. Pooled
+the reliability of the by-participant rate and of the by-participant level of accuracy,
+the random intercept, before interpreting either as an individual difference
+[@hedge2018; @hedge2021]. Attainment is the population-level predicted accuracy at
+Session 6 for a learner at the mean of every predictor and at zero on both random
+effects, averaged with equal weight over the three properties in the pooled model, so it
+is a conditional prediction and carries no by-participant reliability. The reliabilities
+are single-occasion, model-based separation reliabilities estimated within this sample,
+computed as the variance of the shrunken by-participant posterior means relative to the
+model's between-participant variance, $\mathrm{Var}(\hat{u}_i)/\tau^2$. They are not
+test-retest reliabilities, which would require a second measurement wave
+[@rouderhaaf2019].
+Because session is standardised, a predictor's main effect is its association with
+accuracy at the pooled-frame mean session. We label the main effects as overall accuracy
+and reserve *attainment* for the model-implied end-of-training quantity. Pooled
 accuracy is shaped by properties of differing difficulty entering cumulatively across
 sessions: gender agreement from Session 2, differential object marking from Session 3 and
-verb--object number agreement from Session 4 (see the companion paper for the design).
-As a sensitivity analysis, Part A is therefore additionally re-fit restricted to gender
-agreement, the property with full session coverage and the most stable trajectory.
+verb--object number agreement from Session 4 (see @lesstransfer2026 for the design).
+Part A is therefore additionally fitted restricted to gender agreement, the property with
+full session coverage, so that the predictor pattern can be read on an outcome free of the
+cumulative design. The pooled model is the primary analysis and the gender-agreement
+model its companion.
 
 ## Pre/post models of executive function (Part B)
 
@@ -947,9 +654,10 @@ The three indices are standardised within measure and enter on their recorded po
 which is not aligned across them: higher digit span is better performance, higher Stroop
 interference worse. A generic improvement therefore moves the two in opposite signed
 directions, so the digit-span-versus-Stroop contrast confounds specificity with that
-opposition and should be read as an upper bound on the separation. Because resting-state EEG was recorded only at baseline, no neural pre/post is
-estimated. The rs-EEG measures enter Part A as baseline predictors (the rs-EEG term
-above).
+opposition and should be read as an upper bound on the separation. A sign-aligned refit,
+in which the Stroop index is reversed before standardisation so that a positive change
+means improvement on all three indices, is reported alongside it. Because resting-state
+EEG was recorded only at baseline, no neural pre/post is estimated.
 
 ## Priors
 
@@ -958,48 +666,22 @@ literature reviewed in the Introduction and following a selective, evidence-tier
 positive priors [@linck2014; @kurokawa2026; @zhou2024; @misyak2012]. Inhibitory control
 receives a near-zero regularising prior, reflecting its weak-to-null evidence base
 [@huensch2024; @linckweiss2015; @chen2022], and the resting-state EEG predictors receive
-near-zero regularising priors. Although the precedent points to a higher-frequency advantage
-[@prat2016; @prat2019], those effect sizes were obtained over a different scalp region and
-for a different outcome, learning rate. The bands are therefore treated as an extension of
-that question to a new region and outcome, and no directional prior is encoded. The
-consequence is asymmetric: a credible band-power effect over posterior sites would have
-counted for the precedent, but a null obtained under regularising priors at this sample
-size cannot count against it. Variance components receive generous
+near-zero regularising priors. The band-power precedent [@prat2016; @prat2019] was
+obtained over a different scalp region and for a different outcome, learning rate, so no
+directional prior is encoded for the bands, and a null obtained under regularising priors
+at this sample size cannot count against that precedent. Variance components receive
+generous
 half--Student-$t(3,0,2.5)$ priors and correlations an $\mathrm{LKJ}(2)$ prior
-[@gelman2006; @lewandowski2009]. In a sensitivity analysis, the Part A predictors were re-fit under weakly informative priors. As intended, the regularising priors on the
-resting-state bands shrank them towards zero and tightened their intervals (across all
-coefficients, the weakly informative intervals were about `r prior_ci_widening()` wider
-at the median). No band-power predictor was credible under either prior. The individual
-alpha frequency, however, is prior-sensitive. Under the weakly informative prior, its
-gender-agreement interval excluded zero
-(`r sens_effect("p2_predictive_trajectory_gender", "z_iaf", "weak")`), whereas under the
-regularising prior it did not
-(`r sens_effect("p2_predictive_trajectory_gender", "z_iaf", "inf")`). The regularised estimate is treated as primary, and we read the association as suggestive. The working-memory main effect was, if anything, larger under the
-weakly informative prior, and its pooled interval then excluded zero
-(`r sens_effect("p2_predictive_trajectory", "z_digit_span", "weak")`). The
-predictor-by-session interactions likewise remained non-credible under weakly informative
-priors (largest $p_d$ = `r sens_max_rate_pd()`), so the attainment-not-rate asymmetry reported below is a property of the data and does not depend on the prior specification. The Part B pre/post
-models use weakly informative priors throughout
-[@schad2021; @depaoli2017]. The weakly informative sensitivity fits place
-$\mathcal{N}(0, 1.5)$ on the intercept and on every population-level coefficient, with the
-variance and correlation priors unchanged.
-
-The full specification is as follows, so that the models can be rebuilt from the manuscript
-alone. In the Part A models, the intercept has a $\mathcal{N}(1, 1)$ prior on the logit scale
-(judgement accuracy expected above chance) and any population-level coefficient without a
-term-specific prior has $\mathcal{N}(0, 1)$. By-participant standard deviations have
-half--Student-$t(3, 0, 2.5)$ and the random-effect correlation matrix $\mathrm{LKJ}(2)$. The
-term-specific priors are, for the main effect and its interaction with session respectively:
-working memory $\mathcal{N}(0.10, 0.25)$ and $\mathcal{N}(0.05, 0.15)$; statistical learning
-$\mathcal{N}(0.10, 0.20)$ and $\mathcal{N}(0.05, 0.15)$; inhibitory control
-$\mathcal{N}(0, 0.15)$ and $\mathcal{N}(0, 0.10)$; and every resting-state predictor,
-whether a raw band power, the individual alpha frequency or a quantity derived from the
-specparam spectral decomposition described below, $\mathcal{N}(0, 0.25)$ and
-$\mathcal{N}(0, 0.15)$. The Part B models use
-$\mathcal{N}(0, 1)$ on the intercept and on coefficients, and half--Student-$t(3, 0, 2.5)$
-on both the by-participant standard deviation and the residual standard deviation. The
-joint model, whose by-participant structure includes a random pre/post slope, additionally
-places an $\mathrm{LKJ}(2)$ prior on the random-effect correlation.
+[@gelman2006; @lewandowski2009]. In a sensitivity analysis, the Part A predictors were
+re-fit under weakly informative priors, $\mathcal{N}(0, 1.5)$ on the intercept and on
+every population-level coefficient, with the variance and correlation priors unchanged
+(see Results). The Part B pre/post models use weakly informative priors throughout
+[@schad2021; @depaoli2017]. In brief, the Part A intercept has a $\mathcal{N}(1, 1)$
+prior on the logit scale, any population-level coefficient without a term-specific prior
+has $\mathcal{N}(0, 1)$ [@gelman2008], and the term-specific priors are small positive
+normals for working memory and statistical learning and near-zero normals for inhibitory
+control and every resting-state predictor. The full specification is given in the online
+supplementary material (Section S6).
 
 ```{r prior-spec-check}
 #| results: asis
@@ -1028,7 +710,7 @@ if (!is.null(.prior_spec_tbl) &&
     "z_session_time:z_alpha"      = "normal(0, 0.15)",
     ".default"                    = "normal(0, 1)")
   ps <- .prior_spec_tbl
-  if ("model" %in% names(ps)) ps <- ps[ps$model == "p2_predictive_trajectory", , drop = FALSE]
+  if ("model" %in% names(ps)) ps <- ps[ps$model == LES_P2_MODELS[["predictive"]], , drop = FALSE]
   .mism <- character(0)
   for (cf in names(.expected_b)) {
     is_default <- identical(cf, ".default")
@@ -1046,7 +728,7 @@ if (!is.null(.prior_spec_tbl) &&
     .mism <- c(.mism, sprintf("Intercept: fitted `%s` vs prose `normal(1, 1)`", ri$prior[1]))
   if (length(.mism))
     cat("\n\n**[PRIOR-SPECIFICATION MISMATCH -- the fitted priors differ from the",
-        " specification stated above: ", paste(.mism, collapse = "; "),
+        " specification stated in the supplementary material: ", paste(.mism, collapse = "; "),
         ". Reconcile before submission.]**\n\n", sep = "")
 }
 ```
@@ -1054,128 +736,110 @@ if (!is.null(.prior_spec_tbl) &&
 ## Sampler, diagnostics and inference
 
 Models were fitted with `brms` [@burkner2017; @burkner2018] as a front end to Stan
-[@carpenter2017], using the same sampler configuration as the companion paper: four chains
+[@carpenter2017], using the same sampler configuration as the companion paper
+[@lesstransfer2026]: four chains
 of 10,000 iterations each, the first 2,000 discarded as warm-up, giving 32,000 post-warm-up
-draws, with `adapt_delta` = 0.95 and `max_treedepth` = 12. Sampling used within-chain
-`reduce_sum` threading at two threads per chain. Because `reduce_sum` takes the grouping of
-its partial sums from the thread count, the recorded draws depend on that setting as well as
-on the seed. The convergence gate was
+draws, with `adapt_delta` = 0.95 and `max_treedepth` = 12. The convergence gate was
 rank-normalised $\widehat{R} < 1.01$, bulk- and tail-ESS above 400, and zero divergent
-transitions [@vehtari2021]. Posterior predictive checks were written to the repository at
-fit time [@gabry2019], and inference was by posterior medians, 95% credible intervals and
-the probability of direction ($p_d$) [@makowski2019; @kruschke2018]. All credible intervals are
-equal-tailed quantile intervals, bounded by the 2.5th and 97.5th percentiles of the
-posterior draws. An ESS of 400 is the threshold at which the $\widehat{R}$ and ESS
-diagnostics are themselves trustworthy [@vehtari2021]. It is a weaker guarantee than the
-stability of an interval *limit*, which is estimated far less efficiently than a posterior
-mean, so borderline coefficients should be read with that in mind [@kruschke2021]. As in the companion paper, we
-describe an effect as credible when its 95% credible interval excludes zero, and otherwise read the probability of direction as a continuous index of directional certainty. We do not treat it as a dichotomous test. The projection-predictive and aperiodic analyses narrow the predictor space. We apply no blanket multiplicity correction, which would inflate Type II error without an inferential gain [@rubin2021]. Binary accuracy is modelled with a
-Bernoulli (logit) likelihood throughout. Analyses were carried out in R `r prov("R")`
+transitions [@vehtari2021]. Posterior predictive checks for the Part A models were
+written to the repository at fit time [@gabry2019], and inference was by posterior
+medians, 95% credible intervals and
+the probability of direction ($p_d$) [@makowski2019; @kruschke2018], every credible
+interval being equal-tailed (2.5th to 97.5th percentiles of the draws). An ESS of 400
+guarantees trustworthy diagnostics without guaranteeing the stability of an interval
+limit [@kruschke2021; @vehtari2021]. As in the companion paper,
+we describe an effect as credible when its 95% credible interval excludes zero, and
+otherwise read the probability of direction as a continuous index of directional
+certainty, never as a dichotomous test. The projection-predictive and aperiodic analyses
+narrow the predictor space, and we apply no blanket multiplicity correction, which would
+inflate Type II error without an inferential gain [@rubin2021]. Binary accuracy is
+modelled with a Bernoulli (logit) likelihood throughout. Analyses were carried out in R
+`r prov("R")`
 [@rcoreteam] with `brms` `r prov("brms")` as a front end to CmdStan `r prov("CmdStan")`,
 `projpred` `r prov("projpred")` for the projection-predictive selection and `loo`
 `r prov("loo")` for the Pareto-smoothed importance-sampling leave-one-out (PSIS-LOO)
-comparison, under the fixed seed
-`r prov("seed:LES_SEED", "20260607")`, in a reproducible `here()`-anchored
-compendium [@marwick2018]. The models were fitted on a Linux high-performance computing
-cluster (`r prov("platform", "*[platform pending a pipeline run]*")`), where the software
-environment is supplied by environment modules and not by a container. The versions given
-above are therefore those of the fitting run, and not necessarily those of the machine that
-renders this document. The Stan models were compiled with GCC 14.2.0, the compiler the R
-module supplies,
-at an optimisation level pinned to `-O1` in CmdStan's `make/local`, because that compiler
-version raises an internal compiler error on Stan's `reduce_sum` templates at `-O2` and
-above. The pin governs whether the models compile and not the draws
-they produce. The repository's cluster environment script applies it automatically, so a
-rebuild on the same cluster inherits it and a rebuild elsewhere under the same compiler needs
-it set by hand. Figures are drawn with `ggplot2` [@wickham2016] using the
-theme and colour system of `depictr` [@depictr], whose default qualitative palette is the
-colourblind-safe Okabe--Ito set. The companion paper uses the same system, so the two
-share one visual identity.
+comparison, under the fixed seed `r prov("seed:LES_SEED", "20260607")`, in a
+reproducible `here()`-anchored compendium [@marwick2018]. The models were fitted on a
+Linux computing cluster, the versions given above are those of the fitting run, and the
+platform, the compiler settings and the figure palette are given in the online
+supplementary material (Section S7). The analysis and reporting code was written
+with the assistance of Claude Code (version 2.1, Anthropic), running primarily the
+Claude Opus and Claude Fable models, accessed through Anthropic's Claude service
+(<https://claude.com/claude-code>) between July 2026 and September 2026. The tool
+drafted and revised scripts under the authors' direction and checked them against the
+method reported here. The authors reviewed and ran every script, and the deposited code
+reproduces the analyses without the tool.
 
 ## Predictor selection and a 1/f-adjusted robustness check
 
 Two further analyses probe the neural predictors. First, raw resting-state band power
-conflates genuine oscillatory activity with the aperiodic $1/f$ background, and that
-background is itself a substantive individual difference [@donoghue2020; @ouyang2020]. We
-re-parameterised each participant's baseline resting spectrum into an aperiodic component
-(exponent and offset), $1/f$-adjusted oscillatory (theta, alpha, beta) power and the
-specparam-estimated individual alpha frequency, using a specparam
-decomposition [@donoghue2020], and re-fit Part A with these de-confounded quantities
-in place of the raw bands. The decomposition is our own R implementation of that algorithm
-and does not call the Python `fooof` package. It was fitted over 2--40 Hz with at most six peaks,
-peak widths constrained to 1--12 Hz, a minimum peak height of 0.05 log$_{10}$ power above the
-flattened spectrum, a peak threshold of two standard deviations of that spectrum, and the
-aperiodic component in fixed (knee-free) mode. This aperiodic variant is a robustness
-check of the raw-band model, motivated by the periodic/aperiodic conflation. It is not a
-response to the raw-band result, and it does not amount to a second independent pass over
-the predictor space. Like the rest of the analysis plan, it was specified after data
-collection (see *Transparency and preregistration*). The two reference models are compared
-by leave-one-out cross-validation [@vehtari2017], so the choice between the two neural
-characterisations rests on a quantified comparison.
+conflates oscillatory activity with the aperiodic $1/f$ background, itself a substantive
+individual difference [@donoghue2020; @ouyang2020]. We therefore re-parameterised each
+participant's baseline spectrum with a specparam decomposition [@donoghue2020] into an
+aperiodic component (exponent and offset), $1/f$-adjusted theta, alpha and beta power and
+the specparam individual alpha frequency, the centre of the tallest fitted peak between 7
+and 13 Hz inclusive. Part A was then re-fit with these quantities in place of the raw
+bands.
+The decomposition is our own R implementation, fitted over 2--40 Hz in fixed (knee-free)
+mode, and its settings and the consequences of the 30 Hz low-pass for the fit are given
+in the online supplementary material (Section S4), where they can be judged against the
+recommendations of @gerster2022. Only tall peaks pass the threshold of two standard
+deviations of the flattened spectrum (Section S4), so a theta peak was fitted in
+`r n_peak_band("theta_adj")`, a peak within the individual-alpha window in
+`r specparam_peak_n()` and a beta peak in `r n_peak_band("beta_adj")` of the
+`r specparam_rec_n()` eyes-closed recordings. The adjusted theta and beta predictors are
+therefore close to constant, and we do not interpret their coefficients or their
+positions in the selection path. This aperiodic variant is a robustness check of the
+raw-band model, specified after data collection like the rest of the analysis plan (see
+*Transparency and preregistration*), and it is not a second pass over the predictor
+space.
 
-A trial-level criterion cannot settle that comparison on its own. The two reference
-models differ only in participant-level resting-state predictors, which are constant
-within a participant. With about `r aper_loo_tpp("pooled")` trials per participant in the pooled stratum, a held-out trial's by-participant intercept is already pinned by that participant's remaining trials, so a between-participant predictor can add little to
-predicting it. Leave-one-*trial*-out PSIS-LOO is therefore precise, but about a quantity
-that is not the one at issue, and it would return a near-zero difference for informative
-and uninformative resting-state predictors alike. Blocking the folds on the grouping
-factor is the recommended remedy wherever such dependence exists, even when the fitted
-model already accounts for the dependence with a random effect, as ours does
-[@roberts2017]. We therefore also compare the models by K-fold cross-validation with
-folds blocked on participants (K = 10, the same fold assignment for both models,
-participants dealt round-robin over a seeded shuffle). We report the difference in
-expected log predictive density (elpd) with a standard error clustered on participants.
-The blocking follows @roberts2017 and
-the predictive score @vehtari2017. The clustered standard error is our own construction.
-Because the pointwise contributions are not independent within a participant, we sum them
-within participant before taking the standard error across participants. A difference is
-read as decisive only when it exceeds twice this clustered standard error, and the naive
-independent-observation standard error is reported alongside so the size of the clustering
-correction is visible.
+The two reference models are compared by leave-one-out cross-validation [@vehtari2017].
+Because they differ only in participant-level predictors, which a held-out trial's own
+participant intercept already absorbs, they are also compared by $K$-fold cross-validation
+with folds blocked on participants ($K = 10$, the same folds for both models, participants
+dealt round-robin over a seeded shuffle), the remedy @roberts2017 recommend wherever such
+dependence exists. We report the difference in expected log predictive density (elpd) with a standard error
+clustered on participants, summing the pointwise contributions within participant before
+taking the standard error across participants, and read a difference as decisive only
+when it exceeds twice that standard error. Why the trial-level criterion cannot settle
+the comparison on its own, and the naive standard error alongside, are given in the
+online supplementary material (Section S5).
 
-Second, the joint Part A model deliberately retains every candidate predictor for
-inference, but one also wants to know which subset accounts for its predictive
-performance. We answer this with projection-predictive variable selection
-[@piironen2017; @piironen2020],
-which projects the rich reference posterior onto nested submodels and ranks predictors
-by the predictive performance retained after projection. Each submodel inherits the
-reference model's regularisation and is not re-estimated from scratch. Because
-the reference model is a multilevel Bernoulli model, we use the latent projection
-[@catalina2021], the appropriate and recommended projection for this model class. The
-forward search is cross-validated in full, with every selection step re-run within each
-fold, to pay for the selection-induced optimism of naive fit-then-select pipelines. The
-folds are formed by participant, so that no participant's correlated trials
-straddle the train/test split [@roberts2017]. Ten such participant-grouped folds were
-used, with twenty clustered posterior draws during the search and 400 draws for
-performance evaluation, which was carried out on the response (0/1) scale under the
-latent projection. The suggested submodel size is projpred's standard
-heuristic: the smallest size whose cross-validated elpd lies within one standard error of
-the reference model's [@piironen2020]. A predictor that the minimal submodel does
-not retain is not thereby shown to be null. The selection summarises which predictors
-account for the reference model's predictive performance, and the full Part A posterior
-remains the inferential statement [@piironen2020]. The raw-band and aperiodic reference
-models' selections are reported side by side.
+Second, the joint Part A model retains every candidate predictor for inference, and
+projection-predictive variable selection [@piironen2017; @piironen2020] asks which subset
+accounts for its predictive performance by projecting the reference posterior onto
+nested submodels, each inheriting the reference model's regularisation. Because the
+reference model is a multilevel Bernoulli model with a correlated random slope, we use
+the latent projection [@catalina2021; @mclatchie2025], which fits each projected submodel
+on the linear-predictor scale and evaluates its performance on the response scale (the
+reason the traditional projection fails for this model is given in Section S5). The
+forward search is cross-validated in full over `r projpred_nfolds_word()`
+participant-grouped folds [@roberts2017], and the suggested submodel size is projpred's
+standard heuristic, the smallest size whose cross-validated elpd lies within one standard
+error of the reference model's [@piironen2020]. A predictor that the minimal submodel
+does not retain is not thereby shown to be null. The selection summarises which
+predictors account for the reference model's predictive performance, and the full Part A
+posterior remains the inferential statement [@piironen2020]. The raw-band and aperiodic
+reference models' selections are reported side by side.
 
 ## Transparency and preregistration
 
 The study design, materials and session protocol were preregistered before data
-collection (<https://osf.io/tjr54>). The preregistration fixed the design, the tasks and
-the six-session schedule but did not specify a statistical analysis plan. The Bayesian
-multilevel models, the informative priors, the specparam/aperiodic re-parameterisation and
-the projection-predictive selection reported here were therefore specified after the data
-were collected, and they are exploratory rather than confirmatory
-[@nosek2018; @wagenmakers2012]. The
-preregistration also motivated the Session-1 battery as an index of attention relevant to
-the selection of a source of transfer. The present study reframes the same three tasks as
-working-memory, inhibitory-control and statistical-learning measures, used both as
-predictors of learning and as pre/post outcomes. That re-conceptualisation is a departure
-from the registered rationale and is likewise exploratory.
-
-Data collection was preregistered for two sites, Norway and Spain. The present analyses
-concern only the Norwegian cohort (first-language Norwegian, second-language English). The
-Spanish-site data are not analysed here, and the findings generalise only
-to first-language-Norwegian learners. Finally, the preregistered protocol required participants to score above 80% on a post-training behavioural test in each grammar session (with a second attempt allowed) before they could proceed. This performance-conditional gate shapes which
-participant-sessions contribute learning data and is part of the attrition described above.
+collection (<https://osf.io/tjr54>), with no statistical analysis plan, so the Bayesian
+multilevel models, the informative priors, the specparam/aperiodic re-parameterisation
+and the projection-predictive selection reported here were specified after the data were
+collected and are exploratory [@nosek2018; @wagenmakers2012]. The preregistration
+motivated the Session-1 battery as an index of attention relevant to the selection of a
+source of transfer, and reframing the same three tasks as working-memory,
+inhibitory-control and statistical-learning measures departs from that rationale. Data
+collection was preregistered for two sites, Norway and Spain, and only the Norwegian
+cohort (first-language Norwegian, second-language English) is analysed here, so the
+findings generalise only to first-language-Norwegian learners. Finally, the preregistered
+protocol required participants to score above 80% on a post-training behavioural test in
+each grammar session (with a second attempt allowed) before they could proceed, a gate
+that shapes which participant-sessions contribute learning data and is part of the
+attrition described above.
 
 # Results
 
@@ -1218,10 +882,10 @@ if (!results_ready) {
 # been run is silently absent rather than shown as failing. State that explicitly instead
 # of letting the table imply the grid is complete.
 if (!is.null(conv_tbl)) {
-  .expected <- c("p2_predictive_trajectory", "p2_predictive_trajectory_gender",
-                 "p2_predictive_trajectory_aperiodic", "p2_predictive_trajectory_aperiodic_gender",
-                 "p2_cognition_prepost_digit_span", "p2_cognition_prepost_stroop_interference",
-                 "p2_cognition_prepost_asrt_learning", "p2_cognition_prepost_joint")
+  .expected <- unname(c(LES_P2_MODELS[c("predictive", "predictive_gender",
+                                        "predictive_aperiodic", "predictive_aperiodic_gender")],
+                        .prepost_id("digit_span"), .prepost_id("stroop_interference"),
+                        .prepost_id("asrt_learning"), LES_P2_MODELS[["cog_prepost_joint"]]))
   .missing <- setdiff(.expected, conv_tbl$model)
   if (length(.missing))
     cat("\nDiagnostics are not yet available for ", length(.missing),
@@ -1233,38 +897,37 @@ if (!is.null(conv_tbl)) {
 
 ## Descriptive overview
 
-Before the models, we show the observed data they summarise. @fig-accuracy-trajectory
-plots the raw learning trajectory, which is also the direct check on the
-linear-in-session assumption the models make. @fig-predictor-corr shows the baseline
-predictors' intercorrelations and @tbl-predictor-desc gives the same predictors
-numerically. The per-measure distributions (@fig-predictor-dist) and the resting-state
-spectra behind the band-power and individual-alpha-frequency measures (@fig-rs-psd) are
-given in the online supplementary material (@apx-supplementary), which is deposited with
-the analysis code in this paper's repository. These displays cover three different
-frames, as their notes state. @fig-predictor-dist plots the stored records for each measure one
-panel at a time, so the number of points differs between panels. @fig-predictor-corr and
-@tbl-predictor-desc cover the participants who have both a baseline cognitive battery and
-an eyes-closed resting-state spectrum, and @fig-rs-psd covers every recorded spectrum. All
-three are wider than the `r proj_n(projpath_raw)` participants of the fitted raw-band
-model, so their counts describe the measures rather than the models.
+Before the models, @fig-accuracy-trajectory plots the raw learning trajectory, the direct
+check on the linear-in-session assumption the models make, @fig-predictor-corr shows the
+baseline predictors' intercorrelations and @tbl-predictor-desc gives the same predictors
+numerically. The per-measure distributions (Figure S1) and the resting-state spectra
+behind the band-power and individual-alpha-frequency measures (Figure S2) are given in
+the online supplementary material (Section S8). The frames of these displays are wider
+than the `r proj_n(projpath_raw)` participants of the fitted raw-band model and are stated
+in their notes.
 
 One feature of the learning trajectory bears on how *rate* and *attainment* should be read,
 since both terms would otherwise suggest improvement. Mean accuracy is highest
 at each property's first session and lower at its last, in every property and both
-mini-languages. The session term is credibly negative both pooled
-(`r report_effect(LES_P2_MODELS[["predictive"]], "z_session_time")`) and within gender
-agreement (`r report_effect(LES_P2_MODELS[["predictive_gender"]], "z_session_time")`). In
-the pooled model, this partly reflects the design: properties of increasing difficulty
-enter cumulatively across sessions, so later sessions sample harder material (see *Learning
-outcome and model structure*). Within gender agreement, which is sampled throughout, that
-explanation does not apply, and we record the decline as an unexplained feature of these
-data. Throughout what follows, *rate* is the slope of this trajectory and *attainment* its
-model-implied end point, whichever way the trajectory runs.
+mini-languages. The session term is credibly negative in both models. In the pooled
+model the slope for the reference property, differential object marking, is
+`r report_effect(LES_P2_MODELS[["predictive"]], "z_session_time")`, and the
+gender-agreement and verb--object number-agreement slopes differ from it by
+`r report_effect(LES_P2_MODELS[["predictive"]], "z_session_time:grammatical_propertygender_agreement")`
+and
+`r report_effect(LES_P2_MODELS[["predictive"]], "z_session_time:grammatical_propertyverb_object_number_agreement")`.
+Within gender agreement fitted alone the slope is
+`r report_effect(LES_P2_MODELS[["predictive_gender"]], "z_session_time")`. The pooled
+decline partly reflects the cumulative design, in which later sessions sample harder
+material (see *Learning outcome and model structure*). Within gender agreement, which is
+sampled throughout, it is an unexplained feature of these data. Throughout, *rate* is the
+slope of this trajectory and *attainment* its model-implied end point, whichever way the
+trajectory runs.
 
 ```{r}
 #| label: fig-accuracy-trajectory
 #| fig-cap: "Observed Grammaticality-Judgement Accuracy Across Sessions, by Grammatical Property and Mini-Language"
-#| apa-note: "Thin lines are individual participants, and the ribbon is a 95% confidence interval computed between participants, the sampling unit being participants and not trials. This is the raw trajectory the joint model summarises, and the direct check on the linear-in-session assumption."
+#| apa-note: "Thin lines are individual participants, and the ribbon is a 95% confidence interval computed between participants, the sampling unit being participants and not trials. This is the raw trajectory the joint model summarises, and the direct check on the linear-in-session assumption. No judgements were collected at Session 5. The segment from Session 4 to Session 6 spans the unrehearsed retention interval of about four months, whereas Sessions 2 to 4 were one week apart, so the axis is not proportional to elapsed time."
 #| fig-width: 6.5
 #| fig-height: 3.4
 if (!is.null(acc_traj_tbl)) {
@@ -1293,6 +956,9 @@ if (!is.null(acc_traj_tbl)) {
   p + geom_ribbon(aes(ymin = mean_accuracy - 1.96 * se, ymax = mean_accuracy + 1.96 * se,
                       fill = mini_language), alpha = 0.2, colour = NA) +
     geom_line(aes(linetype = mini_language), linewidth = 0.7) + geom_point(size = 1) +
+    # Only the four judgement sessions carry a tick: a tick at Session 5, where no
+    # judgements were collected, would imply a measured point there.
+    scale_x_continuous(breaks = c(2, 3, 4, 6)) +
     facet_wrap(~ grammatical_property, labeller = prop_lab) +
     # Okabe-Ito blue and vermillion, the same pair fig-predictor-forest uses, so every
     # hard-coded scale in the paper draws on the colourblind-safe set the Method names.
@@ -1311,8 +977,7 @@ if (!is.null(acc_traj_tbl)) {
 #| fig-width: 5.6
 #| fig-height: 5
 if (!is.null(predictor_corr)) {
-  ord <- c("digit_span", "stroop_interference", "asrt_learning",
-           "delta", "theta", "alpha", "beta", "gamma", "iaf")
+  ord <- c("digit_span", "stroop_interference", "asrt_learning", LES_P2_RS_MEASURES)
   corr_labs <- c(digit_span = "Digit span", stroop_interference = "Stroop",
                  asrt_learning = "ASRT", delta = "Delta", theta = "Theta",
                  alpha = "Alpha", beta = "Beta", gamma = "Gamma", iaf = "IAF")
@@ -1325,9 +990,10 @@ if (!is.null(predictor_corr)) {
     geom_tile(colour = "white", linewidth = 0.5) +
     geom_text(aes(label = strip0(r)), size = 3) +
     scale_fill_gradient2(low = les_div[1], mid = les_div[2], high = les_div[3], midpoint = 0,
-                         limits = c(-1, 1), labels = function(x) strip0(x, 1)) +
+                         limits = c(-1, 1),
+                         labels = function(x) ifelse(x == 0, "0", strip0(x, 1))) +
     scale_x_discrete(labels = corr_labs) + scale_y_discrete(labels = corr_labs) +
-    labs(x = NULL, y = NULL, fill = "r") +
+    labs(x = NULL, y = NULL, fill = expression(italic(r))) +
     les_theme() +
     # Blank the specific grid elements, not just the parent: a theme that sets
     # panel.grid.major.x/y explicitly (as depictr's does) is not cleared by setting
@@ -1341,7 +1007,7 @@ if (!is.null(predictor_corr)) {
 ```{r}
 #| label: tbl-predictor-desc
 #| tbl-cap: "Descriptive Statistics for the Baseline Predictors"
-#| apa-note: "The frame is the participants who have both a baseline cognitive battery and an eyes-closed resting-state spectrum, which is wider than the sample any Part A model is fitted to, and the n column gives the number contributing to each row. Each row carries its own unit. Because a band power is the spectral density integrated over the band, its unit is squared microvolts and not squared microvolts per hertz."
+#| apa-note: "The frame is the participants who have both a baseline cognitive battery and an eyes-closed resting-state spectrum, which is wider than the sample any Part A model is fitted to, and the $n$ column gives the number contributing to each row. Each row carries its own unit. Because a band power is the spectral density integrated over the band, its unit is squared microvolts, without the per-hertz denominator of a density."
 if (!is.null(predictor_desc) && requireNamespace("knitr", quietly = TRUE)) {
   pd <- predictor_desc
   num <- vapply(pd, is.numeric, logical(1)); pd[num] <- lapply(pd[num], round, 2)
@@ -1352,25 +1018,30 @@ if (!is.null(predictor_desc) && requireNamespace("knitr", quietly = TRUE)) {
   .pdl <- c(digit_span = "Working memory: digit span (items correct)",
             stroop_interference = "Inhibitory control: Stroop interference (ms)",
             asrt_learning = "Statistical learning: ASRT difference (ms)",
-            delta = "Delta power (µV²)", theta = "Theta power (µV²)",
-            alpha = "Alpha power (µV²)", beta = "Beta power (µV²)",
-            gamma = "Gamma power (µV², not interpreted)",
+            delta = "Delta power (microvolts squared)", theta = "Theta power (microvolts squared)",
+            alpha = "Alpha power (microvolts squared)", beta = "Beta power (microvolts squared)",
+            gamma = "Gamma power (microvolts squared, not interpreted)",
             iaf = "Individual alpha frequency (Hz)")
   if (all(c("predictor", "n", "mean", "sd", "median", "min", "max") %in% names(pd))) {
     lab <- unname(.pdl[pd$predictor])
+    # Statistical symbols set in italic (APA 7), and negatives typeset with a minus sign
+    # that LaTeX will not break the number at.
+    .num <- function(x) sub("^-", "-", formatC(x, format = "f", digits = 2))
     pd <- data.frame(Predictor = ifelse(is.na(lab), pd$predictor, lab),
-                     n = pd$n, M = pd$mean, SD = pd$sd, Mdn = pd$median,
-                     Min = pd$min, Max = pd$max, check.names = FALSE)
+                     `$n$` = pd$n, `$M$` = .num(pd$mean), `$SD$` = .num(pd$sd),
+                     `$Mdn$` = .num(pd$median), Min = .num(pd$min), Max = .num(pd$max),
+                     check.names = FALSE)
   }
-  knitr::kable(pd)
+  knitr::kable(pd, align = c("l", rep("r", ncol(pd) - 1)))
 } else if (is.null(predictor_desc)) cat("*Predictor descriptive table pending `_predictor_descriptives.csv`.*")
 ```
 
-## Part A: predictors of the learning trajectory
+## Part A: Predictors of the learning trajectory
 
 Each predictor enters twice: as a main effect, indexing the overall level of accuracy, and
 in interaction with session, indexing the learning *rate*. Because session is standardised,
-the main effect is the association at the average session (see Method). Working memory was
+the main effect is the association at the pooled-frame mean session (see Method). Working
+memory was
 the clearest predictor. Higher baseline digit span went with higher overall accuracy,
 credibly so for the fully sampled gender-agreement property
 (`r report_effect(LES_P2_MODELS[["predictive_gender"]], "z_digit_span")`) and positively,
@@ -1380,29 +1051,55 @@ though with an interval that narrowly included zero, in the pooled model
 (`r report_effect(LES_P2_MODELS[["predictive"]], "z_asrt")`) were not credibly related to
 accuracy, in line with their weak-to-null evidence base.
 
-Of the baseline resting-state measures, the band powers were uninformative
+Of the baseline resting-state measures, the band powers yielded no credible coefficient
 (@fig-predictor-forest), but that null must be read against how strongly they are
 intercorrelated. Entering the bands simultaneously means each coefficient is the unique
 contribution of that band with the others held constant, and the four low-frequency bands
-share a great deal of variance (@fig-predictor-corr). Their variance inflation factors are
+share a great deal of variance (@fig-predictor-corr). Their variance inflation factors,
+computed over the `r vif_n()` participants with complete predictor data in the
+descriptive frame, are
 `r vif_range(c("delta","theta","alpha","beta"))`, which widens their posterior intervals by
 roughly `r vif_widen(c("delta","theta","alpha","beta"))` relative to an orthogonal
-predictor. Their null coefficients are therefore weakly identified and uninformative about whether those rhythms relate to learning, and they are not directly
-comparable to the zero-order band--outcome associations reported in the precedent
-literature. Two of the neural predictors escape this: gamma
+predictor. Their null coefficients are therefore weakly identified and uninformative
+about whether those rhythms relate to learning. Two of the neural predictors escape this:
+gamma
 (VIF `r vif_of("gamma")`) and the individual alpha frequency (VIF `r vif_of("iaf")`) are
-close to orthogonal to the rest, so their estimates stand on their own. The one
+nearly uncorrelated with the rest, so their estimates stand on their own. The one
 suggestive signal was the individual alpha frequency, whose association with
 gender-agreement accuracy was
 `r report_effect(LES_P2_MODELS[["predictive_gender"]], "z_iaf")`. The cross-check the
 Method promised points the same way without settling it. In the aperiodic
 re-parameterisation of the same stratum, fitted to a smaller sample, the
 specparam-estimated individual alpha frequency was
-`r report_effect("p2_predictive_trajectory_aperiodic_gender", "z_specparam_iaf")`, and the
+`r report_effect(LES_P2_MODELS[["predictive_aperiodic_gender"]], "z_specparam_iaf")`, and the
 aperiodic exponent, the quantity the decomposition adds, was
-`r report_effect("p2_predictive_trajectory_aperiodic_gender", "z_aperiodic_exponent")`. The learning-*rate*
+`r report_effect(LES_P2_MODELS[["predictive_aperiodic_gender"]], "z_aperiodic_exponent")`. The learning-*rate*
 interactions were uniformly weak (for working memory,
-`r report_effect(LES_P2_MODELS[["predictive"]], "z_session_time:z_digit_span")`), consistent with priors that placed their small informative mass on attainment and shrank the rate terms towards zero.
+`r report_effect(LES_P2_MODELS[["predictive"]], "z_session_time:z_digit_span")`),
+consistent with priors that placed their small informative mass on the main effects and
+shrank the rate terms towards zero. The largest was the statistical-learning-by-session
+term in the gender-agreement model
+(`r report_effect(LES_P2_MODELS[["predictive_gender"]], "z_session_time:z_asrt")`), with
+the adjusted-alpha-by-session term of the aperiodic refit of that stratum comparable
+(`r report_effect(LES_P2_MODELS[["predictive_aperiodic_gender"]], "z_session_time:z_alpha_adj")`).
+Neither is interpreted, for the reason given below.
+
+Under weakly informative priors, the regularising priors on the resting-state bands are
+seen to have shrunk them towards zero and tightened their intervals (across all
+coefficients, the weakly informative intervals were about `r prior_ci_widening()` wider
+at the median). No band-power predictor was credible under either prior. The individual
+alpha frequency, however, is prior-sensitive. Under the weakly informative prior, its
+gender-agreement interval excluded zero
+(`r sens_effect(LES_P2_MODELS[["predictive_gender"]], "z_iaf", "weak")`), whereas under the
+regularising prior it did not
+(`r sens_effect(LES_P2_MODELS[["predictive_gender"]], "z_iaf", "inf")`). The regularised
+estimate is treated as primary, and we read the association as suggestive. The
+working-memory main effect was, if anything, larger under the weakly informative prior,
+and its pooled interval then excluded zero
+(`r sens_effect(LES_P2_MODELS[["predictive"]], "z_digit_span", "weak")`). The
+predictor-by-session interactions likewise remained non-credible under weakly informative
+priors (largest $p_d$ = `r sens_max_rate_pd()`), so the level-not-rate asymmetry is a
+property of the data and does not depend on the prior specification.
 
 ```{r p2-selection}
 #| results: asis
@@ -1424,11 +1121,8 @@ if (!is.null(projpath_raw)) {
     "The aperiodic re-parameterisation reproduced this ",
     "ordering (suggested size %s), with the aperiodic exponent and offset entering at steps ",
     "%s and %s, well beyond the suggested size, so the $1/f$ background added no predictive ",
-    "information the raw bands had missed. That search was capped at the same default path length, ",
-    "so the adjusted beta power and the specparam individual alpha frequency were not reached ",
-    "in it either, and the same caveat applies to them as to the raw model's tail terms. ",
-    "This is a statement about predictive parsimony, not ",
-    "evidence that the unselected predictors have no effect [@piironen2020]."),
+    "information the raw bands had missed. The same path cap left the adjusted beta power ",
+    "and the specparam individual alpha frequency unreached, with the same caveat."),
     projpred_strata(), projpred_gender_caveat(),
     proj_size(projpath_raw), proj_rank(projpath_raw, "z_digit_span"),
     proj_rank(projpath_raw, "z_stroop"), proj_rank(projpath_raw, "z_asrt"),
@@ -1474,15 +1168,15 @@ if (results_ready && !is.null(attainment_tbl) && !is.null(reliability_tbl)) {
   rf <- function(m, e) { r <- reliability_tbl[reliability_tbl$model == m & reliability_tbl$effect == e, ]
     if (nrow(r) == 1) sub("^0", "", sprintf("%.2f", r$reliability)) else "NA" }
   cat(sprintf(paste0("Model-implied end-of-training attainment was %s pooled and %s for gender ",
-              "agreement. The by-participant level at the average session (the intercept) was ",
+              "agreement. The by-participant level at the pooled-frame mean session (the intercept) was ",
               "estimated with high reliability (pooled %s, gender-only %s). The learning-rate slope ",
               "was estimated less reliably (pooled %s, ",
               "gender-only %s), and because the gender-only rate is the least reliably estimated of ",
               "these quantities we do not interpret rate-based individual-difference claims from that ",
               "model.\n"),
-      af("p2_predictive_trajectory"), af("p2_predictive_trajectory_gender"),
-      rf("p2_predictive_trajectory", "Intercept"), rf("p2_predictive_trajectory_gender", "Intercept"),
-      rf("p2_predictive_trajectory", "z_session_time"), rf("p2_predictive_trajectory_gender", "z_session_time")))
+      af(LES_P2_MODELS[["predictive"]]), af(LES_P2_MODELS[["predictive_gender"]]),
+      rf(LES_P2_MODELS[["predictive"]], "Intercept"), rf(LES_P2_MODELS[["predictive_gender"]], "Intercept"),
+      rf(LES_P2_MODELS[["predictive"]], "z_session_time"), rf(LES_P2_MODELS[["predictive_gender"]], "z_session_time")))
 }
 ```
 
@@ -1500,11 +1194,10 @@ components [@draheim2019; @hedge2018].
 #| fig-width: 6.5
 #| fig-height: 6
 if (results_ready) {
-  preds <- c("z_digit_span", "z_stroop", "z_asrt",
-             "z_delta", "z_theta", "z_alpha", "z_beta", "z_gamma", "z_iaf")
+  preds <- c("z_digit_span", "z_stroop", "z_asrt", paste0("z_", LES_P2_RS_MEASURES))
   rate_terms <- paste0("z_session_time:", preds)
   fp <- post_tbl |>
-    filter(model %in% c("p2_predictive_trajectory", "p2_predictive_trajectory_gender"),
+    filter(model %in% LES_P2_MODELS[c("predictive", "predictive_gender")],
            parameter %in% c(preds, rate_terms)) |>
     mutate(Component = ifelse(grepl("^z_session_time:", parameter),
                               "Learning rate (x session)", "Overall accuracy (main effect)"),
@@ -1527,7 +1220,8 @@ if (results_ready) {
       scale_colour_manual(values = c(Pooled = "#0072B2", `Gender only` = "#D55E00")) +
       scale_shape_manual(values = c(Pooled = 16, `Gender only` = 17)) +
       labs(x = "Posterior estimate (log-odds)", y = NULL, colour = NULL, shape = NULL) +
-      les_theme(10) + theme(legend.position = "top")
+      les_theme(10) + theme(legend.position = "top",
+                            plot.margin = margin(4, 8, 8, 8))
   }
 }
 ```
@@ -1535,7 +1229,7 @@ if (results_ready) {
 ```{r}
 #| label: tbl-reliability
 #| tbl-cap: "By-Participant Reliability of the Learning Trajectory"
-#| apa-note: "Columns give the group standard deviation, mean posterior standard error, and reliability of the intercept (a participant's level at the average session, since session is standardised) and of the session (rate) slope, for the pooled and gender-agreement-only models. The reliability column is the empirical-Bayes form, the variance of the shrunken by-participant posterior means over the model's between-participant variance. The group SD and mean posterior SE columns are shown for context, not as the terms of a formula."
+#| apa-note: "Columns give the group standard deviation, mean posterior standard error, and reliability of the intercept (a participant's level at the mean session of the pooled standardisation frame) and of the session (rate) slope, for the pooled and gender-agreement-only models. The reliability column is the empirical-Bayes form, the variance of the shrunken by-participant posterior means over the model's between-participant variance. The group SD and mean posterior SE columns are shown for context and are not the terms of a formula."
 if (!is.null(reliability_tbl)) {
   # Reliability is bounded above by 1, so its leading zero is stripped, matching relv()
   # and the Results prose. Group SD and the mean posterior SE are unbounded and keep theirs.
@@ -1546,45 +1240,42 @@ if (!is.null(reliability_tbl)) {
               `Group SD` = round(group_sd, 2),
               `Mean posterior SE` = round(mean_posterior_se, 2),
               Reliability = .strip0(reliability))
-  knitr::kable(rel)
+  # The reliability column is character (leading zero stripped), which kable would
+  # otherwise left-align under a numeric header.
+  knitr::kable(rel, align = c("l", "l", "r", "r", "r"))
 }
 ```
 
 
-## Part B: change in executive function over training
+## Part B: Change in executive function over training
 
 Comparing the first and fifth sessions, working-memory span increased over training,
-`r report_effect("p2_cognition_prepost_digit_span", "session_prepost")`. The Stroop
+`r report_effect(.prepost_id("digit_span"), "session_prepost")`. The Stroop
 interference effect
-(`r report_effect("p2_cognition_prepost_stroop_interference", "session_prepost")`) and the
+(`r report_effect(.prepost_id("stroop_interference"), "session_prepost")`) and the
 statistical-learning effect
-(`r report_effect("p2_cognition_prepost_asrt_learning", "session_prepost")`) showed no
+(`r report_effect(.prepost_id("asrt_learning"), "session_prepost")`) showed no
 credible change. In the joint model that lets each index control the others, the pattern
 pointed the same way. The joint-model digit-span change was
-`r report_effect("p2_cognition_prepost_joint", "session_prepost")`, an interval that,
+`r report_effect(LES_P2_MODELS[["cog_prepost_joint"]], "session_prepost")`, an interval that,
 unlike the single-index model's, includes zero. The estimate is less precise in the
 joint specification, which shares one residual standard deviation across the three
 measures and adds a by-participant change slope. Relative to that change, the
 pre/post shift was smaller for the Stroop interference effect
-(`r report_effect("p2_cognition_prepost_joint", "session_prepost:measurestroop_interference")`)
+(`r report_effect(LES_P2_MODELS[["cog_prepost_joint"]], "session_prepost:measurestroop_interference")`)
 and for the statistical-learning effect
-(`r report_effect("p2_cognition_prepost_joint", "session_prepost:measureasrt_learning")`).
+(`r report_effect(LES_P2_MODELS[["cog_prepost_joint"]], "session_prepost:measureasrt_learning")`).
 These specificity contrasts have credible intervals that include zero (probabilities of
-direction `r pd_of("p2_cognition_prepost_joint", "session_prepost:measurestroop_interference")`%
-and `r pd_of("p2_cognition_prepost_joint", "session_prepost:measureasrt_learning")`%), so
+direction `r pd_of(LES_P2_MODELS[["cog_prepost_joint"]], "session_prepost:measurestroop_interference")`%
+and `r pd_of(LES_P2_MODELS[["cog_prepost_joint"]], "session_prepost:measureasrt_learning")`%), so
 the evidence that the gain is working-memory-specific is suggestive without being decisive.
 @fig-prepost shows these effects.
 
-Two features of the comparison qualify it further. First, the three indices are $z$-scored
-within measure and enter the joint model on their recorded polarity, and that polarity is
-not aligned across them. A higher digit span is better performance, a higher Stroop
-interference score worse (see *Cognitive and neural indices*). A generic practice
-improvement would therefore push digit span up and Stroop interference down, in opposite
-signed directions, so the digit-span-versus-Stroop contrast is in part an artefact of that
-opposition, and it overstates the separation correspondingly. The ASRT comparison is not affected in the same way, since a higher ASRT
-score also means better performance and its polarity therefore matches digit span's.
-Second, the Stroop index has very low internal consistency here (see *Limitations
-and future directions*), which leaves it a noisy control. In task units,
+Two features of the comparison qualify it further. First, the digit-span-versus-Stroop
+contrast is inflated by the polarity opposition described in the Method, since a generic
+improvement pushes digit span up and Stroop interference down.
+`r signaligned_sentence()` Second, the Stroop index has very low internal consistency here (see
+*Limitations and future directions*), which leaves it a noisy control. In task units,
 the digit-span change was from `r cog_mean("digit_span", 1)` items correct at Session
 1 to `r cog_mean("digit_span", 5)` at Session 5, against
 `r cog_mean("stroop_interference", 1)` to `r cog_mean("stroop_interference", 5)` ms of
@@ -1599,17 +1290,17 @@ Stroop interference and `r cog_mean("asrt_learning", 1)` to
 #| fig-height: 3.5
 if (results_ready) {
   pp <- post_tbl |>
-    filter((model %in% c("p2_cognition_prepost_digit_span",
-                         "p2_cognition_prepost_stroop_interference",
-                         "p2_cognition_prepost_asrt_learning") & parameter == "session_prepost") |
-           (model == "p2_cognition_prepost_joint" &
+    filter((model %in% c(.prepost_id("digit_span"),
+                         .prepost_id("stroop_interference"),
+                         .prepost_id("asrt_learning")) & parameter == "session_prepost") |
+           (model == LES_P2_MODELS[["cog_prepost_joint"]] &
               parameter %in% c("session_prepost",
                                "session_prepost:measurestroop_interference",
                                "session_prepost:measureasrt_learning"))) |>
     mutate(Effect = dplyr::case_when(
-      model == "p2_cognition_prepost_digit_span" ~ "Digit span change",
-      model == "p2_cognition_prepost_stroop_interference" ~ "Stroop change",
-      model == "p2_cognition_prepost_asrt_learning" ~ "ASRT change",
+      model == .prepost_id("digit_span") ~ "Digit span change",
+      model == .prepost_id("stroop_interference") ~ "Stroop change",
+      model == .prepost_id("asrt_learning") ~ "ASRT change",
       parameter == "session_prepost" ~ "Joint: digit-span change",
       parameter == "session_prepost:measurestroop_interference" ~ "Joint: Stroop vs digit span",
       parameter == "session_prepost:measureasrt_learning" ~ "Joint: ASRT vs digit span"),
@@ -1627,7 +1318,7 @@ if (results_ready) {
     scale_shape_manual(values = c(`FALSE` = 1, `TRUE` = 16), guide = "none") +
     facet_grid(Block ~ ., scales = "free_y", space = "free_y") +
     labs(x = "Pre/post change (SD units)", y = NULL) +
-    les_theme(10)
+    les_theme(10) + theme(plot.margin = margin(4, 8, 8, 8))
 }
 ```
 
@@ -1635,79 +1326,117 @@ if (results_ready) {
 
 This study asked two questions: whether baseline cognitive and neural measures predict
 how well adults learn a new grammar (Part A), and whether executive function changes over
-the training period (Part B). The answer to the first is selective. Working memory
-predicted how well learners did, while inhibitory control,
-statistical learning and the resting-state measures added little, and the predictors acted
-on the level learners reached, leaving their rate of change unexplained. The answer to the
-second falls on the same
-capacity: working-memory span was the one index that rose over training.
+the training period (Part B). The answer to the first is selective. Working memory was
+associated with learners' overall level of accuracy, while inhibitory control,
+statistical learning and the resting-state measures added little, and the predictors were
+associated with that level, with no detectable association with the rate of change. The
+answer to the second falls on the same capacity: working-memory span was the one index
+that rose over training.
 
 ## Predictors of overall accuracy and learning rate
 
-Working memory was the clearest cognitive predictor of how well learners did, credibly so for gender agreement and in the same direction, though less certainly, when the properties were pooled. This fits the literature placing working memory as the
-best-evidenced cognitive correlate of second-language outcomes [@linck2014]. Inhibitory
-control and statistical learning, whose evidence base is weak or contested
-[@huensch2024; @linckweiss2015; @chen2022; @zhou2024], added little. Because digit span taps storage and not the executive or complex span that carries most of the working-memory--language association [@linck2014], a complex-span measure might well have shown a larger association. If so, the digit-span estimate is unlikely to overstate the working-memory contribution. Digit span is also the weaker of
-the phonological short-term memory tasks [@kurokawa2026, on vocabulary outcomes]. That is a conjecture about what another measure would have shown, and it does not bound the estimate reported here.
+Working memory was the clearest cognitive predictor of overall accuracy. In the primary
+pooled model its interval narrowly included zero, and in the gender-agreement model, the
+one property sampled at every judgement session, the association was credible. This fits
+the literature placing working memory as the best-evidenced domain-general cognitive
+correlate of second-language outcomes [@linck2014]. Inhibitory control and statistical
+learning, whose evidence base is weak or contested [@huensch2024; @linckweiss2015;
+@chen2022; @zhou2024], added little. Digit span taps storage, whereas the executive or
+complex span carries most of the working-memory--language association [@linck2014], and
+it is the weaker of the phonological short-term memory tasks for vocabulary outcomes
+[@kurokawa2026], so whether a complex-span measure would have shown a larger association
+here is untested.
 
-The baseline resting-state measures
-were largely uninformative. Only the individual alpha frequency, a stable, trait-like
-measure [@grandy2013trait] related to general cognitive ability
-[@klimesch1999; @grandy2013], hinted at a
-positive association with overall accuracy, and only in the gender-agreement model, not the
-pooled one. It stands as a lead for confirmatory work, and
-one to be held lightly. In the same stratum, the projection-predictive search ranked the
+The baseline resting-state measures yielded no credible predictor, and for the four
+low-frequency bands, which enter the model simultaneously and share most of their
+variance, the joint model had little precision with which to resolve one (see Results).
+Only the individual alpha
+frequency hinted at a positive association with overall accuracy, in the direction the
+cross-sectional literature would suggest (see Introduction), and only in the
+gender-agreement model. It stands as a lead for confirmatory work,
+and one to be held lightly, the more so as a larger test of that literature found the
+frequency unrelated to working memory and general ability [@ociepka2022]. In the same
+stratum, the projection-predictive search ranked the
 individual alpha frequency last, and the estimate is prior-sensitive (see *Priors*). In a
 small number of recordings, that measure is also a boundary value with no resolved peak
 behind it (see *Cognitive and neural indices*). The null for the band powers contrasts
 with reports that resting beta and low-gamma power predict L2 learning *rate* [@prat2016;
-@prat2019]. We did estimate the rate analogue. The band-by-session interactions are in the
-model and none was credible, though under weakly informative priors their intervals are
-wide enough not to exclude effects of the published size. The divergence therefore tracks
-our posterior reduction where theirs was right-temporoparietal, together with our
-conservative priors and our precision. The two sets of results differ in scope without
-contradicting each other. On the gamma half of that comparison, we can say nothing at all.
-Our 30--45 Hz band lies above the 30 Hz offline low-pass, so the
-measure is not a valid index of gamma-band power and its null is uninformative by
-construction (see *Cognitive and neural indices*). Testing the low-gamma part of that result [@prat2016; @prat2019] would need a recording made without a 30 Hz low-pass and with the means to separate myogenic from neuronal activity. The aperiodic re-parameterisation sharpens the neural
-null. Had the flat band coefficients merely reflected the
-conflation of oscillatory power with the $1/f$ background [@donoghue2020], de-confounding
-them should have uncovered signal. That is not what happened. The aperiodic exponent and offset entered the
-selection well beyond the suggested size. Under participant-grouped cross-validation,
-neither characterisation predicted a held-out learner's trajectory detectably better than
-the other.
-Against a largely cross-sectional literature relating the aperiodic exponent to cognitive
-function, this bounds the question without answering it. At baseline, in this sample, the exponent carried no detectable incremental signal for a longitudinal training outcome, a test cross-sectional designs cannot run. That the two characterisations
-could not be distinguished at this sample size also means the band-power nulls above are
-not obviously attributable to
-periodic/aperiodic conflation, though a comparison this blunt (see the minimum detectable
-difference quoted in the Results) cannot establish that they are equivalent.
+@prat2019]. The band-by-session interactions are in the model and none was credible,
+though under weakly informative priors their intervals do not exclude effects of the
+published size, and the divergence may reflect our posterior reduction where theirs was
+right-temporoparietal, our regularising priors or our lower precision, which these data
+do not separate. The low-gamma half of that precedent is untested here, because the gamma
+predictor is not a valid measure (see *Cognitive and neural indices*). The aperiodic
+re-parameterisation sharpens the neural null. Had the flat band coefficients merely
+reflected the conflation of oscillatory power with the $1/f$ background [@donoghue2020],
+de-confounding them should have uncovered signal, and it did not, a test that bears on
+the adjusted alpha power, the one adjusted band with a fitted peak in most recordings.
+The aperiodic exponent and offset entered the selection well beyond the suggested size,
+and under participant-grouped cross-validation neither characterisation predicted a
+held-out learner's trajectory detectably better than the other. Against a largely
+cross-sectional literature relating the aperiodic exponent to cognitive function, in
+which associations with specific abilities are inconsistent and the clearest signal is a
+small one with general ability [@euler2024], this is a longitudinal test that such
+designs cannot run, and it bounds the question without answering it. The exponent
+carried no detectable incremental signal at this sample size, and the band-power nulls
+are therefore not obviously attributable to periodic/aperiodic conflation, though a
+comparison this blunt (see the minimum detectable difference in the Results) cannot
+establish that the two characterisations are equivalent.
 
-The predictors
-acted on the *level* learners reached, with no detectable purchase on the *rate*. The
-predictor-by-session interactions were weak, with the statistical-learning-by-session
-term the only one approaching credibility in the raw-band models, and only in the
-gender-agreement model. That model's
-rate is the least reliably estimated quantity here (reliability
-`r relv("p2_predictive_trajectory_gender", "z_session_time")`), so, per the rule stated in the Results, we do not interpret it. In the aperiodic re-parameterisation of that stratum, the adjusted-alpha-by-session term comes at least as close, and we do not interpret it either. The attainment-not-rate asymmetry is not an artefact of the priors' design, a small informative mass on
-attainment shrunk towards zero on rate, since it held when the rate terms were re-fit under
-weakly informative priors (see *Priors*).
+The predictors were associated with learners' overall *level* of accuracy, with no
+detectable association with the *rate*, an asymmetry with a precedent in the study that
+established the resting-EEG result, where working memory, executive function and fluid
+intelligence were likewise uncorrelated with learning rate [@prat2016]. The one
+interaction approaching credibility, the statistical-learning-by-session term in the
+gender-agreement model, and its adjusted-alpha counterpart in the aperiodic refit of that
+stratum, come from the model whose rate is the least reliably estimated quantity here
+(reliability `r relv(LES_P2_MODELS[["predictive_gender"]], "z_session_time")`), so we do
+not interpret either. The asymmetry is not an artefact of priors that shrink the rate
+terms towards zero, since it held when those terms were re-fit under weakly informative
+priors (see Results).
 
-The overall pattern is the one a circumscribed advantage would produce. Had a broad aptitude driven learning, it should have appeared in the statistical-learning index, which is reliably measured and was assessed and modelled identically. In the event, the signal was concentrated in working memory, and the projection-predictive selection retained nothing beyond it. The neural and inhibitory-control comparisons carry much less weight in that argument than the modelling alone suggests: the low-frequency bands are weakly identified, the gamma predictor is not a valid measure, and the Stroop index is too unreliable to have registered an association (see *Limitations and future directions*). The contrast the data can draw is therefore between working memory and statistical learning, the two indices measured well enough to be compared.
+The overall pattern is consistent with a circumscribed advantage. Had a broad aptitude
+driven learning, it should also have appeared in the statistical-learning index, which is
+reliably measured and was assessed and modelled identically, and it did not. In the
+event, the signal was concentrated in working memory, and the projection-predictive
+selection retained nothing beyond it. The pattern does not, however, exclude a broad
+advantage, since the statistical-learning interval still admits an association as large
+as the one attributed to working memory (see *Limitations and future
+directions*).`r contrast_sentence()` The neural and inhibitory-control comparisons carry
+less weight in that argument, since the low-frequency bands are weakly identified, the
+gamma predictor is not a valid measure and the Stroop index is too unreliable to have
+registered an association (see *Limitations and future directions*), so the contrast the
+data can draw is between working memory and statistical learning, the two indices
+measured well enough to be compared.
 
-The joint model's chief advantage is that it separates attainment from rate. Estimating the by-participant
-intercept and slope inside one multilevel model, with their interactions with the predictors,
-propagates the uncertainty a two-stage slope analysis would discard [@gelman2005;
-@humberg2024]. The by-participant level was estimated with high reliability and the pooled
-learning rate less so
-(`r relv("p2_predictive_trajectory", "z_session_time")` against `r relv("p2_predictive_trajectory", "Intercept")`),
-with the gender-only rate more modest again (`r relv("p2_predictive_trajectory_gender", "z_session_time")`),
-so rate-based claims from that model warrant more caution [@hedge2018]. This asymmetry
-bears on how aptitude findings indexed by a per-learner slope should be read. If the rate
-is in general the less reliably estimated quantity (as it was here even under trial-level
-joint modelling, the most favourable case), then slope-indexed predictor effects will be
-attenuated and unstable in proportion to that unreliability. Disagreement among them is
-then to be expected [@hedge2018; @humberg2024].
+Because the by-participant intercept and slope were estimated inside one multilevel
+model, the uncertainty that a two-stage slope analysis would discard is carried into the
+predictor estimates [@gelman2005; @humberg2024]. The by-participant level was estimated
+more reliably than the learning rate
+(`r relv(LES_P2_MODELS[["predictive"]], "Intercept")` against
+`r relv(LES_P2_MODELS[["predictive"]], "z_session_time")` pooled, and
+`r relv(LES_P2_MODELS[["predictive_gender"]], "z_session_time")` for the gender-only
+rate), and that asymmetry bears on how aptitude findings indexed by a per-learner slope
+should be read. If the rate is in general the less reliably estimated quantity, as it was
+here even under trial-level joint modelling, the most favourable case, then slope-indexed
+correlations will be attenuated, and the coefficients unstable, in proportion to that
+unreliability, and disagreement among them is to be expected [@hedge2018; @humberg2024].
+
+One feature of the outcome qualifies the words *learning* and *rate* throughout. Mean
+accuracy was highest at each property's first session and lower at its last, and the
+session term was credibly negative for the reference property in the pooled model and
+within gender agreement (see *Descriptive overview*). The companion paper reports the same fall in the same judgements
+and shows that discrimination between grammatical and ungrammatical items is present, and
+for gender agreement improving, where the level falls. Three features of the design bear
+on it. Properties accumulate across sessions, so a later judgement is made against a
+grammar with more manipulated properties. The final session follows about four months
+without exposure, over which some forgetting is expected, and the model codes it one step
+after Session 4. A drift in response criterion cannot be separated from either, because
+no condition holds task demands constant while sessions advance. The predictors are
+therefore associated with the level at which a learner sustains accuracy across
+training, and the rate terms are slopes of that trajectory, whichever way it runs.
+Separating acquisition from decline would need a retention test scored apart from the
+training sessions.
 
 ## Change in executive function over training
 
@@ -1715,25 +1444,35 @@ A behavioural change also emerged over training. Working-memory span rose betwee
 sessions, while inhibitory control and statistical learning did not. This comparison lacks a
 no-training control group, so on its own a pre/post gain is open to the familiar threats of
 an uncontrolled retest: practice effects, regression to the mean, maturation and expectancy
-[@shadish2002; @calamia2012; @barnett2005]. Two features of the analysis bound those threats.
-First, the gain appeared concentrated in one index. Of three indices measured and retested
-identically, only working memory moved. In a joint model across the battery, the pre/post change was larger for digit span than for the co-administered Stroop and statistical-learning measures, in the
-same direction and with probabilities of direction of
-`r pd_of("p2_cognition_prepost_joint", "session_prepost:measurestroop_interference")`% and
-`r pd_of("p2_cognition_prepost_joint", "session_prepost:measureasrt_learning")`%. Those specificity contrasts do
-not themselves clear the credibility threshold, since their 95% intervals include zero, and
-the joint-model digit-span change does not either, so the concentration remains provisional. The
-two co-administered measures nonetheless serve as internal controls. The threats of an
-uncontrolled retest act broadly across a battery, so a change concentrated in a single
-index is not what they predict. Both controls are imperfect. The Stroop index is of
-very low internal consistency here, which leaves it a noisy comparator, and its polarity runs
-opposite to digit span's, which inflates that contrast (see *Part B: change in executive
-function over training*). Second, that same working-memory measure was the one baseline predictor of
-overall accuracy, so the predictive and pre/post analyses converge on it. None of this licenses a
-causal claim. Practice effects are not uniform across tasks [@scharfen2018], and even active
-control conditions do not fully rule out differential expectancy [@boot2013; @simons2016], so
-attributing the gain to the multilingual training specifically would require a matched
-no-training group. The result is consistent with a training-related, working-memory-specific change, and no more than that.
+[@shadish2002; @calamia2012; @barnett2005]. One feature of the analysis bounds those
+threats, since of three indices measured and retested identically only working memory
+moved. In the joint model, the pre/post change
+was larger for digit span than for the co-administered statistical-learning measure
+(probability of direction
+`r pd_of(LES_P2_MODELS[["cog_prepost_joint"]], "session_prepost:measureasrt_learning")`%, and
+`r pd_of(.signaligned_id, "session_prepost:measureasrt_learning")`%
+with the Stroop index sign-aligned). The digit-span-versus-Stroop contrast is weaker
+evidence, since aligning the Stroop polarity lowered its probability of direction from
+`r pd_of(LES_P2_MODELS[["cog_prepost_joint"]], "session_prepost:measurestroop_interference")`%
+to `r pd_of(.signaligned_id, "session_prepost:measurestroop_interference")`% (see Results)
+and the index is in any case too unreliable here to serve as a comparator. The
+specificity argument therefore rests on the statistical-learning comparator, as in Part
+A. That contrast does not clear the credibility threshold, since its 95% interval includes
+zero, and the joint-model digit-span change does not either, so the concentration remains
+provisional. The threats of an uncontrolled retest act broadly across a battery, so a
+change concentrated in a single index is not what they predict. The same working-memory
+measure was also the one baseline predictor of overall accuracy, so the predictive and
+pre/post analyses converge on it, but a practice effect on digit span would arise whether
+or not digit span predicted learning, so the convergence does not discriminate a
+training-related account from one. None of this licenses a causal claim. Practice effects are not
+uniform across tasks [@scharfen2018], and even active control conditions do not fully
+rule out differential expectancy [@boot2013; @simons2016], so attributing the gain to the
+multilingual training specifically would require a matched no-training group. In an
+11-week randomised trial in older adults, language learning produced no
+working-memory gain over a relaxation control [@berggren2020], and a three-week
+randomised course found no gain on updating or working memory over a waitlist
+[@grossmann2023]. The result is consistent with a training-related,
+working-memory-specific change, and no more than that.
 
 ## Limitations and future directions
 
@@ -1741,89 +1480,119 @@ The first limitation is precision. Although the models are fitted to tens of tho
 trials, the predictor effects are *between*-participant quantities, so their effective sample
 size is the number of participants. Only
 `r proj_n(projpath_raw)` participants contribute between-participant variance to the
-raw-band model and `r proj_n(projpath_aper)` to the aperiodic variant, and eighteen
+raw-band model and `r proj_n(projpath_aper)` to the aperiodic variant, and 18
 between-participant coefficients (nine main effects and nine interactions with time) are
-estimated from them. That is why even the clearest predictor effect is reported with a wide
-interval, and it bounds how strongly any single predictor claim can be made. Effects that do
+estimated from them. That is why even the clearest predictor effect carries a wide
+interval. Effects that do
 clear a 95% interval at this sample size are also, on average, overestimates of their true
-magnitude, so the working-memory coefficient should be read as evidence of a positive association, not as a calibrated estimate of its size.
+magnitude [@gelmancarlin2014], so the working-memory coefficient should be read as
+evidence of a positive association whose size remains uncalibrated.
 
-A second limitation is that the study is silent on *neural* plasticity. Resting-state EEG was recorded only at
-baseline, so the rs-EEG measures bear only on the prediction question. Establishing whether intensive multilingual training reshapes
-resting-state activity would need a matched post-training recording, and the behavioural
-pre/post comparison reported above cannot stand in for one. A change in working-memory span
-is a change in what the task measures, and says nothing about whether the resting rhythms
-underlying that capacity have shifted.
+A second limitation is that the study is silent on *neural* plasticity. Resting-state EEG
+was recorded only at baseline, so the rs-EEG measures bear only on the prediction
+question. Establishing whether intensive multilingual training reshapes resting-state
+activity would need a matched post-training recording, of the kind that has shown resting
+network organisation shifting after language training in older adults [@kliesch2022]. A
+change in working-memory span is a change in what the task measures, and says nothing
+about whether the resting rhythms underlying that capacity have shifted.
 
 A third limitation is the reliability of the predictors themselves, which bounds any
-association they can enter into. Because reporting the reliability of the outcome while
-leaving the predictors unquantified would be one-sided, we estimated the internal
-consistency of each baseline index by permutation split-half with a Spearman--Brown
-correction. The result separates two measures that are usually discussed together as
+association they can enter into. We estimated the internal consistency of each baseline
+index by permutation split-half with a Spearman--Brown correction. The result separates two measures that are usually discussed together as
 difference scores [@hedge2018]. Statistical learning is estimated highly reliably
 (`r predrel("asrt_learning")`) and working-memory span adequately so
 (`r predrel("digit_span")`), but Stroop interference is not. Its split-half reliability is
-`r predrel("stroop_interference")`, which is close to zero. Almost none of its
-between-participant variance is systematic, so the null association between inhibitory control and learning reported here is uninformative, and no
-association could have been detected with this measure however large the true effect. That
-applies to Part A and to Part B, where the Stroop index is a noisy internal control on the
-pre/post comparison. The statistical-learning null carries no such excuse. The ASRT is
-estimated highly reliably, so its near-zero coefficient cannot be put down to measurement
-error. Even so, failing to
-detect an association is not the same as demonstrating its absence. Under a prior centred above zero, the pooled
-estimate is `r report_effect(LES_P2_MODELS[["predictive"]], "z_asrt")`. The interval's
-upper bound is close to the working-memory median we treat as our clearest effect, so these
-data cannot exclude a statistical-learning association of the size they attribute to
-working memory. What they establish is that no such association was detected on a
-well-measured index, which is why it, and not the neural or inhibitory-control nulls, is the
-comparator the specificity argument rests on.
+`r predrel("stroop_interference")`, which is close to zero. That is in keeping with the
+finding, across 24 published inhibition tasks, that trial noise is about eight times the
+size of the true variability between individuals [@rouder2023]. Almost none of its
+between-participant variance is systematic, so the inhibitory-control null in Part A is
+uninformative however large the true effect, and the index is a noisy internal control in
+Part B. The statistical-learning null carries no such excuse. The ASRT is estimated highly
+reliably, so its near-zero coefficient cannot be put down to measurement error. The ASRT
+figure is in line with the acceptable internal consistency the task reaches in a large
+sample when learning scores are computed from reaction times over
+`r task_spec("asrt", "n_blocks")` blocks, although such estimates move with
+pre-processing choices [@farkas2024]. Within-session split-half estimates also run well
+above the test-retest reliability of serial reaction-time learning [@oliveira2023], so
+the figure bears on the precision of the baseline index and does not by itself establish
+it as a stable trait. Nor can the null be attributed with any confidence to timing. In
+the two training studies that tracked their predictors by session, statistical learning
+contributed most in the earliest exposure [@chen2022; @kenanidis2026]. A contribution
+that fades across sessions would register here as a statistical-learning-by-session
+interaction, and those interactions were weak (see *Predictors of overall accuracy and
+learning rate*), although a linear term would not capture a contribution confined to the
+first grammar session alone. Even so, a null detection leaves the absence of an
+association undemonstrated. Under a prior centred above zero, the pooled estimate is
+`r report_effect(LES_P2_MODELS[["predictive"]], "z_asrt")`. The interval's upper bound is
+close to the working-memory median we treat as our clearest effect, so these data cannot
+exclude a statistical-learning association of the size they attribute to working memory.
+What they establish is that no such association was detected on a well-measured index,
+which is why it serves as the comparator the specificity argument rests on where the
+neural and inhibitory-control nulls cannot.
 
-A further scope condition is that no language-specific aptitude test was administered.
-All predictors index domain-general capacities, so the contrast our data can draw is
-between a single circumscribed capacity and a broad domain-general advantage. It does not
-extend to the language-specific aptitude of the Modern Language Aptitude Test (MLAT) and
-LLAMA tradition [@li2015]. Whether such an aptitude measure would outpredict working
-memory here is an open question.
+A further scope condition is that no language-specific aptitude test was administered,
+so the contrast our data can draw is between a single circumscribed capacity and a broad
+domain-general advantage. Whether an aptitude measure of the Modern Language Aptitude
+Test (MLAT) and LLAMA tradition [@li2015] would outpredict working memory here is an open
+question.
 
-Finally, the artificial-language design trades ecological validity for control. The gain is
-a grammar no participant has met before, so prior exposure cannot confound the
-learning curve, and that control is what makes the individual-difference question
-tractable at all. The cost is that the three properties enter at different points and
+Finally, the artificial-language design trades ecological validity for control. Because
+the grammar is new to every participant, prior exposure cannot confound the learning
+curve. The cost is that the three properties enter at different points and
 differ in difficulty, so the pooled trajectory averages over learners who are at different
 stages of different problems. The pooled analysis is therefore best read alongside the
 gender-only one, restricted to the single property sampled from the first grammar session
-onwards, which the predictor pattern survived.
+onwards, which the predictor pattern survived. Two further scope conditions apply. The
+outcome is a single grammaticality-judgement task, so nothing here speaks to production or
+to comprehension under time pressure, and the sample is first-language-Norwegian,
+second-language-English bilinguals (see *Transparency and preregistration*), to whom the
+findings are confined.
 
 ## Conclusion
 
-Two lines of evidence point to working memory. It was the one baseline index that predicted
-how much grammatical knowledge learners acquired, and the one index that rose across the
-training period. Statistical learning, measured at least as reliably, did neither, and the
-inhibitory-control measure was too unreliable here to test either way. Both results are
-therefore about a single capacity, though the evidence that the pre/post gain is confined
-to it stops short of being decisive.
+Two lines of evidence point to working memory. It was the one baseline index that
+predicted learners' overall accuracy on the new grammar, and the one index that rose
+across the training period. Statistical learning, measured at least as reliably, did
+neither, and the inhibitory-control measure was too unreliable here to test either way.
+Both results therefore converge on working memory. Neither establishes that the capacity
+is a specific one, since the statistical-learning interval admits an association of
+similar size and the evidence that the pre/post gain is confined to working memory stops
+short of being decisive.
 
 # Data and code availability
 
-All extraction, modelling and reporting scripts, the computational environment
-specification and the machine-written summary tables that populate this manuscript are
-available in this paper's repository at
-<https://github.com/pablobernabeu/LESS-cognitive-predictors>, together with the online
-supplementary material. The raw electroencephalographic recordings are too large to
-distribute through that repository and are deposited on OSF at <https://osf.io/tq7vy>. The
+The data that support the findings of this study are openly available in the Open
+Science Framework at <https://osf.io/tq7vy>. All extraction, modelling and reporting
+scripts, the computational environment specification and the machine-written summary
+tables that populate this manuscript are archived in the same repository, together with
+the online supplementary material. The raw electroencephalographic recordings are held
+there too, being too large to distribute through an ordinary version-control repository.
+The paper's analysis code and other open materials are also available at
+<https://github.com/pablobernabeu/LESS-cognitive-predictors>. The
 supplement holds
 the baseline predictor distributions and the resting-state spectra, which are descriptive
 companions to the analyses reported here and are not needed to interpret them. The
 environment specification has two parts, because no single artefact covers the whole of it:
 an `renv` lockfile pinning the R packages of the fitting library, snapshotted on the cluster,
 and a provenance record written at fit time. The compiler and the optimisation pin described
-above belong to neither, being properties of the cluster module, which
-is why they are stated in prose. The provenance record covers the software versions in force
+in the supplementary material belong to neither, being properties of the cluster module,
+which is why they are stated in prose. The provenance record covers the software versions in force
 when the Part A predictor models were fitted, so those fits can be traced to the environment
 that produced them. The pre/post models, the projection-predictive selection and the
 cross-validation comparisons run from the same environment, but they write no record of
 their own.
-`r if (is.null(.prov_tbl) || !nrow(.prov_tbl)) "That record has not yet been written for this paper, which is why the version fields under *Sampler, diagnostics and inference* print as pending. They populate from it automatically once the Part A predictor models are next fitted." else paste0("It was written when those models were fitted, on ", substr(.prov_tbl$recorded_utc[1], 1, 10), ", and it supplies the version fields under *Sampler, diagnostics and inference*.")`
+`r prov_record_sentence()`
+
+# Supplementary material
+
+For supplementary material accompanying this paper, visit *[URL assigned by the
+journal]*. The supplement comprises the trimming rules and minimum trial counts of the
+cognitive indices, the acquisition and preprocessing of the resting-state EEG, the
+transmission analysis behind the gamma-band judgement, the settings of the aperiodic
+decomposition, the predictive comparison and the projection in full, the prior
+specification in full, the computational environment, Figure S1 (distributions of the
+baseline predictors) and Figure S2 (grand-average resting-state power spectral density
+over the eight occipito-parietal electrodes).
 
 {{< pagebreak >}}
 
@@ -1834,7 +1603,7 @@ Every model whose posterior estimates are reported in the main text was assessed
 ```{r}
 #| label: tbl-convergence
 #| tbl-cap: "Convergence Diagnostics for Every Model Whose Posterior Estimates Are Reported"
-#| apa-note: "Columns give the maximum rank-normalised split R-hat and the minimum bulk and tail effective sample sizes, each taken over all parameters. Part A models come first, then the Part B pre/post models. The weak-prior rows are the prior-sensitivity refits described under Priors."
+#| apa-note: "Columns give the maximum rank-normalised split $\\widehat{R}$ and the minimum bulk and tail effective sample sizes (ESS), each taken over all parameters. Part A models come first, then the Part B pre/post models. The weak-prior rows are the prior-sensitivity refits described under Priors."
 if (!is.null(conv_tbl) && requireNamespace("knitr", quietly = TRUE)) {
   # Row labels: the CSV carries pipeline identifiers, which are not reader-facing, and it
   # is written in whatever order the summaries job produced. Map to prose names and order
@@ -1846,7 +1615,7 @@ if (!is.null(conv_tbl) && requireNamespace("knitr", quietly = TRUE)) {
     predictive_trajectory_weakprior           = "Part A: pooled (weak priors)",
     predictive_trajectory_gender              = "Part A: gender agreement",
     predictive_trajectory_gender_weakprior    = "Part A: gender agreement (weak priors)",
-    predictive_trajectory_gender_iafres       = "Part A: gender agreement, IAF-resolved participants only",
+    predictive_trajectory_gender_iafres       = "Part A: gender agreement, excluding the two floor-pinned IAF recordings",
     predictive_trajectory_aperiodic           = "Part A: pooled, aperiodic",
     predictive_trajectory_aperiodic_gender    = "Part A: gender agreement, aperiodic",
     cognition_prepost_digit_span              = "Part B: digit span",
@@ -1863,9 +1632,9 @@ if (!is.null(conv_tbl) && requireNamespace("knitr", quietly = TRUE)) {
     dplyr::transmute(Model = ifelse(is.na(.cml[sub("^p2_", "", model)]),
                                     sub("^p2_", "", model),
                                     unname(.cml[sub("^p2_", "", model)])),
-                     `max R-hat` = round(max_rhat, 3),
-                     `min ESS (bulk)` = round(min_ess_bulk),
-                     `min ESS (tail)` = round(min_ess_tail),
+                     `Maximum $\\widehat{R}$` = round(max_rhat, 3),
+                     `Minimum bulk ESS` = round(min_ess_bulk),
+                     `Minimum tail ESS` = round(min_ess_tail),
                      Divergences = n_divergent,
                      Passed = ifelse(passed, "yes", "no"))
   # Drop a column that carries no information. Every model here has zero divergent
@@ -1883,12 +1652,15 @@ if (!is.null(conv_tbl) && requireNamespace("knitr", quietly = TRUE)) {
 
 # Reliability of the baseline predictors {#apx-predictor-reliability}
 
-@tbl-predictor-reliability gives the split-half internal consistency of the three baseline cognitive indices. The values, and what they imply for the inhibitory-control null, are discussed under *Limitations and future directions*.
+@tbl-predictor-reliability gives the split-half internal consistency of the three
+baseline cognitive indices, each index having been split `r predrel_splits()` times. The
+values, and what they imply for the inhibitory-control null, are discussed under
+*Limitations and future directions*.
 
 ```{r}
 #| label: tbl-predictor-reliability
 #| tbl-cap: "Internal-Consistency Reliability of the Three Baseline Cognitive Predictors at Session 1"
-#| apa-note: "Reliability is estimated by permutation split-half: each participant's trials are repeatedly split in half, the index is recomputed on each half, the halves are correlated across participants, and the mean correlation is corrected to full test length by the Spearman-Brown formula. Two of the three indices (Stroop interference, ASRT learning) are difference scores."
+#| apa-note: "Reliability is estimated by permutation split-half: each participant's trials are repeatedly split in half, the index is recomputed on each half, the halves are correlated across participants, and the mean correlation is corrected to full test length by the Spearman--Brown formula. Each index was split the number of times given in the text. Two of the three indices (Stroop interference, ASRT learning) are difference scores."
 if (!is.null(predrel_tbl) && requireNamespace("knitr", quietly = TRUE)) {
   .prl <- c(digit_span = "Working memory (digit span)",
             stroop_interference = "Inhibitory control (Stroop interference)",
@@ -1899,89 +1671,14 @@ if (!is.null(predrel_tbl) && requireNamespace("knitr", quietly = TRUE)) {
   pr <- predrel_tbl |>
     dplyr::transmute(Predictor = unname(.prl[predictor]),
                      `Participants` = n_participants,
-                     `Mean half-test r` = .strip0(r_half),
-                     `Reliability (Spearman-Brown)` = .strip0(reliability_sb),
+                     `Mean half-test $r$` = .strip0(r_half),
+                     `Reliability (Spearman--Brown)` = .strip0(reliability_sb),
                      `Random splits` = n_splits)
-  knitr::kable(pr)
+  # A column that is constant across rows conveys nothing and crowds the predictor
+  # labels; the count then goes in the note (see predrel_splits()).
+  if (length(unique(pr$`Random splits`)) == 1) pr$`Random splits` <- NULL
+  knitr::kable(pr, align = c("l", rep("r", ncol(pr) - 1)))
 } else {
   cat("*Predictor reliability will appear once `scripts/11_extract_predictor_reliability.R` has run.*")
 }
-```
-
-# Supplementary materials {#apx-supplementary}
-
-The two displays below are supplied to the journal as online supplementary material
-and are deposited with the analysis code in this paper's repository. They are
-descriptive companions to the intercorrelations and numerical summaries in the main
-text, so they are not required to interpret the findings, and they fall outside the
-five figures of the article proper. @fig-predictor-dist shows the distribution of each
-baseline predictor over the stored records for that measure, and @fig-rs-psd the
-resting-state spectra behind the band-power and individual-alpha-frequency predictors.
-
-```{r}
-#| label: fig-predictor-dist
-#| fig-cap: "Distributions of the Baseline Predictors"
-#| apa-note: "Violins with individual points show working memory (digit span), Stroop interference and ASRT statistical-learning scores, and the eyes-closed resting-state band powers and individual alpha frequency. Each panel is drawn from the stored records for that measure, so the number of points differs between panels and exceeds the model samples reported under Participants. Difference-score predictors (Stroop, ASRT) are shown on their raw scale, and each panel's unit is given in its label. Box plots mark the median and interquartile range. The absolute band powers are strongly right-skewed. They nonetheless enter the models z-scored on this raw scale, with no transform applied. Points at the 7 Hz floor of the individual-alpha-frequency panel are values at the lower bound of the estimator's search range, not necessarily measured peaks (see Cognitive and neural indices)."
-#| fig-width: 6.5
-#| fig-height: 4.4
-pred_vals <- .read_csv_if(paper2_results("_predictor_values.csv"))
-if (!is.null(pred_vals)) {
-  ord <- c("digit_span", "stroop_interference", "asrt_learning",
-           "delta", "theta", "alpha", "beta", "gamma", "iaf")
-  pred_vals$predictor <- factor(pred_vals$predictor, levels = ord)
-  # Units differ across predictors and the y scales are free, so each panel states its
-  # own unit: the cognitive indices are a count and two reaction-time differences, the
-  # band powers a power integrated over frequency, and the individual alpha frequency a
-  # frequency. The band unit is uV^2, NOT uV^2/Hz: 03_extract_resting_state_eeg.R defines
-  # band power as the trapezoidal integral of the PSD over the band, which cancels the
-  # per-Hz denominator. fig-rs-psd, which plots the density itself, keeps uV^2/Hz.
-  pred_lab <- as_labeller(c(
-    digit_span = "Digit span (items correct)", stroop_interference = "Stroop (ms)",
-    asrt_learning = "ASRT (ms)", delta = "Delta (µV²)",
-    theta = "Theta (µV²)", alpha = "Alpha (µV²)",
-    beta = "Beta (µV²)", gamma = "Gamma (µV²)",
-    iaf = "IAF (Hz)"))
-  ggplot(pred_vals, aes(x = "", y = value)) +
-    geom_violin(fill = "grey90", colour = "grey60", linewidth = 0.3) +
-    geom_jitter(width = 0.12, size = 0.5, alpha = 0.5, colour = "grey25") +
-    geom_boxplot(width = 0.10, fill = "white", colour = "grey30", linewidth = 0.3, outlier.shape = NA) +
-    facet_wrap(~ predictor, scales = "free_y", nrow = 3, labeller = pred_lab) +
-    labs(x = NULL, y = NULL) + les_theme() +
-    theme(axis.text.x = element_blank(), panel.grid.major.x = element_blank())
-} else cat("*Predictor distributions will appear once `_predictor_values.csv` is present.*")
-```
-
-```{r}
-#| label: fig-rs-psd
-#| fig-cap: "Grand-Average Resting-State Power Spectral Density Over the Eight Occipito-Parietal Electrodes"
-#| apa-note: "Eyes-closed is shown against eyes-open. Both axes are logarithmic, so the aperiodic 1/f background appears as a straight line. The curve is the geometric mean across every recorded resting-state spectrum, a wider frame than the fitted models use, and the shaded ribbon is the interquartile range. Grey lines mark the interior delta/theta/alpha/beta/gamma band edges (4, 8, 13, 30 Hz), and the alpha band (8--13 Hz) is highlighted. The darker region above 30 Hz lies beyond the offline low-pass corner: the nominal gamma band (30--45 Hz) falls entirely within it, which is why that predictor is not interpreted. The eyes-closed posterior alpha increase (alpha-blocking on eye opening) is the expected Berger effect, which serves here as a check on the recording and the reduction."
-#| fig-width: 6.5
-#| fig-height: 3.4
-if (!is.null(psd_tbl)) {
-  ga <- psd_tbl |>
-    dplyr::group_by(condition, freq_hz) |>
-    dplyr::summarise(lo = stats::quantile(power, .25, na.rm = TRUE),
-                     hi = stats::quantile(power, .75, na.rm = TRUE),
-                     power = exp(mean(log(power), na.rm = TRUE)),
-                     .groups = "drop")
-  cond_lab <- c(eyes_closed = "Eyes closed", eyes_open = "Eyes open")
-  ggplot(ga, aes(freq_hz, power, colour = condition)) +
-    annotate("rect", xmin = 8, xmax = 13, ymin = 0, ymax = Inf, alpha = 0.08, fill = "grey40") +
-    # Shade the region above the 30 Hz offline low-pass corner. The nominal gamma band
-    # (30-45 Hz) lies entirely inside it, so the figure shows directly why that predictor
-    # is not interpretable rather than leaving the point to the text.
-    annotate("rect", xmin = 30, xmax = Inf, ymin = 0, ymax = Inf, alpha = 0.13, fill = "grey55") +
-    annotate("text", x = 37, y = Inf, label = "above low-pass", vjust = 1.6,
-             size = 2.8, colour = "grey30") +
-    geom_vline(xintercept = c(4, 8, 13, 30), colour = "grey80", linewidth = 0.2) +
-    geom_ribbon(aes(ymin = lo, ymax = hi, fill = condition), alpha = 0.15, colour = NA) +
-    geom_line(aes(linetype = condition), linewidth = 0.6) +
-    scale_x_log10(breaks = c(1, 2, 4, 8, 13, 20, 30, 45), labels = c(1, 2, 4, 8, 13, 20, 30, 45)) +
-    scale_y_log10() +
-    scale_colour_manual(values = c(eyes_closed = "#D55E00", eyes_open = "#0072B2"), labels = cond_lab) +
-    scale_fill_manual(values = c(eyes_closed = "#D55E00", eyes_open = "#0072B2"), guide = "none") +
-    scale_linetype_manual(values = c(eyes_closed = "solid", eyes_open = "22"), labels = cond_lab) +
-    labs(x = "Frequency (Hz)", y = expression(Power~(mu*V^2/Hz)), colour = NULL, linetype = NULL) +
-    les_theme() + theme(legend.position = "top")
-} else cat("*Resting-state spectra will appear once `_resting_state_psd.csv` is present.*")
 ```

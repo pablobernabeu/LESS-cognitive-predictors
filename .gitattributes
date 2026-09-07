@@ -1,2 +1,16 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# The cluster runs the job scripts through bash, which fails on a carriage return at
+# the end of a line with "$'\r': command not found" before it reaches anything else.
+# Under `text=auto` and Windows' core.autocrlf=true, a fresh checkout would write them
+# with CRLF and every job would die at its first line, so the working-tree ending is
+# pinned here rather than left to the platform.
+*.sh    text eol=lf
+*.slurm text eol=lf
+
+# R itself reads CRLF without complaint, but these scripts are deployed to Linux and
+# then compared with their deployed copies by checksum
+# (_shared/hpc/deploy_to_cluster.sh), and a difference in line endings alone would fail
+# that comparison on every file.
+*.R     text eol=lf

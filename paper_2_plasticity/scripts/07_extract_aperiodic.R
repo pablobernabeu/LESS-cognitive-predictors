@@ -57,7 +57,16 @@
 #     12_extract_gamma_attenuation.R, whose retained fraction is a function of this
 #     exponent. Narrowing the range to end at or below the 30 Hz corner would change
 #     every exponent and offset, and with them the Part A aperiodic variant, so the
-#     setting is left as it stands and the limitation is recorded instead.
+#     setting is left as it stands and the limitation is recorded instead. Because the
+#     filter's attenuation in decibels is the same function of frequency for every
+#     recording, and the aperiodic fit is linear in log power, the bias it adds to the
+#     exponent is close to a constant shared across participants, which the z-scoring
+#     applied before modelling removes. The robust trimming step is data-dependent, so
+#     the cancellation is approximate and not exact.
+#     OPT-IN SENSITIVITY. Setting LES_AP_FIT_MAX_HZ (e.g. 30) replaces the upper bound
+#     of the fit range and tags every output file with "_fit<max>hz", so a passband-only
+#     decomposition can be produced beside the reported one without touching it. With
+#     the variable unset the range, the file names and every value are exactly as before.
 #   * max_n_peaks, peak_width_limits, min_peak_height, peak_threshold: the standard
 #     specparam guards, so noise ripples are not fit as oscillations. The values used
 #     here are this project's own settings rather than any published default; see
@@ -106,8 +115,20 @@ suppressPackageStartupMessages({
 LES_AP_CONDITION <- "eyes_closed"
 
 # --- Aperiodic fit settings (Donoghue 2020; Gerster 2022) --------------------
+# Upper bound of the fit range. The reported decomposition uses 40 Hz (see the header).
+# LES_AP_FIT_MAX_HZ overrides it for the opt-in passband-only sensitivity pass and, when
+# set, tags every output file so the reported artefacts are never overwritten.
+.les_ap_fit_max_hz <- local({
+  v <- suppressWarnings(as.numeric(Sys.getenv("LES_AP_FIT_MAX_HZ", unset = "")))
+  if (is.finite(v) && v > 2) v else 40
+})
+les_ap_range_tag <- function() {
+  if (identical(.les_ap_fit_max_hz, 40)) "" else sprintf("_fit%ghz", .les_ap_fit_max_hz)
+}
+
 LES_AP_SETTINGS <- list(
-  fit_range        = c(2, 40),    # Hz; Gerster 2022 -- avoid <2 Hz drift & >40 Hz line/EMG
+  # Hz; Gerster 2022: avoid the <2 Hz drift and the >40 Hz line-noise/EMG region
+  fit_range        = c(2, .les_ap_fit_max_hz),
   max_n_peaks      = 6,           # caps the peak model far below the number of ripples in
                                   #   a noisy spectrum, so noise is not fit as oscillation
   peak_width_limits = c(1, 12),   # Hz; reject implausibly narrow/broad "peaks"
@@ -119,10 +140,10 @@ LES_AP_SETTINGS <- list(
 
 # Canonical bands for oscillation-adjusted power (reuse the project's definitions).
 LES_AP_BANDS <- LES_P2_EEG_BANDS[c("theta", "alpha", "beta")]
-# Alpha search window for the specparam IAF. It reaches below the 8 Hz lower edge of the
-# alpha band in _config.R, matching les_iaf() in 03 so the two IAF estimates are taken
-# over the same range. The note above les_iaf() records the low-peak cases this covers.
-LES_AP_IAF_RANGE <- c(7, 13)
+# Alpha search window for the specparam IAF, the same window les_iaf() in 03 searches, so
+# the two IAF estimates are taken over the same range. It reaches below the 8 Hz lower
+# edge of the alpha band; the note above les_iaf() records the low-peak cases this covers.
+LES_AP_IAF_RANGE <- LES_P2_IAF_SEARCH_HZ
 
 # =============================================================================
 # Aperiodic model in log10-log10 space
@@ -291,7 +312,8 @@ specparam_decompose <- function(freqs, power, s = LES_AP_SETTINGS) {
       specparam_iaf      = iaf
     ),
     peaks = pk,
-    fit   = list(f = f, logp = logp, model = model_fit, aperiodic = .ap_predict(ap, f, s$aperiodic_mode))
+    fit   = list(f = f, logp = logp, model = model_fit,
+                 aperiodic = .ap_predict(ap, f, s$aperiodic_mode))
   )
 }
 
@@ -330,7 +352,8 @@ specparam_decompose <- function(freqs, power, s = LES_AP_SETTINGS) {
   f <- dec$fit$f
   op <- graphics::par(mfrow = c(1, 2)); on.exit(graphics::par(op), add = TRUE)
   # left: full spectrum (log-log) with fit range shaded
-  in_rng <- raw_freqs >= LES_AP_SETTINGS$fit_range[1] & raw_freqs <= LES_AP_SETTINGS$fit_range[2] & raw_power > 0
+  in_rng <- raw_freqs >= LES_AP_SETTINGS$fit_range[1] &
+    raw_freqs <= LES_AP_SETTINGS$fit_range[2] & raw_power > 0
   plot(log10(raw_freqs[in_rng]), log10(raw_power[in_rng]), type = "l", col = "grey40",
        xlab = "log10 frequency (Hz)", ylab = "log10 power",
        main = sprintf("ppt %s: PSD + aperiodic fit", pid))
@@ -341,7 +364,8 @@ specparam_decompose <- function(freqs, power, s = LES_AP_SETTINGS) {
   # right: flattened spectrum (peaks above the 1/f background)
   plot(f, dec$fit$logp - dec$fit$aperiodic, type = "l", col = "grey40",
        xlab = "frequency (Hz)", ylab = "log10 power above 1/f",
-       main = sprintf("flattened (exp=%.2f, R2=%.2f)", dec$features$aperiodic_exponent, dec$features$r_squared))
+       main = sprintf("flattened (exp=%.2f, R2=%.2f)",
+                      dec$features$aperiodic_exponent, dec$features$r_squared))
   graphics::abline(h = 0, col = "grey70", lty = 3)
   if (!is.null(dec$peaks)) graphics::abline(v = dec$peaks[, "center"], col = "firebrick", lty = 3)
   invisible(out_png)
@@ -352,12 +376,17 @@ specparam_decompose <- function(freqs, power, s = LES_AP_SETTINGS) {
 # =============================================================================
 extract_aperiodic <- function(mode = LES_AP_SETTINGS$aperiodic_mode) {
   s <- LES_AP_SETTINGS; s$aperiodic_mode <- mode
-  tag <- if (mode == "knee") "_knee" else ""
+  # The knee tag and the fit-range tag compose, so a knee-mode passband-only run is
+  # distinguishable from either sensitivity pass on its own.
+  tag <- paste0(if (mode == "knee") "_knee" else "", les_ap_range_tag())
 
-  root  <- data_path("raw data", "EEG")
+  root  <- resting_state_eeg_path()
   vhdrs <- list.files(root, pattern = "_RS_eyes_(open|closed)\\.vhdr$",
                       recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
-  if (!length(vhdrs)) { message("[aperiodic] no resting-state .vhdr under ", root); return(invisible(NULL)) }
+  if (!length(vhdrs)) {
+    message("[aperiodic] no resting-state .vhdr under ", root)
+    return(invisible(NULL))
+  }
 
   rows <- list(); peak_rows <- list(); n_plotted <- 0L
   for (vhdr in vhdrs) {
@@ -367,11 +396,13 @@ extract_aperiodic <- function(mode = LES_AP_SETTINGS$aperiodic_mode) {
     if (is.na(sess) || !(sess %in% LES_P2_NEURAL_SESSIONS)) next
     pid  <- suppressWarnings(as.integer(sub("^([0-9]+)_RS.*", "\\1", basename(vhdr))))
 
-    psd <- tryCatch(.posterior_psd(vhdr),
-                    error = function(e) { message("  skip ", basename(vhdr), ": ", conditionMessage(e)); NULL })
+    psd <- tryCatch(.posterior_psd(vhdr), error = function(e) {
+      message("  skip ", basename(vhdr), ": ", conditionMessage(e)); NULL
+    })
     if (is.null(psd)) next
-    dec <- tryCatch(specparam_decompose(psd$freqs, psd$power, s),
-                    error = function(e) { message("  fit fail ", basename(vhdr), ": ", conditionMessage(e)); NULL })
+    dec <- tryCatch(specparam_decompose(psd$freqs, psd$power, s), error = function(e) {
+      message("  fit fail ", basename(vhdr), ": ", conditionMessage(e)); NULL
+    })
     if (is.null(dec)) next
 
     ft <- dec$features
@@ -430,7 +461,11 @@ extract_aperiodic <- function(mode = LES_AP_SETTINGS$aperiodic_mode) {
 # =============================================================================
 .run <- function() {
   args <- commandArgs(trailingOnly = TRUE)
-  mode <- if (length(args) && args[1] %in% c("fixed", "knee")) args[1] else LES_AP_SETTINGS$aperiodic_mode
+  mode <- if (length(args) && args[1] %in% c("fixed", "knee")) {
+    args[1]
+  } else {
+    LES_AP_SETTINGS$aperiodic_mode
+  }
   message(sprintf("[aperiodic] aperiodic_mode = %s", mode))
   extract_aperiodic(mode)
   message("[aperiodic] done.")

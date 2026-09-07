@@ -55,7 +55,7 @@ source(here::here("_shared", "R", "03_data_manifest.R"))
 # guarded by `if (sys.nframe() == 0L)`, so sourcing runs nothing.
 source(here::here("paper_2_plasticity", "scripts", "07_extract_aperiodic.R"))
 
-LES_GAMMA_BAND   <- c(30, 45)   # Hz; the band the low-pass corner truncates
+LES_GAMMA_BAND   <- LES_P2_EEG_BANDS$gamma   # Hz (30-45); the band the low-pass truncates
 LES_LOWPASS_HZ   <- 30          # Butterworth corner frequency
 LES_LOWPASS_ORD  <- 4           # design order (see header on the two-pass reading)
 
@@ -113,7 +113,8 @@ extract_gamma_attenuation <- function() {
   les_assert_readonly_data(f)
   readr::write_csv(rows, f)
   message(sprintf(
-    "[gamma-att] wrote %d participants | two-pass retained: median %.3f (IQR %.3f-%.3f) | single-pass: median %.3f (IQR %.3f-%.3f)",
+    paste0("[gamma-att] wrote %d participants | two-pass retained: median %.3f ",
+           "(IQR %.3f-%.3f) | single-pass: median %.3f (IQR %.3f-%.3f)"),
     nrow(rows),
     stats::median(rows$retained_fraction),
     stats::quantile(rows$retained_fraction, 0.25),

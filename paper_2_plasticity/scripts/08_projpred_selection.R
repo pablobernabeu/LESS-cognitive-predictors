@@ -27,10 +27,10 @@
 # submodels are projected on the continuous latent (linear-predictor) scale. This
 # both sidesteps a fatal lme4/nAGQ incompatibility of the traditional multilevel
 # projection for this model class (see the get_refmodel call below for the full
-# explanation) and is the projpred authors' recommended projection for multilevel
-# binomial models, where the traditional projection can underestimate group-level
-# relevance. Predictive performance is reported back on the original 0/1 response
-# scale (resp_oscale = TRUE).
+# explanation) and is the general route projpred offers where its traditional
+# projection is unavailable or fails (Catalina, Buerkner & Vehtari 2021; McLatchie,
+# Rognvaldsson, Weber & Vehtari 2025, doi:10.1214/24-STS949). Predictive performance
+# is reported back on the original 0/1 response scale (resp_oscale = TRUE).
 #
 # GUARDING AGAINST DOUBLE-DIPPING / OPTIMISTIC CV
 # -----------------------------------------------
@@ -50,14 +50,10 @@
 #     participant-grouping is one directly-named instance; matching the general
 #     K-fold-for-model-selection framework of Arlot & Celisse 2010,
 #     doi:10.1214/09-SS054), matching the (1 + z_session_time | participant_lab_ID)
-#     grouping of the reference model. IMPORTANT: cv_varsel() itself has no
-#     `folds=` argument (an earlier version of this script passed one directly to
-#     cv_varsel(), where it was silently absorbed into `...` and had NO effect,
-#     letting projpred fall back to its own randomly-reseeded, UNGROUPED row-level
-#     folds -- exactly the leakage this paragraph describes guarding against; fixed
-#     2026-07-02). The grouped fold vector must instead be threaded through
-#     run_cvfun(..., folds=) to build a `cvfits` object, then passed to cv_varsel()
-#     as `cvfits=` (see run_projpred_one() below).
+#     grouping of the reference model. The grouped fold vector is threaded through
+#     run_cvfun(..., folds=) to build a `cvfits` object, which is then passed to
+#     cv_varsel() as `cvfits=`; the note at that call in run_projpred_one() below
+#     explains why cv_varsel() cannot take the folds directly.
 #
 # The predictive metric is elpd (log predictive density) and, for the Bernoulli
 # response, classification accuracy. Both are reported as projpred's own difference to
@@ -115,28 +111,31 @@
 suppressPackageStartupMessages({
   source(here::here("_shared", "R", "00_paths.R"))
   source(here::here("_shared", "R", "01_bayesian_settings.R"))
+  source(here::here("_shared", "R", "06_helpers.R"))           # les_participant_folds()
   source(here::here("paper_2_plasticity", "scripts", "_config.R"))
   library(brms)
   library(dplyr)
 })
 
-# --- Ensure projpred is available (install into the project Rlib if absent) ----
-# projpred needs loo (present) + brms (present), so it is one new dependency. The other
-# is doParallel (with foreach, which it requires), installed just below and used only for
-# the run_cvfun refits.
+# --- Require projpred; doParallel is optional ---------------------------------
+# projpred needs loo and brms, both present, so it is the one further dependency. Both it
+# and doParallel are pinned in renv.lock and provisioned by
+# _shared/install_bayesian_dependencies.R. A missing projpred stops the run with the
+# instruction to restore the environment: nothing here installs a package from inside a
+# batch job, which would take an unpinned version over the network and change the
+# environment the run then records.
 if (!requireNamespace("projpred", quietly = TRUE)) {
-  message("[projpred] not installed -- installing into ", .libPaths()[1])
-  utils::install.packages("projpred", repos = "https://cloud.r-project.org/",
-                          lib = .libPaths()[1])
+  stop("[projpred] package 'projpred' is not installed. Restore the pinned environment ",
+       "(renv::restore(), or _shared/install_bayesian_dependencies.R on the cluster) ",
+       "so that the selection runs under the recorded version.", call. = FALSE)
 }
-stopifnot(requireNamespace("projpred", quietly = TRUE))
 
-# doParallel backs the K brms::kfold refits inside run_cvfun; it is optional (the run is
-# correct, only slower, without it), so install best-effort. cv_varsel's own projections
-# are never parallelised here -- see the parallel-backend policy note below.
+# doParallel (with foreach) backs the K brms::kfold refits inside run_cvfun. It is optional:
+# the run is correct, only slower, without it. cv_varsel's own projections are never
+# parallelised here; see the parallel-backend policy note below.
 if (!requireNamespace("doParallel", quietly = TRUE)) {
-  try(utils::install.packages("doParallel", repos = "https://cloud.r-project.org/",
-                              lib = .libPaths()[1]), silent = TRUE)
+  message("[projpred] doParallel is not installed; the run_cvfun refits will run ",
+          "sequentially.")
 }
 
 # Cores for the run_cvfun refit backend only; use the SLURM allocation if set.
@@ -159,12 +158,12 @@ if (is.na(.les_projpred_cores) || .les_projpred_cores < 1) .les_projpred_cores <
 # (registered inside run_projpred_one, torn down before cv_varsel). cv_varsel ITSELF
 # runs SEQUENTIALLY: on this trial-level Bernoulli workload every parallel cv_varsel
 # backend failed. A PSOCK cv_varsel serialises the huge reference model + cvfits to each
-# worker (OOM: jobs 8099406/8100219/8101599, even at 240G). A FORK cv_varsel either OOMs
-# when a worker ships its per-fold projection back over the socket (aperiodic 8107408 at
-# 469G under a 480G cap, then 8108170 at 945G under a 960G cap) or DEADLOCKS with every
-# worker idle at 0% CPU (raw 8107407 hung ~28h, 6 forked workers sleeping on ~388G).
+# worker and exhausted 240 GB. A FORK cv_varsel either runs out of memory when a worker
+# ships its per-fold projection back over the socket (the aperiodic model reached 469 GB
+# under a 480 GB cap and 945 GB under a 960 GB cap) or DEADLOCKS with every worker idle at
+# 0% CPU (the raw model hung for about 28 h, six forked workers sleeping on about 388 GB).
 # Sequential keeps memory at ~1x -- one projection at a time, well under a normal node's
-# 380G -- with no socket serialisation and no forking, so it is the only robust option;
+# 380 GB -- with no socket serialisation and no forking, so it is the only robust option;
 # the `long` partition (30-day wall) absorbs the extra wall-time. .les_want_parallel
 # therefore gates only the run_cvfun PSOCK backend now, never cv_varsel.
 .les_want_parallel <- .les_projpred_cores > 1L &&
@@ -172,31 +171,11 @@ if (is.na(.les_projpred_cores) || .les_projpred_cores < 1) .les_projpred_cores <
   requireNamespace("doParallel", quietly = TRUE)
 .les_parallel_ok <- FALSE   # cv_varsel always sequential (see note above)
 
-# -----------------------------------------------------------------------------
-# Build a participant-level fold id aligned to the reference model's data rows.
-# -----------------------------------------------------------------------------
-# Every row of a given participant_lab_ID gets the SAME fold, so no participant's
-# trials straddle the train/test boundary (grouped K-fold; Roberts et al. 2017).
-# Participants (not rows) are shuffled into K balanced groups with a fixed seed.
-.les_participant_folds <- function(dat, k, seed = LES_SEED) {
-  if (!"participant_lab_ID" %in% names(dat)) {
-    stop("[projpred] reference-model data has no participant_lab_ID column.")
-  }
-  ids <- as.character(dat$participant_lab_ID)
-  uid <- unique(ids)
-  n_p <- length(uid)
-  if (n_p < 2L) stop("[projpred] need >= 2 participants for grouped CV; found ", n_p)
-  k <- min(k, n_p)                       # never more folds than participants
-  set.seed(seed)
-  # Round-robin assignment over a shuffled participant list -> near-equal fold sizes:
-  # shuffle the participants, then deal them out 1..k, 1..k, ... so folds differ by
-  # at most one participant. Every row of a participant inherits that participant's fold.
-  perm   <- sample(uid)
-  p_fold <- setNames(((seq_len(n_p) - 1L) %% k) + 1L, perm)
-  folds  <- unname(p_fold[ids])
-  list(folds = as.integer(folds), k = k, n_participants = n_p,
-       fold_sizes = as.integer(table(factor(p_fold, levels = seq_len(k)))))
-}
+# The participant-grouped fold builder, les_participant_folds(), lives in
+# _shared/R/06_helpers.R and is shared with 09c_compare_aperiodic_grouped.R: every row of
+# a participant_lab_ID gets the same fold, and participants (not rows) are dealt
+# round-robin over a seeded shuffle into K near-equal groups (grouped K-fold; Roberts et
+# al. 2017).
 
 # -----------------------------------------------------------------------------
 # Load a cached Part A reference fit by its brms `file=` cache (NO refit).
@@ -226,7 +205,7 @@ run_projpred_one <- function(model_id) {
   message(sprintf("[projpred] %s | %d rows | %d participants",
                   model_id, nrow(dat), dplyr::n_distinct(dat$participant_lab_ID)))
 
-  fold_info <- .les_participant_folds(dat, .les_nfolds)
+  fold_info <- les_participant_folds(dat, .les_nfolds)
   message(sprintf("[projpred] grouped %d-fold CV over %d participants (fold sizes: %s)",
                   fold_info$k, fold_info$n_participants,
                   paste(fold_info$fold_sizes, collapse = "/")))
@@ -238,22 +217,23 @@ run_projpred_one <- function(model_id) {
   # with lme4::glmer, whose PIRLS-convergence-failure auto-retry escalates nAGQ; but
   # lme4 rejects nAGQ > 1 for ANY non-scalar (>1-term) random-effects structure, so
   # the forward search crashes with "nAGQ > 1 is only available for models with a
-  # single, scalar random-effects term". This was hit on the HPC (job 8086912
-  # failed at 80% of the search) and reproduced in a standalone lme4 test (nAGQ>1
-  # fails for any model with >1 RE term, correlated OR uncorrelated -- so simplifying
-  # the RE structure would NOT fix it without dropping the random slope, which is the
-  # model's whole point). The latent projection instead fits submodels on the
-  # continuous latent (linear-predictor) scale via lme4::lmer (no nAGQ, no PIRLS
+  # single, scalar random-effects term". This was hit on the cluster (the traditional
+  # projection failed at 80% of the search) and reproduced in a standalone lme4 test
+  # (nAGQ>1 fails for any model with >1 RE term, correlated OR uncorrelated -- so
+  # simplifying the RE structure would NOT fix it without dropping the random slope,
+  # which is the model's whole point). The latent projection instead fits submodels on
+  # the continuous latent (linear-predictor) scale via lme4::lmer (no nAGQ, no PIRLS
   # loop), so the crash is structurally unreachable (verified against projpred
   # source: get_refmodel(latent=TRUE) sets the submodel family to gaussian-identity,
   # which routes fit_glmer_callback to its lmer branch, never reaching the glmer
   # call). The Bayesian Stan reference model itself is left completely unchanged.
-  # Latent projection is also the projpred authors' recommended projection for
-  # multilevel binomial models, where the traditional projection can underestimate
-  # group-level relevance. For a brms bernoulli response projpred supplies the
-  # response-scale back-transform helpers internally (no latent_ll_oscale /
-  # latent_ppd_oscale needed); response-scale (0/1) performance is then requested via
-  # resp_oscale = TRUE at the summary stage (.les_projpred_path below).
+  # Latent projection is the general route projpred offers where its traditional
+  # projection is unavailable or fails (Catalina, Buerkner & Vehtari 2021; McLatchie,
+  # Rognvaldsson, Weber & Vehtari 2025, doi:10.1214/24-STS949). For a brms bernoulli
+  # response projpred supplies the response-scale back-transform helpers internally (no
+  # latent_ll_oscale / latent_ppd_oscale needed); response-scale (0/1) performance is
+  # then requested via resp_oscale = TRUE at the summary stage (.les_projpred_path
+  # below).
   refmodel <- projpred::get_refmodel(fit, latent = TRUE)
 
   # Candidate solution-path length: all non-response predictor terms unless capped.
@@ -298,25 +278,22 @@ run_projpred_one <- function(model_id) {
     message("[projpred] ", model_id, " | reusing cached participant-grouped cvfits")
     cvfits <- readRDS(cvfits_path)
   } else {
-    message(sprintf("[projpred] %s | running %d genuine participant-grouped brms refits (run_cvfun)...",
-                    model_id, fold_info$k))
+    message(sprintf("[projpred] %s | running %d genuine participant-grouped brms refits ",
+                    model_id, fold_info$k), "(run_cvfun)...")
     cvfits <- projpred::run_cvfun(refmodel, folds = fold_info$folds, seed = LES_SEED)
     saveRDS(cvfits, cvfits_path)
   }
 
   # run_cvfun (cmdstanr) is done. Tear down the PSOCK backend and reset the foreach
   # backend to sequential so cv_varsel does NOT inherit a stale cluster: cv_varsel runs
-  # sequentially (parallel = FALSE) here -- one per-fold projection at a time -- which is
-  # the only configuration that neither OOMs nor deadlocks on this workload (see the
-  # parallel-backend policy note above).
+  # sequentially (parallel = FALSE, the file-level .les_parallel_ok) here -- one per-fold
+  # projection at a time -- which is the only configuration that neither OOMs nor
+  # deadlocks on this workload (see the parallel-backend policy note above).
   if (.les_want_parallel) {
     try(parallel::stopCluster(.les_cl), silent = TRUE)
     try(foreach::registerDoSEQ(), silent = TRUE)
     options(mc.cores = 1L)
   }
-  # Restates the file-level policy after the cluster teardown: whatever happened above,
-  # cv_varsel is entered with parallelism off.
-  .les_parallel_ok <- FALSE
   message("[projpred] ", model_id, " | cv_varsel running SEQUENTIALLY (parallel = FALSE).")
 
   # cv_varsel with the pre-built, participant-grouped cvfits + validate_search=TRUE.
@@ -331,7 +308,7 @@ run_projpred_one <- function(model_id) {
     nclusters       = .les_ndraws,         # clustered draws for the projection search (speed)
     nterms_max      = nterms_max,
     seed            = LES_SEED,
-    parallel        = .les_parallel_ok,    # FALSE -- sequential per-fold CV (robust: no OOM, no deadlock)
+    parallel        = .les_parallel_ok,    # FALSE: sequential per-fold CV (no OOM, no deadlock)
     verbose         = TRUE
   )
 
@@ -467,7 +444,10 @@ run_projpred_one <- function(model_id) {
 # Pool per-model paths into one manuscript-facing CSV (mirrors 06's pooled CSVs).
 # -----------------------------------------------------------------------------
 pool_paths <- function() {
-  files <- list.files(paper2_results(), pattern = "_projpred_path\\.csv$", full.names = TRUE)
+  # sort(method = "radix") gives a locale-independent byte order, so the pooled table
+  # comes out in the same row order on any machine.
+  files <- sort(list.files(paper2_results(), pattern = "_projpred_path\\.csv$",
+                           full.names = TRUE), method = "radix")
   files <- files[basename(files) != "_projpred_path.csv"]     # skip the pooled target
   if (!length(files)) return(invisible(NULL))
   pooled <- dplyr::bind_rows(lapply(files, utils::read.csv, stringsAsFactors = FALSE))
@@ -487,8 +467,10 @@ pool_paths <- function() {
   if (do_gender) run_projpred_one(LES_P2_MODELS[["predictive_gender"]])
   # De-confounded (specparam) reference model(s): opt-in, select over the aperiodic
   # exponent/offset + 1/f-adjusted band power in place of raw band power.
-  if ("aperiodic"        %in% which) run_projpred_one(LES_P2_MODELS[["predictive_aperiodic"]])
-  if ("aperiodic_gender" %in% which) run_projpred_one(LES_P2_MODELS[["predictive_aperiodic_gender"]])
+  if ("aperiodic" %in% which) run_projpred_one(LES_P2_MODELS[["predictive_aperiodic"]])
+  if ("aperiodic_gender" %in% which) {
+    run_projpred_one(LES_P2_MODELS[["predictive_aperiodic_gender"]])
+  }
   pool_paths()
   # (The run_cvfun PSOCK backend is created and torn down per-model inside
   # run_projpred_one; cv_varsel runs sequentially, so there is no global cluster here.)

@@ -62,6 +62,7 @@
 suppressPackageStartupMessages({
   source(here::here("_shared", "R", "00_paths.R"))
   source(here::here("_shared", "R", "01_bayesian_settings.R"))
+  source(here::here("_shared", "R", "06_helpers.R"))           # les_participant_folds()
   source(here::here("paper_2_plasticity", "scripts", "_config.R"))
   library(brms)
   library(dplyr)
@@ -74,30 +75,16 @@ LES_KFOLD_GROUPED_K <- as.integer(Sys.getenv("LES_KFOLD_GROUPED_K", unset = "10"
 # Run the four chains of each refit CONCURRENTLY. les_brm() sets cores = LES_CHAINS for
 # the original fits, but brms::kfold() refits through update(), whose default is
 # cores = getOption("mc.cores", 1) -- so without this the chains run one after another and
-# every refit costs four times what it should. Measured on the first attempt (job
-# 12769193): ~18 min per refit sequentially, against ~4.5 min for a single chain, and the
-# pooled stratum alone consumed a 6-hour allocation. With 8 CPUs and 2 threads per chain,
-# 4 chains x 2 threads exactly fills the request.
+# every refit costs four times what it should. Measured on the first attempt: ~18 min per
+# refit sequentially, against ~4.5 min for a single chain, and the pooled stratum alone
+# consumed a 6-hour allocation. With 8 CPUs and 2 threads per chain, 4 chains x 2 threads
+# exactly fills the request.
 options(mc.cores = LES_CHAINS)
 
-# Same construction as 08_projpred_selection.R: every row of a participant gets the same
-# fold, participants dealt round-robin over a seeded shuffle so folds differ by at most
-# one participant. Duplicated here rather than sourced because 08 runs a long selection
-# on load; the two must stay in step, so any change belongs in both.
-.les_participant_folds <- function(dat, k, seed = LES_SEED) {
-  if (!"participant_lab_ID" %in% names(dat)) {
-    stop("[grouped-cv] model data has no participant_lab_ID column.")
-  }
-  ids <- as.character(dat$participant_lab_ID)
-  uid <- unique(ids)
-  n_p <- length(uid)
-  if (n_p < 2L) stop("[grouped-cv] need >= 2 participants; found ", n_p)
-  k <- min(k, n_p)
-  set.seed(seed)
-  perm   <- sample(uid)
-  p_fold <- setNames(((seq_len(n_p) - 1L) %% k) + 1L, perm)
-  list(folds = as.integer(unname(p_fold[ids])), k = k, n_participants = n_p)
-}
+# The fold builder is les_participant_folds() from _shared/R/06_helpers.R, the same
+# function 08_projpred_selection.R uses: every row of a participant gets the same fold,
+# and participants are dealt round-robin over a seeded shuffle so folds differ by at most
+# one participant. Sharing it is what keeps the two scripts partitioning identically.
 
 compare_grouped <- function(stratum, raw_id, aper_id) {
   raw_common_cache <- paper2_results(paste0(raw_id, "_commonsample"))
@@ -122,7 +109,7 @@ compare_grouped <- function(stratum, raw_id, aper_id) {
   stopifnot(identical(as.character(fit_raw$data$participant_lab_ID),
                       as.character(fit_aper$data$participant_lab_ID)))
 
-  fd <- .les_participant_folds(fit_aper$data, LES_KFOLD_GROUPED_K)
+  fd <- les_participant_folds(fit_aper$data, LES_KFOLD_GROUPED_K)
   message(sprintf("[grouped-cv] %s: K = %d over %d participants, %d rows",
                   stratum, fd$k, fd$n_participants, nrow(fit_aper$data)))
 
@@ -207,15 +194,15 @@ compare_grouped <- function(stratum, raw_id, aper_id) {
 
 out <- paper2_results("_aperiodic_kfold_compare.csv")
 
-# Write after EACH stratum rather than once at the end. The first attempt (job 12769193)
-# hit its walltime part-way through and lost everything, because the only write came after
-# both strata had finished. Each stratum is a complete, independently meaningful row, so
-# there is no reason to make the second one's failure destroy the first one's result.
+# Write after EACH stratum as it finishes. The first attempt hit its walltime part-way
+# through and lost everything, because the only write came after both strata had
+# finished. Each stratum is a complete, independently meaningful row, so there is no
+# reason to make the second one's failure destroy the first one's result.
 STRATA <- list(
-  list(stratum = "pooled", raw = "p2_predictive_trajectory",
-       aper = "p2_predictive_trajectory_aperiodic"),
-  list(stratum = "gender", raw = "p2_predictive_trajectory_gender",
-       aper = "p2_predictive_trajectory_aperiodic_gender")
+  list(stratum = "pooled", raw = LES_P2_MODELS[["predictive"]],
+       aper = LES_P2_MODELS[["predictive_aperiodic"]]),
+  list(stratum = "gender", raw = LES_P2_MODELS[["predictive_gender"]],
+       aper = LES_P2_MODELS[["predictive_aperiodic_gender"]])
 )
 
 res <- NULL

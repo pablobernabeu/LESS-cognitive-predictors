@@ -4,19 +4,18 @@
 #             Part A reference models  [HPC or local -- cheap, no refit needed]
 # =============================================================================
 #
-# SUPERSEDED (2026-07-11) by 09b_compare_aperiodic_commonsample.R. This script's
-# loo_compare() is INVALID here because the raw-band model is fit to 56 participants
-# (29,565 trials) and the aperiodic model to only 50 (26,454) -- the specparam
-# decomposition yields usable aperiodic features for fewer participants -- and
-# loo::loo_compare() requires IDENTICAL observations (it errors "models have
-# inconsistent observation counts"). 09b refits the raw model on the aperiodic
-# model's common subsample and compares on identical observations. Kept for
-# reference; do NOT submit 10_compare_aperiodic.slurm.
+# SUPERSEDED by 09b_compare_aperiodic_commonsample.R. This script's loo_compare() is
+# INVALID here because the raw-band model is fit to 56 participants (29,565 trials) and
+# the aperiodic model to only 50 (26,454) -- the specparam decomposition yields usable
+# aperiodic features for fewer participants -- and loo::loo_compare() requires IDENTICAL
+# observations (it errors "models have inconsistent observation counts"). 09b refits the
+# raw model on the aperiodic model's common subsample and compares on identical
+# observations. Kept for reference; do NOT submit 10_compare_aperiodic.slurm.
 #
-# One further hazard while it is kept: this script writes the SAME output path as 09b,
-# results/_aperiodic_loo_compare.csv, and the copy currently on disk is 09b's (it carries
-# 09b's n_obs and n_participants columns). Running this script would overwrite the
-# manuscript-facing artefact.
+# Two guards keep it from touching the reported artefact. The script stops at once unless
+# LES_ALLOW_SUPERSEDED=1 is set, and when it does run it writes to
+# results/_aperiodic_loo_compare_naive.csv, a path of its own, so the manuscript-facing
+# results/_aperiodic_loo_compare.csv, which 09b writes, is never overwritten.
 #
 # WHY THIS SCRIPT EXISTS
 # ----------------------
@@ -51,17 +50,23 @@
 # 04_fit_brms_predictors.R's own comments), never chosen between.
 #
 # OUTPUT
-#   results/_aperiodic_loo_compare.csv -- one row per stratum (pooled, gender),
+#   results/_aperiodic_loo_compare_naive.csv -- one row per stratum (pooled, gender),
 #     with elpd_diff, se_diff (aperiodic relative to raw; negative elpd_diff means
 #     the second-listed model in loo_compare's ranking predicts worse) and a
 #     preferred_model column using the conventional |diff| > 2*se rule of thumb.
 #
 # USAGE -- retained for reference only; run 09b_compare_aperiodic_commonsample.R instead.
-# The invocations below are recorded so the superseded procedure stays readable:
+# The invocations below are recorded so the superseded procedure stays readable; each
+# needs LES_ALLOW_SUPERSEDED=1 in the environment:
 #   Rscript 09_compare_aperiodic.R              # both strata, whichever pairs exist
 #   Rscript 09_compare_aperiodic.R pooled        # pooled pair only
 #   Rscript 09_compare_aperiodic.R gender        # gender-only pair only
 # =============================================================================
+
+if (!identical(Sys.getenv("LES_ALLOW_SUPERSEDED"), "1")) {
+  stop("09_compare_aperiodic.R is superseded by 09b; set LES_ALLOW_SUPERSEDED=1 to run it ",
+       "for reference.", call. = FALSE)
+}
 
 suppressPackageStartupMessages({
   source(here::here("_shared", "R", "00_paths.R"))
@@ -135,8 +140,10 @@ suppressPackageStartupMessages({
   rows <- Filter(Negate(is.null), rows)
   if (length(rows)) {
     res <- do.call(rbind, rows)
-    utils::write.csv(res, paper2_results("_aperiodic_loo_compare.csv"), row.names = FALSE)
-    message("[loo-compare] wrote _aperiodic_loo_compare.csv (", nrow(res), " row(s))")
+    out <- paper2_results("_aperiodic_loo_compare_naive.csv")
+    les_assert_readonly_data(out)
+    utils::write.csv(res, out, row.names = FALSE)
+    message("[loo-compare] wrote ", basename(out), " (", nrow(res), " row(s))")
   } else {
     message("[loo-compare] no comparable pairs available yet.")
   }

@@ -2,8 +2,9 @@
 # =============================================================================
 # 06_summaries.slurm  --  pool diagnostics/summaries; derive attainment + reliability (ARC)
 # Writes _pooled_convergence.csv, _pooled_posterior_summaries.csv, _attainment.csv,
-# _reliability.csv into $LES_STORE/paper_2_plasticity/results -- the tables the
-# manuscript reads. Submit AFTER 04 + 05.
+# _reliability.csv, _prepost_ns.csv, _prior_specification.csv and, where the fits carry
+# a per-fit record, _pooled_fit_metadata.csv into $LES_STORE/paper_2_plasticity/results,
+# the tables the manuscript reads. Submit AFTER 04 + 05.
 # =============================================================================
 #SBATCH --job-name=p2_summaries
 #SBATCH --partition=short

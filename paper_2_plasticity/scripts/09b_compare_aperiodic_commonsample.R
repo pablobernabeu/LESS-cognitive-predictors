@@ -27,8 +27,12 @@
 #   results/<raw_id>_commonsample.rds      the cached common-sample raw refits.
 #
 # Submit AFTER the four Part A reference fits exist (all cached):
-#   sbatch --clusters=htc --account=educ-intract paper_2_plasticity/hpc/09b_compare_commonsample.slurm
+#   sbatch --clusters=htc --account=educ-intract \
+#       paper_2_plasticity/hpc/09b_compare_commonsample.slurm
 # (Standard QoS only -- never --qos=priority.)
+#
+# The driver runs only under `if (sys.nframe() == 0L)`, so sourcing this file defines
+# compare_common() and starts nothing.
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -40,8 +44,12 @@ suppressPackageStartupMessages({
 })
 
 # Raw resting-state predictors the raw-band model carries but the aperiodic fit drops
-# (replaced by specparam exponent/offset + 1/f-adjusted bands + specparam IAF).
+# (replaced by specparam exponent/offset + 1/f-adjusted bands + specparam IAF). The order
+# is the fitted formula's (04_fit_brms_predictors.R), kept as it is because it fixes the
+# column order of the common-sample frame the cached refits were built from; the set is
+# asserted against the config so a renamed measure cannot drift.
 RAW_NEURAL <- c("z_alpha", "z_theta", "z_beta", "z_delta", "z_gamma", "z_iaf")
+stopifnot(setequal(sub("^z_", "", RAW_NEURAL), LES_P2_RS_MEASURES))
 
 .les_loo <- function(fit, cache) brms::add_criterion(fit, "loo", file = cache)$criteria$loo
 
@@ -76,6 +84,9 @@ compare_common <- function(stratum, raw_id, aper_id) {
   fit_raw_c <- les_brm(formula = fit_raw$formula, data = common,
                        family = fit_raw$family, prior = fit_raw$prior,
                        file = raw_common_cache)
+  # Per-fit record of the analysed sample and the fitting environment (see _config.R).
+  les_p2_write_fit_meta(common, paste0(raw_id, "_commonsample"),
+                        paste0(raw_common_cache, "_fitmeta.rds"))
 
   loo_raw  <- .les_loo(fit_raw_c, raw_common_cache)
   loo_aper <- .les_loo(fit_aper,  aper_cache)
@@ -104,15 +115,23 @@ compare_common <- function(stratum, raw_id, aper_id) {
   )
 }
 
-res <- dplyr::bind_rows(
-  compare_common("pooled", "p2_predictive_trajectory",        "p2_predictive_trajectory_aperiodic"),
-  compare_common("gender", "p2_predictive_trajectory_gender", "p2_predictive_trajectory_aperiodic_gender")
-)
+.run <- function() {
+  res <- dplyr::bind_rows(
+    compare_common("pooled", LES_P2_MODELS[["predictive"]],
+                   LES_P2_MODELS[["predictive_aperiodic"]]),
+    compare_common("gender", LES_P2_MODELS[["predictive_gender"]],
+                   LES_P2_MODELS[["predictive_aperiodic_gender"]])
+  )
 
-if (!is.null(res) && nrow(res)) {
-  utils::write.csv(res, paper2_results("_aperiodic_loo_compare.csv"), row.names = FALSE)
-  print(res)
-  message("[common-loo] wrote _aperiodic_loo_compare.csv (", nrow(res), " row(s))")
-} else {
-  message("[common-loo] nothing to write -- no strata compared.")
+  if (!is.null(res) && nrow(res)) {
+    out <- paper2_results("_aperiodic_loo_compare.csv")
+    les_assert_readonly_data(out)
+    utils::write.csv(res, out, row.names = FALSE)
+    print(res)
+    message("[common-loo] wrote _aperiodic_loo_compare.csv (", nrow(res), " row(s))")
+  } else {
+    message("[common-loo] nothing to write -- no strata compared.")
+  }
 }
+
+if (sys.nframe() == 0L) .run()

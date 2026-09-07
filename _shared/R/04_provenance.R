@@ -24,11 +24,12 @@
 # HOW IT IS USED
 # Paper 1's ERP fitting script (03_fit_brms_erp.R) and Paper 2's predictor fitting script
 # (04_fit_brms_predictors.R) each call les_write_provenance() once per run. The other
-# scripts that fit or refit models do not: Paper 1's 04_fit_brms_accuracy.R, and Paper
-# 2's 05_fit_brms_prepost.R, 08_projpred_selection.R, 09b_compare_aperiodic_commonsample.R
-# and 09c_compare_aperiodic_grouped.R. A run confined to those therefore leaves the file
-# as the last full run left it, which is a gap wherever the manuscript describes the
-# recorded versions as those of the run that produced the results. Each call writes
+# scripts that fit or refit models do not write this run-level file: Paper 1's
+# 04_fit_brms_accuracy.R, and Paper 2's 05_fit_brms_prepost.R, 08_projpred_selection.R,
+# 09b_compare_aperiodic_commonsample.R and 09c_compare_aperiodic_grouped.R. Each brms fit
+# does, however, leave a per-fit record (les_p1_write_fit_meta() and
+# les_p2_write_fit_meta() in the papers' _config.R, pooled into
+# _pooled_fit_metadata.csv), so the gap is confined to the run-level file. Each call writes
 # results/_provenance.csv, which each manuscript reads and injects inline, so the
 # reported versions are those of the run that produced the results being reported,
 # not of whatever machine happens to render the document. Where no provenance file

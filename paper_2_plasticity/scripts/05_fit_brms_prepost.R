@@ -50,26 +50,24 @@ suppressPackageStartupMessages({
   source(here::here("_shared", "R", "00_paths.R"))
   source(here::here("_shared", "R", "01_bayesian_settings.R"))
   source(here::here("_shared", "R", "02_diagnostics.R"))
+  source(here::here("_shared", "R", "06_helpers.R"))           # les_zscore()
   source(here::here("paper_2_plasticity", "scripts", "_config.R"))
   library(dplyr)
 })
 
-.les_z <- function(x) {
-  s <- stats::sd(x, na.rm = TRUE)
-  if (is.na(s) || s == 0) return(rep(0, length(x)))
-  as.numeric(scale(x))
-}
-
 # Fit one pre/post Gaussian model: z(measure) ~ session_prepost + (1 | participant).
+# les_zscore(all_na = "zero") turns an all-NA measure into zeros, which is what this
+# pipeline has always done; the shared helper makes that choice visible at the call.
 .fit_prepost_one <- function(dat, measure, sessions, model_id) {
   d <- dat %>%
     filter(session %in% sessions, !is.na(.data[[measure]])) %>%
-    mutate(z_value = .les_z(.data[[measure]]),
+    mutate(z_value = les_zscore(.data[[measure]], all_na = "zero"),
            # +/-0.5 contrast: earlier session = -0.5 (pre), later = +0.5 (post)
            session_prepost = ifelse(session == sessions[1], -0.5, 0.5),
            participant_lab_ID = factor(participant_lab_ID))
   if (dplyr::n_distinct(d$participant_lab_ID) < 5 || dplyr::n_distinct(d$session) < 2) {
-    message("[p2-prepost] skipping ", model_id, " (insufficient pre/post data)"); return(invisible(NULL))
+    message("[p2-prepost] skipping ", model_id, " (insufficient pre/post data)")
+    return(invisible(NULL))
   }
   message(sprintf("[p2-prepost] fitting %s (n=%d obs, %d participants)",
                   model_id, nrow(d), dplyr::n_distinct(d$participant_lab_ID)))
@@ -99,6 +97,10 @@ suppressPackageStartupMessages({
   conv <- les_check_convergence(fit, label = model_id,
                                 save_to = paper2_results(paste0(model_id, "_convergence.rds")))
   les_posterior_summary(fit, save_to = paper2_results(paste0(model_id, "_summary.rds")))
+  # Per-fit record of the analysed sample and the fitting environment (see _config.R).
+  # Part B is weakly informative by design, whatever LES_PRIOR_SET says.
+  les_p2_write_fit_meta(d, model_id, paper2_results(paste0(model_id, "_fitmeta.rds")),
+                        prior_set = "weak")
   invisible(fit)
 }
 
@@ -107,9 +109,9 @@ fit_cognition_prepost <- function() {
   # 01_extract drops records with no enrolled-participant mapping; assert that here
   # so an unlinked record can never re-enter the z-scoring silently.
   stopifnot(!any(is.na(cog$participant_lab_ID)))
-  for (measure in c("stroop_interference", "digit_span", "asrt_learning")) {
+  for (measure in LES_P2_COG_INDICES) {
     .fit_prepost_one(cog, measure, sessions = LES_P2_COG_SESSIONS,           # c(1, 5)
-                     model_id = paste0(LES_P2_MODELS[["cog_prepost"]], "_", measure))
+                     model_id = les_p2_model_id("cog_prepost", paste0("_", measure)))
   }
 }
 
@@ -147,7 +149,9 @@ fit_cognition_prepost_joint <- function() {
   # 01_extract drops records with no enrolled-participant mapping; assert that here
   # so an unlinked record can never re-enter the z-scoring silently.
   stopifnot(!any(is.na(cog$participant_lab_ID)))
-  measures <- c("digit_span", "stroop_interference", "asrt_learning")
+  # Digit span first, as the reference level. The order also fixes the row order of the
+  # long frame the cached fit was built from, so it is kept as it is.
+  measures <- unname(LES_P2_COG_INDICES[c("digit_span", "stroop", "asrt")])
   long <- do.call(rbind, lapply(measures, function(m) {
     d <- cog[cog$session %in% LES_P2_COG_SESSIONS & !is.na(cog[[m]]), , drop = FALSE]
     data.frame(participant_lab_ID = d$participant_lab_ID, session = d$session,
@@ -160,14 +164,16 @@ fit_cognition_prepost_joint <- function() {
             "z-scoring (", sum(flip), " values), so higher = better on all three indices")
   }
   long <- long %>%
-    group_by(measure) %>% mutate(z_value = .les_z(value)) %>% ungroup() %>%
+    group_by(measure) %>%
+    mutate(z_value = les_zscore(value, all_na = "zero")) %>%
+    ungroup() %>%
     mutate(session_prepost = ifelse(session == LES_P2_COG_SESSIONS[1], -0.5, 0.5),
            measure = stats::relevel(factor(measure), ref = "digit_span"),
            participant_lab_ID = factor(participant_lab_ID))
   if (dplyr::n_distinct(long$participant_lab_ID) < 5) {
     message("[p2-prepost] skipping joint model (insufficient data)"); return(invisible(NULL))
   }
-  model_id <- paste0("p2_cognition_prepost_joint", les_p2_sign_tag())
+  model_id <- les_p2_model_id("cog_prepost_joint", les_p2_sign_tag())
   message(sprintf("[p2-prepost] fitting %s (n=%d obs, %d participants, 3 measures)",
                   model_id, nrow(long), dplyr::n_distinct(long$participant_lab_ID)))
   # A by-participant random slope IS present here, so the shared Gaussian prior's lkj 'cor'
@@ -182,22 +188,26 @@ fit_cognition_prepost_joint <- function() {
   les_check_convergence(fit, label = model_id,
                         save_to = paper2_results(paste0(model_id, "_convergence.rds")))
   les_posterior_summary(fit, save_to = paper2_results(paste0(model_id, "_summary.rds")))
+  # Per-fit record of the analysed sample and the fitting environment (see _config.R).
+  les_p2_write_fit_meta(long, model_id, paper2_results(paste0(model_id, "_fitmeta.rds")),
+                        prior_set = "weak")
   invisible(fit)
 }
 
 fit_rseeg_prepost <- function() {
   rseeg_path <- paper2_derived("resting_state_eeg.rds")
   if (!file.exists(rseeg_path)) {
-    message("[p2-prepost] resting_state_eeg.rds not found -- run 03 on the HPC first; skipping rs-EEG pre/post.")
+    message("[p2-prepost] resting_state_eeg.rds not found -- run 03 on the HPC first; ",
+            "skipping rs-EEG pre/post.")
     return(invisible(NULL))
   }
   rs <- readRDS(rseeg_path) %>%
     group_by(participant_lab_ID, session) %>%          # average over eyes-open/closed
-    summarise(across(c(delta, theta, alpha, beta, gamma, iaf), ~ mean(.x, na.rm = TRUE)),
+    summarise(across(dplyr::all_of(LES_P2_RS_MEASURES), ~ mean(.x, na.rm = TRUE)),
               .groups = "drop")
-  for (measure in c("delta", "theta", "alpha", "beta", "gamma", "iaf")) {
+  for (measure in LES_P2_RS_MEASURES) {
     .fit_prepost_one(rs, measure, sessions = LES_P2_NEURAL_SESSIONS,         # c(2, 6)
-                     model_id = paste0(LES_P2_MODELS[["eeg_prepost"]], "_", measure))
+                     model_id = les_p2_model_id("eeg_prepost", paste0("_", measure)))
   }
 }
 
@@ -206,7 +216,10 @@ fit_rseeg_prepost <- function() {
 # =============================================================================
 .run <- function() {
   which <- commandArgs(trailingOnly = TRUE)
-  if (length(which) == 0 || "cognition" %in% which) { fit_cognition_prepost(); fit_cognition_prepost_joint() }
+  if (length(which) == 0 || "cognition" %in% which) {
+    fit_cognition_prepost()
+    fit_cognition_prepost_joint()
+  }
   # "joint" refits the joint model alone (used for the opt-in sign-aligned variant, so
   # the per-index artefacts are not re-derived and rewritten in the same run).
   if ("joint" %in% which && !("cognition" %in% which)) fit_cognition_prepost_joint()

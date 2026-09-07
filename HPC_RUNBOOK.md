@@ -1,16 +1,8 @@
 # HPC runbook — fitting both papers on Oxford's SLURM service
 
-> **Note for this repository.** This runbook covers the cluster setup for the whole LESS
-> project, which produced two papers from one dataset and one shared environment. It is
-> reproduced unchanged in each paper's repository, because the layout, the environment,
-> the transfer recipes and the troubleshooting apply equally to both. Stages named under
-> `paper_1_transfer/` belong to the companion paper and live in
-> <https://github.com/pablobernabeu/LESS-morphosyntactic-transfer>. They are kept here so the picture of the
-> cluster is complete, and they are not part of this repository.
-
-The Bayesian fits run on Oxford's SLURM service, reached at `arc-login.arc.ox.ac.uk`,
-as user `educ1242` in project group `educ-intract`. Its two clusters, ARC and HTC, both
-use environment modules rather than a Singularity container, and access is by SSH key.
+The Bayesian fits run on Oxford's SLURM service under the `educ-intract` project group.
+Its two clusters, ARC and HTC, both use environment modules, with no Singularity
+container, and access is by SSH key.
 `arc` in the recipes below is a host alias, not a name the service publishes. Define one in
 your own `~/.ssh/config` before running anything here, and use its name everywhere below,
 including in the `scp` recipes. From outside the university network the alias needs a
@@ -28,8 +20,8 @@ needed. Since 2026-06-30 the preferred target for these single-node jobs is HTC,
 submitted as `sbatch --clusters=htc --account=educ-intract <script>.slurm`, standard
 QoS only and never `--qos=priority`. HTC requires the `--account`. Driving a whole
 `submit_all.sh` chain there would mean threading those flags through every call site in
-the script, so the chains as they stand run on ARC, as does the long decoding array
-12664261. The per-paper `hpc/README.md` files carry the per-stage recipes.
+the script, so the chains as they stand run on ARC. The per-paper `hpc/README.md` files
+carry the per-stage recipes.
 
 ## Project layout (the "scripts on personal disk, heavy material in /data" split)
 
@@ -40,7 +32,7 @@ the script, so the chains as they stand run on ARC, as does the long decoding ar
    paper_2_plasticity/{scripts,hpc,*.qmd,references.bib,...}
    LESS Project.Rproj                          here::here() sentinel
 
-/data/educ-intract/educ1242/                  PROJECT SPACE (shared, multi-project)
+$LES_PROJECT/                                 PROJECT SPACE (shared, multi-project)
    new_LESS/                                    LESS's own folder -- heavy material
       data/                                     read-only inputs   (LES_DATA_ROOT)
       Rlib/R-4.5/                               R package library  (R_LIBS_USER)
@@ -48,9 +40,9 @@ the script, so the chains as they stand run on ARC, as does the long decoding ar
       store/paper_{1,2}_*/{data_derived,results,figures}   model outputs (LES_STORE)
 ```
 
-The `/data/educ-intract/educ1242` root is shared with other projects, so everything
-LESS owns sits under its own `new_LESS/` level. `arc_env.sh` sets `LES_BASE` to that
-folder and derives every other variable from it.
+The project-space root, `LES_PROJECT`, is shared with other projects, so everything LESS
+owns sits under its own `new_LESS/` level. `arc_env.sh` is the one place that root is
+written out; it sets `LES_BASE` to that folder and derives every other variable from it.
 
 `_shared/hpc/arc_env.sh` is sourced at the top of every job and is the **single
 source of truth** for this split: it `module load`s R, points `R_LIBS_USER` /
@@ -67,22 +59,26 @@ ssh arc                                     # key-based, non-interactive
 #   (from the dev box)  scp -r _shared paper_1_transfer paper_2_plasticity \
 #                              "LESS Project.Rproj" arc:new_LESS/
 # data -> lives in the project space as a real directory:
-#   /data/educ-intract/educ1242/new_LESS/data   (read-only; LES_DATA_ROOT)
+#   $LES_BASE/data   (read-only; LES_DATA_ROOT)
 # The legacy loaders read it by paths relative to the CODE root ("data/..."), so
 # arc_env.sh creates the pointer on that side, automatically, on every job:
-#   /home/educ1242/new_LESS/data -> /data/educ-intract/educ1242/new_LESS/data
-# There is no /data/educ-intract/educ1242/data; an earlier version of this file
-# described such a move, which was never the live layout.
-# toolchain -> project-space library + CmdStan (brms, cmdstanr, eegUtils, osfr, papaja, ...):
-sbatch paper_1_transfer/hpc/00_install_dependencies.slurm   # shared with Paper 2 -- run ONE only
+#   ~/new_LESS/data -> $LES_BASE/data
+# There is no $LES_PROJECT/data; the data tree lives only under $LES_BASE.
+# toolchain -> project-space library + CmdStan. Two routes:
+#   reproduction: restore renv.lock and build CmdStan 2.39.0 (put renv.lock beside the
+#   code root first; see below)
+sbatch _shared/hpc/00_restore_environment.slurm
+#   bootstrap: an unpinned library where none exists (brms, cmdstanr, eegUtils, papaja,
+#   ...), which is how the library was first built; shared with Paper 2 -- run ONE only
+sbatch paper_1_transfer/hpc/00_install_dependencies.slurm
 ```
 
-The installer builds into `Rlib/R-4.5` and `cmdstan/` (needs the gfbf/2025a GCC compiler
+Either job builds into `Rlib/R-4.5` and `cmdstan/` (both need the gfbf/2025a GCC compiler
 from the R module + outbound network — both confirmed available). If a compute node
-ever lacks network, run it on the `interactive` partition: `srun -p interactive --pty
-bash`, then `source _shared/hpc/arc_env.sh && Rscript _shared/install_bayesian_dependencies.R`.
+ever lacks network, run the step on the `interactive` partition: `srun -p interactive --pty
+bash`, then `source _shared/hpc/arc_env.sh` followed by the job's `Rscript` lines.
 
-The installer pins nothing. `install_if_missing()` skips any package that is already
+The bootstrap installer pins nothing. `install_if_missing()` skips any package that is already
 present and otherwise takes the current CRAN release, cmdstanr comes from the Stan
 R-universe head, and `install_cmdstan()` is called without a `version=`. Running it again
 today would therefore build a newer environment than the one the reported fits came from.
@@ -111,6 +107,10 @@ Rscript --vanilla -e 'renv::restore(lockfile = "renv.lock", library = .libPaths(
 Rscript --vanilla -e 'cmdstanr::install_cmdstan(version = "2.39.0", dir = Sys.getenv("CMDSTAN_INSTALL_DIR"))'
 ```
 
+`_shared/hpc/00_restore_environment.slurm` runs exactly those two lines as a batch job on
+the `short` partition, so nothing has to be typed on a login node; submit it once, before
+any fitting job.
+
 CmdStan needs that explicit version because `arc_env.sh` otherwise takes the highest
 `cmdstan-*` directory it finds, so a newer tree left beside 2.39.0 would be selected
 instead. Either keep only the version you mean to use, or export
@@ -129,8 +129,9 @@ squeue -u "$USER"                              # track
 ```
 
 `submit_all.sh` chains the stages with `--dependency=afterok`. Pass `with_install` as
-the first argument to (re)provision the toolchain first. Partitions are set per stage
-in the job scripts:
+the first argument to bootstrap an unpinned toolchain first; the pinned route is
+`_shared/hpc/00_restore_environment.slurm`, submitted on its own before the chain.
+Partitions are set per stage in the job scripts:
 
 | Partition | Stages |
 |---|---|
@@ -159,12 +160,13 @@ cached fits are tagged `*_weakprior*` so the two runs never clash.
 ## 2. Pull results back and render (dev box)
 
 Outputs land in `$LES_STORE/paper_{1,2}_*/results/`, where `LES_STORE` is
-`/data/educ-intract/educ1242/new_LESS/store` — note the `new_LESS/` level, which the
-paths below carried incorrectly before 2026-08. Render with the dev-box recipe
-(TinyTeX; see `paper_1_transfer/README.md`):
+`$LES_BASE/store` (note the `new_LESS/` level inside `LES_BASE`). Render with the dev-box
+recipe (TinyTeX; see `paper_1_transfer/README.md`):
 
 ```bash
-cd /path/to/your/clone                      # on the author's box: /c/Users/pablob/new_LESS
+cd /path/to/your/clone
+# The cluster root is the value LES_BASE takes in _shared/hpc/arc_env.sh, written out here
+# because this recipe runs on the dev box, where that script is not sourced.
 scp "arc:/data/educ-intract/educ1242/new_LESS/store/paper_1_transfer/results/*.csv" paper_1_transfer/results/
 scp "arc:/data/educ-intract/educ1242/new_LESS/store/paper_2_plasticity/results/*.csv" paper_2_plasticity/results/
 quarto render paper_1_transfer/paper_1_morphosyntax.qmd
@@ -175,11 +177,9 @@ The `*[pending model fit]*` placeholders populate automatically.
 
 `paper_1_transfer/results/` and `paper_2_plasticity/results/` are the only trees the
 manuscripts read. `_shared/R/00_paths.R` resolves to them whenever `LES_STORE` is
-unset, which is the case on the dev box. The root-level `store/` is a partial
-pull-back from early July, not part of the layout, and nothing writes to it locally.
-Do not delete it without checking first: `store/paper_2_plasticity/results/07_aperiodic_features.csv`
-and `07_aperiodic_peaks.rds` currently have no counterpart in
-`paper_2_plasticity/results/`, and `04_fit_brms_predictors.R` reads the former.
+unset, which is the case on the dev box. The root-level `store/` is a partial pull-back
+from early July, not part of the layout, and nothing writes to it locally. Every CSV it
+holds now has a counterpart in the two `results/` trees, so it can be removed.
 
 ## 3. Paper-2 resting-state EEG (optional)
 
@@ -188,9 +188,8 @@ BrainVision ASCII exports under `data/raw data/EEG/Session 2/Export/`.
 `paper_2_plasticity/scripts/03_extract_resting_state_eeg.R` parses them in base R and
 computes the PSD with a self-contained Welch estimator, because eegUtils' `import_raw`
 does not read ASCII. It needs no OSF download, no eegUtils and no network, so it runs on
-any batch node (`paper_2_plasticity/hpc/03_extract_rseeg.slurm`, `short` partition). Its
-output is already present on the dev box as
-`paper_2_plasticity/data_derived/resting_state_eeg.rds`. `04`/`05` fit the
+any batch node (`paper_2_plasticity/hpc/03_extract_rseeg.slurm`, `short` partition). It
+writes `paper_2_plasticity/data_derived/resting_state_eeg.rds`; `04`/`05` fit the
 cognitive-only models without it and include the rs-EEG predictors automatically once
 that file exists.
 
@@ -215,6 +214,21 @@ Before syncing, check what is running (`squeue -u $USER`) and which scripts thos
 invoke. If a job is executing the file, either wait, or copy to a new name and submit the
 new name. The risk is highest for the long decoding and fitting jobs, which can hold a
 file open for a week or more.
+
+`_shared/hpc/deploy_to_cluster.sh` does that check for you, and it is the recommended
+way to sync code:
+
+```bash
+bash _shared/hpc/deploy_to_cluster.sh paper_2_plasticity    # or paper_1_transfer, _shared, all
+```
+
+It refuses to copy anything while a job of that paper is running or pending, it holds
+back `09_run_decoding.R` and `08_decoding.slurm` unless `LES_ALLOW_DECODING_DEPLOY=1` is
+exported (their content is what the decoding cache fingerprint is computed over, so
+copying either invalidates every banked permutation), it refuses a job script that
+carries CRLF line endings, and it verifies every file by checksum on both sides after
+copying. `LES_DEPLOY_ANYWAY=1` overrides the live-job check for a job you have checked by
+hand. It copies code only: never data, never the store, never a fit.
 
 ## Troubleshooting
 
@@ -257,5 +271,8 @@ so use the full-path invocation given in `paper_1_transfer/README.md`.
 
 ## Before submission (manuscripts)
 
-Both `.qmd` carry placeholder author blocks (`[Author One]`, `author.one@example.org`,
-`[Institution]`) — fill these in.
+The author blocks, ORCIDs, correspondence address, CRediT statement and funding are
+filled in. What still needs a decision from the authors is listed, item by item, in
+[`AUTHOR_TASKS.txt`](AUTHOR_TASKS.txt) at the repository root; the manuscripts mark the
+same points in the text with the bracketed-italic convention (`*[...]*`), so a render
+shows every one of them in place. Search either `.qmd` for `*[` to find them.

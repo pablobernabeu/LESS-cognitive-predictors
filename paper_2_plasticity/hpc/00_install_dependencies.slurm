@@ -1,12 +1,18 @@
 #!/bin/bash
 # =============================================================================
-# 00_install_dependencies.slurm  --  provision the Bayesian + rs-EEG toolchain (ARC)
+# 00_install_dependencies.slurm  --  bootstrap the Bayesian + rs-EEG toolchain (ARC)
 # -----------------------------------------------------------------------------
 # SHARED with Paper 1 -- installs the SAME project-space R library
-# (/data/educ-intract/educ1242/new_LESS/Rlib/R-4.5) + CmdStan build, and guarantees the
-# resting-state-EEG stack (eegUtils, osfr) is present. Run EITHER this OR
+# ($LES_BASE/Rlib/R-4.5) + CmdStan build, and guarantees the resting-state-EEG stack
+# (eegUtils, osfr) is present. Run EITHER this OR
 # paper_1_transfer/hpc/00_install_dependencies.slurm a single time, NOT both.
 # Needs outbound network + the gfbf/2025a (GCC 14.2.0) compiler from the R module.
+#
+# This job bootstraps a library where none exists and pins nothing: it resolves every
+# package against whatever CRAN ships on the day. It is not the reproduction route. To
+# rebuild the environment the reported fits ran under, submit
+# _shared/hpc/00_restore_environment.slurm (renv::restore() against renv.lock plus the
+# pinned CmdStan), or pass `with_restore` to submit_all.sh.
 #
 # Submit:  sbatch paper_2_plasticity/hpc/00_install_dependencies.slurm
 # =============================================================================

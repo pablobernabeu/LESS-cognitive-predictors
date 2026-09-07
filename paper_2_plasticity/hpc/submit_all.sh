@@ -15,7 +15,15 @@
 #
 # Usage:
 #   bash paper_2_plasticity/hpc/submit_all.sh                # assumes deps present
-#   bash paper_2_plasticity/hpc/submit_all.sh with_install   # provision toolchain first
+#   bash paper_2_plasticity/hpc/submit_all.sh with_restore   # restore the pinned
+#                                                            # environment first
+#   bash paper_2_plasticity/hpc/submit_all.sh with_install   # bootstrap an unpinned
+#                                                            # library first
+#
+# `with_restore` chains the pipeline on _shared/hpc/00_restore_environment.slurm, which
+# runs renv::restore() against renv.lock and installs the pinned CmdStan; it is the
+# reproduction route. `with_install` chains on 00_install_dependencies.slurm, which
+# bootstraps a library from CRAN where none exists and pins nothing.
 # =============================================================================
 set -o errexit
 set -o nounset
@@ -25,7 +33,11 @@ mkdir -p "${HPC_DIR}/logs"
 submit() { sbatch --parsable "$@"; }
 
 DEP_INSTALL=""
-if [[ "${1:-}" == "with_install" ]]; then
+if [[ "${1:-}" == "with_restore" ]]; then
+  JID_INSTALL=$(submit "_shared/hpc/00_restore_environment.slurm")
+  echo "00 restore environment  : ${JID_INSTALL}"
+  DEP_INSTALL="--dependency=afterok:${JID_INSTALL}"
+elif [[ "${1:-}" == "with_install" ]]; then
   JID_INSTALL=$(submit "${HPC_DIR}/00_install_dependencies.slurm")
   echo "00 install dependencies : ${JID_INSTALL}"
   DEP_INSTALL="--dependency=afterok:${JID_INSTALL}"

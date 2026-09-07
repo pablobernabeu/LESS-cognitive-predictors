@@ -54,14 +54,19 @@ suppressPackageStartupMessages({
   library(readr)
 })
 
-`%||%` <- function(a, b) if (is.null(a) || length(a) == 0) b else a
-
 # --- File listing: non-recursive, so the duplicate "Mini English/" subfolder is
 #     ignored; matches the legacy non-recursive list.files() ---------------------
+# A missing session folder is a warning by default, and the indices file is then written
+# without that session's rows, so a staging error in the data tree would surface only as
+# pending markers in the manuscript. With LES_STRICT_INPUTS=1, an opt-in the cluster job
+# documents, a missing folder for a session the design requires stops the run instead.
 .les_p2_files <- function(session, pattern) {
   dir <- cognitive_ef_path(paste0("Session ", session))
   if (!dir.exists(dir)) {
-    warning("Missing EF session folder: ", dir)
+    msg <- paste0("Missing EF session folder: ", dir)
+    if (session %in% LES_P2_COG_SESSIONS &&
+        identical(Sys.getenv("LES_STRICT_INPUTS"), "1")) stop(msg, call. = FALSE)
+    warning(msg)
     return(character(0))
   }
   list.files(dir, pattern = pattern, full.names = TRUE, recursive = FALSE)
@@ -94,12 +99,32 @@ suppressPackageStartupMessages({
   dplyr::distinct(dplyr::bind_rows(batch, named))
 }
 
+# --- Opt-in test-only Stroop index (LES_P2_STROOP_TEST_ONLY=1) ------------------
+# The Gorilla export records the practice block in the same response zone as the test
+# block, and no practice filter is applied by default, so the practice responses enter
+# the reported Stroop index and its reliability estimate (11_extract_predictor_reliability.R
+# mirrors this reader). With the switch set, rows the export marks as practice are dropped
+# and the indices file is written under a "_stroop_testonly" tag, so the reported artefact
+# is never overwritten. The manuscript discloses the default and does not report the
+# test-only variant.
+les_p2_stroop_test_only <- function() identical(Sys.getenv("LES_P2_STROOP_TEST_ONLY"), "1")
+les_p2_stroop_tag       <- function() if (les_p2_stroop_test_only()) "_stroop_testonly" else ""
+.les_drop_practice <- function(raw) {
+  keep <- rep(TRUE, nrow(raw))
+  if ("Practice" %in% names(raw)) keep <- keep & !(raw$Practice %in% c(1, "1", TRUE, "TRUE"))
+  if ("display" %in% names(raw))  keep <- keep & !grepl("practice", raw$display, ignore.case = TRUE)
+  message("[cog] Stroop test-only index: dropping ", sum(!keep), " practice rows")
+  raw[keep, , drop = FALSE]
+}
+
 # =============================================================================
 # Index 1: Stroop interference  =  mean RT(incongruent) - mean RT(congruent)
 # =============================================================================
 les_p2_stroop <- function(files) {
   raw <- .les_read_bind(files, LES_P2_COG_TASKS$stroop$pattern)
-  if (is.null(raw)) return(tibble(participant_home_ID = character(), stroop_interference = double()))
+  if (is.null(raw)) {
+    return(tibble(participant_home_ID = character(), stroop_interference = double()))
+  }
   raw <- raw %>%
     rename(participant_home_ID = `Participant Public ID`,
            rt = `Reaction Time`, trial_number = `Trial Number`) %>%
@@ -107,6 +132,7 @@ les_p2_stroop <- function(files) {
     filter(`Zone Type` == "response_keyboard") %>%
     distinct()                                   # de-dup named-vs-numbered re-exports
   names(raw) <- make.names(names(raw), unique = TRUE)
+  if (les_p2_stroop_test_only()) raw <- .les_drop_practice(raw)
 
   trimmed <- raw %>%
     filter(rt >= LES_P2_RT_MIN, rt <= LES_P2_RT_MAX) %>%
@@ -135,7 +161,10 @@ les_p2_stroop <- function(files) {
 # =============================================================================
 les_p2_digit_span <- function(files) {
   raw <- .les_read_bind(files, LES_P2_COG_TASKS$digit_span$pattern, response_as_char = TRUE)
-  if (is.null(raw)) return(tibble(participant_home_ID = character(), digit_span = double(), .n_trials = integer()))
+  if (is.null(raw)) {
+    return(tibble(participant_home_ID = character(), digit_span = double(),
+                  .n_trials = integer()))
+  }
   raw <- raw %>%
     rename(participant_home_ID = `Participant Public ID`, Zone.Type = `Zone Type`) %>%
     filter(Zone.Type == "response_text_entry") %>%
@@ -169,7 +198,8 @@ les_p2_asrt <- function(files) {
     group_by(participant_home_ID, pattern_or_random, block, triplet_type) %>%
     group_modify(~ {
       m <- mean(.x$cumulative_RT, na.rm = TRUE); s <- sd(.x$cumulative_RT, na.rm = TRUE)
-      .x %>% filter(cumulative_RT > (m - LES_P2_SD_CUTOFF * s), cumulative_RT < (m + LES_P2_SD_CUTOFF * s))
+      .x %>% filter(cumulative_RT > (m - LES_P2_SD_CUTOFF * s),
+                    cumulative_RT < (m + LES_P2_SD_CUTOFF * s))
     }) %>% ungroup()
 
   trimmed %>%
@@ -230,7 +260,7 @@ extract_cognitive_indices <- function() {
     indices <- indices %>% filter(!is.na(participant_lab_ID))
   }
 
-  out <- paper2_derived("cognitive_indices.rds")
+  out <- paper2_derived(paste0("cognitive_indices", les_p2_stroop_tag(), ".rds"))
   les_assert_readonly_data(out)
   saveRDS(indices, out)
   message("[cog] wrote ", out, " (", nrow(indices), " participant x session rows)")
@@ -252,9 +282,12 @@ extract_cognitive_indices <- function() {
                     unlinked_lab_ID = sum(is.na(participant_lab_ID)), .groups = "drop"))
   cat("\nIndex ranges (all sessions):\n")
   print(ind %>% summarise(
-    stroop = sprintf("%.0f..%.0f ms", min(stroop_interference, na.rm = TRUE), max(stroop_interference, na.rm = TRUE)),
-    digit_span = sprintf("%.0f..%.0f", min(digit_span, na.rm = TRUE), max(digit_span, na.rm = TRUE)),
-    asrt = sprintf("%.0f..%.0f ms", min(asrt_learning, na.rm = TRUE), max(asrt_learning, na.rm = TRUE))))
+    stroop = sprintf("%.0f..%.0f ms", min(stroop_interference, na.rm = TRUE),
+                     max(stroop_interference, na.rm = TRUE)),
+    digit_span = sprintf("%.0f..%.0f", min(digit_span, na.rm = TRUE),
+                         max(digit_span, na.rm = TRUE)),
+    asrt = sprintf("%.0f..%.0f ms", min(asrt_learning, na.rm = TRUE),
+                   max(asrt_learning, na.rm = TRUE))))
   message("[cog] done.")
 }
 

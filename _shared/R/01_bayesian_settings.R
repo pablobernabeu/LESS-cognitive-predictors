@@ -35,15 +35,32 @@ suppressPackageStartupMessages({
 # reduce_sum reduction order and so the exact draws, whereas the optimisation level does
 # not.
 .les_backend <- if (requireNamespace("cmdstanr", quietly = TRUE)) "cmdstanr" else "rstan"
+# That fallback is announced only by the cat() at the foot of this file, and a refit under
+# the other backend does not reproduce the reported draws. LES_REQUIRE_CMDSTANR=1, which a
+# fitting job script can export, makes a missing cmdstanr stop the run here.
+if (identical(Sys.getenv("LES_REQUIRE_CMDSTANR"), "1") && .les_backend != "cmdstanr") {
+  stop("LES_REQUIRE_CMDSTANR=1 but cmdstanr is not installed, so the fit would fall back ",
+       "to rstan and not reproduce the reported draws. Restore the pinned environment.",
+       call. = FALSE)
+}
 
-# Point cmdstanr at the CmdStan installation. On the ARC cluster the job scripts
-# export CMDSTAN=/data/educ-intract/educ1242/new_LESS/cmdstan/cmdstan-<version> (the C++
-# toolchain is kept in the project /data space, not on the personal disk), so we
-# honour it explicitly rather than relying on auto-detection -- this prevents a
-# fit from silently falling back to a missing/half-built toolchain.
+# Point cmdstanr at the CmdStan installation. On the cluster the job scripts export
+# CMDSTAN=$LES_BASE/cmdstan/cmdstan-<version> (the C++ toolchain is kept in the project
+# /data space, not on the personal disk), so we honour it explicitly. Left to
+# auto-detection alone, a fit could silently fall back to a missing or half-built
+# toolchain.
 if (.les_backend == "cmdstanr") {
   .cmdstan_env <- Sys.getenv("CMDSTAN", unset = "")
-  if (nzchar(.cmdstan_env)) try(cmdstanr::set_cmdstan_path(.cmdstan_env), silent = TRUE)
+  if (nzchar(.cmdstan_env)) {
+    # A CMDSTAN that names a missing or broken tree is reported here, after which cmdstanr
+    # auto-detects whatever else is installed. results/_provenance.csv records the CmdStan
+    # version a run actually used.
+    .report_cmdstan <- function(e) {
+      message("[bayes] CMDSTAN=", .cmdstan_env, " could not be set: ", conditionMessage(e))
+    }
+    tryCatch(cmdstanr::set_cmdstan_path(.cmdstan_env),
+             warning = .report_cmdstan, error = .report_cmdstan)
+  }
 }
 
 # Number of threads PER CHAIN. On a SLURM node we request `--cpus-per-task`
@@ -155,11 +172,16 @@ LES_CONTROL       <- list(adapt_delta = 0.95, max_treedepth = 12L)
 # holds for `property` on the two bernoulli builders, which take it for parity only.
 les_priors_gaussian <- function(window = NULL, property = NULL, macroregion = NULL) {
   pr <- c(
-    brms::prior(normal(0, 0.5),       class = "b"),          # zero-centred default (incl. transfer interaction)
-    brms::prior(normal(0, 0.5),       class = "Intercept"),  # DV is within-participant z -> ~0
-    brms::prior(student_t(3, 0, 2.5), class = "sd"),         # generous RE SDs (Tanner & Van Hell, 2014)
-    brms::prior(lkj(2),               class = "cor"),        # RE correlations (Lewandowski et al., 2009)
-    brms::prior(student_t(3, 0, 2.5), class = "sigma")       # residual SD
+    # zero-centred default (incl. transfer interaction)
+    brms::prior(normal(0, 0.5),       class = "b"),
+    # DV is within-participant z -> ~0
+    brms::prior(normal(0, 0.5),       class = "Intercept"),
+    # generous RE SDs (Tanner & Van Hell, 2014)
+    brms::prior(student_t(3, 0, 2.5), class = "sd"),
+    # RE correlations (Lewandowski et al., 2009)
+    brms::prior(lkj(2),               class = "cor"),
+    # residual SD
+    brms::prior(student_t(3, 0, 2.5), class = "sigma")
   )
   is_dom <- !is.null(property) && property == "differential_object_marking"
   # Window-graded P600 grammaticality mean (NEGATIVE: ungrammatical more positive,
@@ -184,8 +206,8 @@ les_priors_gaussian <- function(window = NULL, property = NULL, macroregion = NU
                                    class = "b", coef = "z_recoded_grammaticality"))
   }
   if (caud_mean != 0) {
-    pr <- c(pr, brms::prior_string(sprintf("normal(%s, 0.3)", caud_mean),
-                                   class = "b", coef = "z_recoded_grammaticality:z_recoded_caudality"))
+    pr <- c(pr, brms::prior_string(sprintf("normal(%s, 0.3)", caud_mean), class = "b",
+                                   coef = "z_recoded_grammaticality:z_recoded_caudality"))
   }
   pr
 }
@@ -198,12 +220,14 @@ les_priors_gaussian <- function(window = NULL, property = NULL, macroregion = NU
 # slope; the intercept sits clearly above chance (logit ~ +1.5..2).
 les_priors_bernoulli <- function(property = NULL) {
   c(
-    brms::prior(normal(0, 1),         class = "b"),                                # zero-centred default (incl. transfer interaction)
+    # zero-centred default (incl. transfer interaction)
+    brms::prior(normal(0, 1),         class = "b"),
     # Sign-informed only: the cited percentages establish that accuracy improves with
     # training, not a logit-per-standardised-session slope, so 0.3 is a modest positive
     # shift chosen under the MAGNITUDE policy above rather than a derived quantity.
-    brms::prior(normal(0.3, 0.5),     class = "b", coef = "z_recoded_session"),    # accuracy improves with training
-    brms::prior(normal(1.5, 1),       class = "Intercept"),                        # accuracy >> chance
+    brms::prior(normal(0.3, 0.5),     class = "b", coef = "z_recoded_session"),
+    # accuracy >> chance
+    brms::prior(normal(1.5, 1),       class = "Intercept"),
     brms::prior(student_t(3, 0, 2.5), class = "sd"),
     brms::prior(lkj(2),               class = "cor")
   )
@@ -241,7 +265,8 @@ les_erp_prior <- function(window = NULL, property = NULL, macroregion = NULL) {
   else                           les_priors_gaussian(window, property, macroregion)
 }
 les_acc_prior <- function(property = NULL) {
-  if (LES_PRIOR_SET() == "weak") les_priors_bernoulli_weak(property) else les_priors_bernoulli(property)
+  if (LES_PRIOR_SET() == "weak") les_priors_bernoulli_weak(property)
+  else                           les_priors_bernoulli(property)
 }
 
 # -----------------------------------------------------------------------------

@@ -363,27 +363,40 @@ return {
       if byauthor then
         for i, a in ipairs(byauthor) do
           if a.roles then
-            credit_paragraph = extend_paragraph(credit_paragraph, { pandoc.Emph(a.apaauthordisplay) }, pandoc.Str(". "))
+            credit_paragraph = extend_paragraph(credit_paragraph, { pandoc.Strong(a.apaauthordisplay) }, pandoc.Str(". "))
             credit_paragraph.content:extend({ pandoc.Strong(pandoc.Str(": ")) })
             local rolelist = {}
             for j, role in ipairs(a.roles) do
-              if role.role == "Writing - original draft" or role.role == "writing - original draft" then
-                role["vocab-term"] = "writing – original draft"
+              local role_name_meta = nil
+              local degree_meta = nil
+              for key, value in pairs(role) do
+                if key == "role" then
+                  role_name_meta = value
+                elseif key == "degree-of-contribution" then
+                  degree_meta = value
+                end
               end
-              if role.role == "Writing - reviewing & editing" or role.role == "writing - reviewing & editing" then
-                role["vocab-term"] = "Writing – reviewing & editing"
+              local role_name = role_name_meta and pandoc.utils.stringify(role_name_meta) or nil
+              if role_name == "role" and degree_meta then
+                role_name = pandoc.utils.stringify(degree_meta)
+                degree_meta = nil
+              elseif not role_name then
+                role_name = pandoc.utils.stringify(role)
               end
 
-              if role["vocab-term"] then
-                role.display = role["vocab-term"]
-              else
-                role.display = role.role
+              if role_name == "Writing - original draft" or role_name == "writing - original draft" then
+                role_name = "writing – original draft"
+              end
+              if role_name == "Writing - reviewing & editing" or role_name == "writing - reviewing & editing" then
+                role_name = "Writing – reviewing & editing"
               end
 
-              if role["degree-of-contribution"] then
-                role.display = role.display .. " (" .. role["degree-of-contribution"] .. ")"
+              local role_display = role_name
+
+              if degree_meta then
+                role_display = role_display .. " (" .. pandoc.utils.stringify(degree_meta) .. ")"
               end
-              table.insert(rolelist, pandoc.Str(role.display))
+              table.insert(rolelist, pandoc.Str(role_display))
             end
             credit_paragraph.content:extend(oxfordcommalister(rolelist))
           end
@@ -400,19 +413,16 @@ return {
           end
         end
 
-        credit_paragraph.content:insert(1, pandoc.Space())
-        for i, j in pairs(authorroleintroduction) do
-          credit_paragraph.content:insert(i, j)
-        end
         if not mask and not meta["suppress-credit-statement"] then
-          body:extend({ credit_paragraph })
+          body:extend({ pandoc.Para(authorroleintroduction), credit_paragraph })
         end
       end
 
       local corresponding_paragraph = pandoc.Para(pandoc.Str(""))
       local check_corresponding = false
       if meta["author-note"] and meta["author-note"]["correspondence-note"] then
-        corresponding_paragraph.content:extend(meta["author-note"]["correspondence-note"])
+        local correspondence_note = pandoc.utils.stringify(meta["author-note"]["correspondence-note"])
+        corresponding_paragraph.content:extend(pandoc.Inlines(correspondence_note))
       else
         if byauthor then
           for i, a in ipairs(byauthor) do

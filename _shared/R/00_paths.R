@@ -31,14 +31,18 @@
 # (b) our own `here::here()` calls resolve correctly from any starting location.
 # =============================================================================
 
-# --- Ensure `here` is available -------------------------------------------------
-# Bootstrap only. `here` is pinned in renv.lock and provisioned by
-# _shared/install_bayesian_dependencies.R, so on a correctly restored environment this
-# branch never fires. If it does fire it takes whatever CRAN ships that day, unpinned and
-# over the network from inside a batch job, which is a poor place to discover that a
-# compute node has no route out.
+# --- Require `here` ---------------------------------------------------------------
+# `here` is pinned in renv.lock and listed in _shared/install_bayesian_dependencies.R, so
+# on a correctly restored environment this check never fires. A missing package stops the
+# run with the instruction to restore the environment, so the recorded environment is the
+# one the lockfile describes. Installing it on the spot would take whatever CRAN shipped
+# that day, unpinned and over the network from inside a batch job, and would silently
+# change the environment the run then recorded.
 if (!requireNamespace("here", quietly = TRUE)) {
-  install.packages("here", repos = "https://cloud.r-project.org/")
+  stop("Package 'here' is not installed. Restore the pinned environment first ",
+       "(renv::restore() from the project root, or on the cluster ",
+       "_shared/hpc/00_restore_environment.slurm), so that the run uses the recorded ",
+       "package versions.", call. = FALSE)
 }
 
 # --- Anchor the project root ----------------------------------------------------
@@ -61,9 +65,9 @@ setwd(.les_root)
 # be redirected to a separate, larger filesystem (the ARC project /data space)
 # via two environment variables. On the dev box neither is set, so everything
 # stays in a single self-contained tree (behaviour unchanged). On the cluster the
-# job scripts (see _shared/hpc/arc_env.sh) export:
-#     LES_DATA_ROOT = /data/educ-intract/educ1242/new_LESS/data   (read-only inputs)
-#     LES_STORE     = /data/educ-intract/educ1242/new_LESS/store  (derived data, results, figures)
+# job scripts (see _shared/hpc/arc_env.sh, which defines LES_BASE) export:
+#     LES_DATA_ROOT = $LES_BASE/data    (read-only inputs)
+#     LES_STORE     = $LES_BASE/store   (derived data, results, figures)
 # so the personal disk only ever holds code -- never gigabytes of data or fits.
 .les_data_root <- Sys.getenv("LES_DATA_ROOT", unset = here::here("data"))
 .les_store     <- Sys.getenv("LES_STORE",     unset = .les_root)
@@ -83,16 +87,28 @@ data_path <- function(...) file.path(.les_data_root, ...)
 # Paper 1 (morphosyntactic transfer) sub-trees -----------------------------------
 paper1_path        <- function(...) here::here("paper_1_transfer", ...)
 paper1_scripts     <- function(...) here::here("paper_1_transfer", "scripts", ...)
-paper1_figures     <- function(...) .ensure_dir(file.path(.les_store, "paper_1_transfer", "figures", ...))
-paper1_results     <- function(...) .ensure_dir(file.path(.les_store, "paper_1_transfer", "results", ...))
-paper1_derived     <- function(...) .ensure_dir(file.path(.les_store, "paper_1_transfer", "data_derived", ...))
+paper1_figures     <- function(...) {
+  .ensure_dir(file.path(.les_store, "paper_1_transfer", "figures", ...))
+}
+paper1_results     <- function(...) {
+  .ensure_dir(file.path(.les_store, "paper_1_transfer", "results", ...))
+}
+paper1_derived     <- function(...) {
+  .ensure_dir(file.path(.les_store, "paper_1_transfer", "data_derived", ...))
+}
 
 # Paper 2 (neuroplasticity) sub-trees -------------------------------------------
 paper2_path        <- function(...) here::here("paper_2_plasticity", ...)
 paper2_scripts     <- function(...) here::here("paper_2_plasticity", "scripts", ...)
-paper2_figures     <- function(...) .ensure_dir(file.path(.les_store, "paper_2_plasticity", "figures", ...))
-paper2_results     <- function(...) .ensure_dir(file.path(.les_store, "paper_2_plasticity", "results", ...))
-paper2_derived     <- function(...) .ensure_dir(file.path(.les_store, "paper_2_plasticity", "data_derived", ...))
+paper2_figures     <- function(...) {
+  .ensure_dir(file.path(.les_store, "paper_2_plasticity", "figures", ...))
+}
+paper2_results     <- function(...) {
+  .ensure_dir(file.path(.les_store, "paper_2_plasticity", "results", ...))
+}
+paper2_derived     <- function(...) {
+  .ensure_dir(file.path(.les_store, "paper_2_plasticity", "data_derived", ...))
+}
 
 # Shared helpers -----------------------------------------------------------------
 shared_path        <- function(...) here::here("_shared", ...)

@@ -46,9 +46,14 @@ LES_RS_POSTERIOR <- c("O1", "Oz", "O2", "P3", "Pz", "P4", "P7", "P8")
 # -----------------------------------------------------------------------------
 .parse_vhdr <- function(vhdr) {
   L <- readLines(vhdr, warn = FALSE)
-  g <- function(key) { v <- grep(paste0("^", key, "="), L, value = TRUE); if (length(v)) sub(paste0("^", key, "="), "", v[1]) else NA_character_ }
-  ch <- grep("^Ch[0-9]+=", L, value = TRUE)                          # [Channel Infos] + [Coordinates] both match;
-  ch <- ch[!grepl("^Ch[0-9]+=[0-9-]", ch)]                           # drop coordinate lines (Ch1=1,-90,-72)
+  g <- function(key) {
+    v <- grep(paste0("^", key, "="), L, value = TRUE)
+    if (length(v)) sub(paste0("^", key, "="), "", v[1]) else NA_character_
+  }
+  # [Channel Infos] and [Coordinates] both match "Ch<n>=", so the coordinate lines
+  # (Ch1=1,-90,-72) are dropped afterwards.
+  ch <- grep("^Ch[0-9]+=", L, value = TRUE)
+  ch <- ch[!grepl("^Ch[0-9]+=[0-9-]", ch)]
   list(srate       = 1e6 / as.numeric(g("SamplingInterval")),
        channels    = sub("^Ch[0-9]+=([^,]*),.*", "\\1", ch),
        orientation = g("DataOrientation"),
@@ -65,7 +70,7 @@ LES_RS_POSTERIOR <- c("O1", "Oz", "O2", "P3", "Pz", "P4", "P7", "P8")
 .read_bv_ascii <- function(vhdr, h = .parse_vhdr(vhdr)) {
   txt <- file.path(dirname(vhdr), h$datafile)
   if (!file.exists(txt)) stop("data file not found: ", txt)
-  skipc <- ifelse(is.na(h$skipcols), 0L, h$skipcols)                 # leading column(s) = per-row channel labels
+  skipc <- ifelse(is.na(h$skipcols), 0L, h$skipcols)   # leading column(s) = channel labels
   skipl <- ifelse(is.na(h$skiplines), 0L, h$skiplines)
   dec   <- ifelse(is.na(h$decimal), ".", h$decimal)
 
@@ -73,8 +78,10 @@ LES_RS_POSTERIOR <- c("O1", "Oz", "O2", "P3", "Pz", "P4", "P7", "P8")
     dt <- data.table::fread(txt, header = FALSE, showProgress = FALSE,
                             skip = skipl, dec = dec)
     labels <- if (skipc >= 1) as.character(dt[[1]]) else h$channels
-    mat <- as.matrix(dt[, (skipc + 1L):ncol(dt), with = FALSE]); storage.mode(mat) <- "numeric"
-  } else {                                                           # base-R fallback (no data.table)
+    mat <- as.matrix(dt[, (skipc + 1L):ncol(dt), with = FALSE])
+    storage.mode(mat) <- "numeric"
+  } else {
+    # base-R fallback (no data.table)
     lines <- readLines(txt, warn = FALSE)
     if (skipl > 0) lines <- lines[-seq_len(skipl)]
     lines <- lines[nzchar(trimws(lines))]
@@ -84,11 +91,16 @@ LES_RS_POSTERIOR <- c("O1", "Oz", "O2", "P3", "Pz", "P4", "P7", "P8")
     if (identical(dec, ",")) nums <- lapply(nums, function(v) gsub(",", ".", v, fixed = TRUE))
     ncols <- max(lengths(nums))
     mat <- matrix(NA_real_, nrow = length(nums), ncol = ncols)
-    for (i in seq_along(nums)) { v <- suppressWarnings(as.numeric(nums[[i]])); mat[i, seq_along(v)] <- v }
+    for (i in seq_along(nums)) {
+      v <- suppressWarnings(as.numeric(nums[[i]]))
+      mat[i, seq_along(v)] <- v
+    }
   }
-  if (grepl("VECTORIZED", h$orientation, ignore.case = TRUE)) {      # rows = channels -> time x channel
+  if (grepl("VECTORIZED", h$orientation, ignore.case = TRUE)) {
+    # rows = channels -> time x channel
     rownames(mat) <- labels[seq_len(nrow(mat))]; mat <- t(mat)
-  } else {                                                           # MULTIPLEXED: rows already = time
+  } else {
+    # MULTIPLEXED: rows already = time
     colnames(mat) <- labels[seq_len(ncol(mat))]
   }
   mat
@@ -112,9 +124,13 @@ welch_psd <- function(x, fs, seconds = 2) {
 }
 
 # Absolute band power = trapezoidal integral of the PSD over each band's [lo, hi).
-les_band_power <- function(freqs, power, bands = LES_P2_EEG_BANDS)
-  vapply(bands, function(b) { sel <- which(freqs >= b[[1]] & freqs < b[[2]]); if (length(sel) < 2) NA_real_ else
-    sum(diff(freqs[sel]) * (utils::head(power[sel], -1) + utils::tail(power[sel], -1)) / 2) }, numeric(1))
+les_band_power <- function(freqs, power, bands = LES_P2_EEG_BANDS) {
+  vapply(bands, function(b) {
+    sel <- which(freqs >= b[[1]] & freqs < b[[2]])
+    if (length(sel) < 2) return(NA_real_)
+    sum(diff(freqs[sel]) * (utils::head(power[sel], -1) + utils::tail(power[sel], -1)) / 2)
+  }, numeric(1))
+}
 
 # Individual alpha frequency = frequency of peak power within the alpha search range.
 #
@@ -144,7 +160,10 @@ les_band_power <- function(freqs, power, bands = LES_P2_EEG_BANDS)
 # imputed boundary value. specparam_iaf is retained as the independent cross-check; it is
 # deliberately NOT substituted here, because the raw-band and aperiodic parameterisations
 # are pre-specified as separate arms (04_fit_brms_predictors.R).
-les_iaf <- function(freqs, power, rng = c(7, 13)) { sel <- which(freqs >= rng[1] & freqs <= rng[2]); if (!length(sel)) NA_real_ else freqs[sel][which.max(power[sel])] }
+les_iaf <- function(freqs, power, rng = LES_P2_IAF_SEARCH_HZ) {
+  sel <- which(freqs >= rng[1] & freqs <= rng[2])
+  if (!length(sel)) NA_real_ else freqs[sel][which.max(power[sel])]
+}
 
 # Posterior-averaged PSD -> band power + IAF for one recording.
 .summarise_recording <- function(vhdr) {
@@ -164,19 +183,25 @@ les_iaf <- function(freqs, power, rng = c(7, 13)) { sel <- which(freqs >= rng[1]
 # Driver: every Session-2 resting recording -> band power + IAF table.
 # -----------------------------------------------------------------------------
 extract_resting_state_eeg <- function() {
-  root  <- data_path("raw data", "EEG")
+  root  <- resting_state_eeg_path()
   vhdrs <- list.files(root, pattern = "_RS_eyes_(open|closed)\\.vhdr$",
                       recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
-  if (!length(vhdrs)) { message("[rs-eeg] no resting-state .vhdr under ", root); return(invisible(NULL)) }
+  if (!length(vhdrs)) {
+    message("[rs-eeg] no resting-state .vhdr under ", root)
+    return(invisible(NULL))
+  }
   message(sprintf("[rs-eeg] %d resting-state recordings found", length(vhdrs)))
 
   rows <- list()
   for (vhdr in vhdrs) {
     sess <- suppressWarnings(as.integer(sub(".*/Session[ _]?([0-9]+)/.*", "\\1", vhdr)))
-    if (is.na(sess) || !(sess %in% LES_P2_NEURAL_SESSIONS)) next       # S2 (and S6 if it ever exists)
+    # S2 (and S6 if it ever exists)
+    if (is.na(sess) || !(sess %in% LES_P2_NEURAL_SESSIONS)) next
     pid  <- suppressWarnings(as.integer(sub("^([0-9]+)_RS.*", "\\1", basename(vhdr))))
     cond <- if (grepl("eyes_open", vhdr, ignore.case = TRUE)) "eyes_open" else "eyes_closed"
-    s <- tryCatch(.summarise_recording(vhdr), error = function(e) { message("  skip ", basename(vhdr), ": ", conditionMessage(e)); NULL })
+    s <- tryCatch(.summarise_recording(vhdr), error = function(e) {
+      message("  skip ", basename(vhdr), ": ", conditionMessage(e)); NULL
+    })
     if (is.null(s)) next
     rows[[length(rows) + 1]] <- tibble::tibble(
       participant_lab_ID = pid, session = sess, condition = cond,

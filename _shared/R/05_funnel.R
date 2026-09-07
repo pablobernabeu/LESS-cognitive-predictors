@@ -194,16 +194,19 @@ les_funnel <- function(d, base_size = 9,
     p <- p + ggplot2::geom_text(
       data = seg,
       ggplot2::aes(x = W + 0.055, y = y,
-                   label = sprintf("−%d   %.0f%% kept", lost, 100 * kept)),
-      size = base_size / 3.7, hjust = 0, colour = "grey45")
+                   label = sprintf("-%d   %.0f%% kept", lost, 100 * kept)),
+      # base_size / 3.4 is about 8.4 pt at the 10 pt base both papers use, where the
+      # earlier divisor gave 7.7 pt, under the 8 pt print floor. grey35 lifts the contrast
+      # on white from about 4.7:1 (grey45) to 7:1.
+      size = base_size / 3.4, hjust = 0, colour = "grey35")
 
   if ("note" %in% names(d)) {
     nd <- d[has_note, , drop = FALSE]
     if (nrow(nd))
       p <- p + ggplot2::geom_text(data = nd,
                                   ggplot2::aes(x = 0, y = bar_b - 0.10, label = note),
-                                  size = base_size / 4.05, vjust = 1, lineheight = 0.95,
-                                  fontface = "italic", colour = "grey45")
+                                  size = base_size / 3.5, vjust = 1, lineheight = 0.95,
+                                  fontface = "italic", colour = "grey35")
   }
 
   p <- p +
@@ -212,7 +215,7 @@ les_funnel <- function(d, base_size = 9,
                           colour = "grey88", linewidth = 0.25) +
     ggplot2::geom_text(data = heads,
                        ggplot2::aes(x = -W - 0.30, y = y + 0.06, label = toupper(tier)),
-                       hjust = 0, size = base_size / 4.0, colour = "grey45", fontface = "bold") +
+                       hjust = 0, size = base_size / 3.5, colour = "grey35", fontface = "bold") +
     ggplot2::scale_fill_manual(
       values = stats::setNames(c(cols[1:2], "grey62"), c(group_labs, UNSPLIT)),
       breaks = group_labs, name = NULL, drop = TRUE) +
@@ -222,7 +225,8 @@ les_funnel <- function(d, base_size = 9,
     ggplot2::theme_void(base_size = base_size) +
     ggplot2::theme(legend.position = if (has_split && show_legend) "top" else "none",
                    legend.key.size = ggplot2::unit(0.5, "lines"),
-                   legend.text = ggplot2::element_text(size = base_size * 0.85),
+                   legend.text = ggplot2::element_text(size = base_size * 0.85,
+                                                       margin = ggplot2::margin(l = 3, r = 3)),
                    plot.margin = ggplot2::margin(4, 4, 4, 4))
   p
 }

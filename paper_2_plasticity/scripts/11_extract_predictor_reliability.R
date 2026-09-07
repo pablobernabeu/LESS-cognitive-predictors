@@ -42,8 +42,8 @@
 # OUTPUT
 #   paper_2_plasticity/results/_predictor_reliability.csv: one row per predictor, with
 #   the session, n_participants, the split-half correlation averaged over the random
-#   splits (r_half), its Spearman-Brown corrected value (reliability_sb) and the number
-#   of splits averaged (n_splits).
+#   splits (r_half), its Spearman-Brown corrected value (reliability_sb), the number
+#   of splits averaged (n_splits) and the seed the splits were drawn under (seed).
 #
 # USAGE
 #   Rscript --vanilla paper_2_plasticity/scripts/11_extract_predictor_reliability.R
@@ -111,6 +111,9 @@ LES_REL_SEED   <- as.integer(Sys.getenv("LES_REL_SEED",   unset = "20260724"))
     mutate(across(c(rt, trial_number), as.numeric)) |>
     filter(`Zone Type` == "response_keyboard") |> distinct()
   names(raw) <- make.names(names(raw), unique = TRUE)
+  # Mirrors the opt-in test-only switch of 01, so the self-validation below compares
+  # like with like under either setting.
+  if (les_p2_stroop_test_only()) raw <- .les_drop_practice(raw)
   raw |>
     filter(rt >= LES_P2_RT_MIN, rt <= LES_P2_RT_MAX) |>
     group_by(participant_home_ID) |> filter(n() >= LES_P2_MIN_OBS_STROOP) |> ungroup() |>
@@ -142,7 +145,8 @@ LES_REL_SEED   <- as.integer(Sys.getenv("LES_REL_SEED",   unset = "20260724"))
     filter(cumulative_RT >= LES_P2_RT_MIN, cumulative_RT <= LES_P2_RT_MAX) |>
     group_by(participant_home_ID) |> filter(n() >= LES_P2_MIN_OBS_ASRT) |> ungroup() |>
     group_by(participant_home_ID, pattern_or_random, block, triplet_type) |>
-    group_modify(~ { m <- mean(.x$cumulative_RT, na.rm = TRUE); s <- sd(.x$cumulative_RT, na.rm = TRUE)
+    group_modify(~ { m <- mean(.x$cumulative_RT, na.rm = TRUE)
+                     s <- sd(.x$cumulative_RT, na.rm = TRUE)
                      .x |> filter(cumulative_RT > (m - LES_P2_SD_CUTOFF * s),
                                   cumulative_RT < (m + LES_P2_SD_CUTOFF * s)) }) |> ungroup() |>
     filter(!is.na(participant_home_ID), participant_home_ID != "") |>
@@ -173,7 +177,7 @@ LES_REL_SEED   <- as.integer(Sys.getenv("LES_REL_SEED",   unset = "20260724"))
 }
 
 les_predictor_reliability <- function(session = 1) {
-  shipped <- readRDS(paper2_derived("cognitive_indices.rds")) |>
+  shipped <- readRDS(paper2_derived(paste0("cognitive_indices", les_p2_stroop_tag(), ".rds"))) |>
     filter(session == !!session)
 
   # Only enrolled participants enter the reliability estimates. The raw Gorilla
@@ -220,11 +224,11 @@ les_predictor_reliability <- function(session = 1) {
     data.frame(predictor = s$name, session = session,
                n_participants = unname(r["n"]),
                r_half = unname(r["r_half"]), reliability_sb = unname(r["r_sb"]),
-               n_splits = LES_REL_SPLITS, stringsAsFactors = FALSE)
+               n_splits = LES_REL_SPLITS, seed = LES_REL_SEED, stringsAsFactors = FALSE)
   })
 
   res <- do.call(rbind, Filter(Negate(is.null), out))
-  f <- paper2_results("_predictor_reliability.csv")
+  f <- paper2_results(paste0("_predictor_reliability", les_p2_stroop_tag(), ".csv"))
   les_assert_readonly_data(f)
   utils::write.csv(res, f, row.names = FALSE)
   message("[reliability] wrote ", nrow(res), " row(s) to ", f)

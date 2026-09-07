@@ -1,210 +1,171 @@
-"parameter","median","ci_low","ci_high","pd","model","suggested_size","solution_path","n_candidate_terms","n_participants","n_folds","base_rate","validate_search","cv_method"
-"Intercept",-0.00221850425,-0.200576941,0.1958543835,0.50996875,"p2_cognition_prepost_asrt_learning",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost",-0.132023065,-0.47192990375,0.2060403,0.7835,"p2_cognition_prepost_asrt_learning",NA,NA,NA,NA,NA,NA,NA,NA
-"Intercept",-0.0223203915,-0.255479472,0.211757098,0.57565625,"p2_cognition_prepost_digit_span",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost",0.28651157,0.092955590625,0.48288611,0.9979375,"p2_cognition_prepost_digit_span",NA,NA,NA,NA,NA,NA,NA,NA
-"Intercept",0.0102257225,-0.176372565,0.19344569225,0.544125,"p2_cognition_prepost_joint_signaligned",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost",0.300417045,-0.0417445688499999,0.642325583,0.95690625,"p2_cognition_prepost_joint_signaligned",NA,NA,NA,NA,NA,NA,NA,NA
-"measureasrt_learning",-0.0170646775,-0.263057231,0.23056955375,0.555125,"p2_cognition_prepost_joint_signaligned",NA,NA,NA,NA,NA,NA,NA,NA
-"measurestroop_interference",-0.00641674655,-0.256910405,0.24407969275,0.5214375,"p2_cognition_prepost_joint_signaligned",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost:measureasrt_learning",-0.435421805,-0.9085243325,0.0461934342749995,0.9625,"p2_cognition_prepost_joint_signaligned",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost:measurestroop_interference",-0.14913712,-0.624447232,0.331141203249999,0.72878125,"p2_cognition_prepost_joint_signaligned",NA,NA,NA,NA,NA,NA,NA,NA
-"Intercept",0.010213097,-0.17355811875,0.19358152225,0.54315625,"p2_cognition_prepost_joint",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost",0.293883455,-0.0509438433,0.644189144,0.9531875,"p2_cognition_prepost_joint",NA,NA,NA,NA,NA,NA,NA,NA
-"measureasrt_learning",-0.015359363,-0.268345004,0.23702655225,0.54709375,"p2_cognition_prepost_joint",NA,NA,NA,NA,NA,NA,NA,NA
-"measurestroop_interference",-0.0145695195,-0.2688909505,0.23992282625,0.54359375,"p2_cognition_prepost_joint",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost:measureasrt_learning",-0.423336185,-0.916502036,0.054430494625,0.957375,"p2_cognition_prepost_joint",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost:measurestroop_interference",-0.43038088,-0.91818895825,0.0617638128249994,0.95671875,"p2_cognition_prepost_joint",NA,NA,NA,NA,NA,NA,NA,NA
-"Intercept",-0.00306087865,-0.1978109695,0.19317606675,0.51175,"p2_cognition_prepost_stroop_interference",NA,NA,NA,NA,NA,NA,NA,NA
-"session_prepost",-0.13741306,-0.492014671,0.21774563475,0.78365625,"p2_cognition_prepost_stroop_interference",NA,NA,NA,NA,NA,NA,NA,NA
-"Intercept",2.6786155,2.2454732475,3.112944345,1,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time",-0.45177406,-0.63162277925,-0.26596727575,1,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_digit_span",0.450446135,0.125669768,0.760454079,0.995875,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_stroop",0.0097065772,-0.23338676975,0.253518781,0.53159375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_asrt",0.034673694,-0.25593513475,0.3302171245,0.59384375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_aperiodic_exponent",0.069537286,-0.30251483775,0.429849798,0.64684375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_aperiodic_offset",-0.0316252615,-0.4073091675,0.34904967225,0.56540625,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_theta_adj",0.0304274325,-0.29713595775,0.35472625525,0.574125,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_alpha_adj",-0.1068182,-0.5044092175,0.28626557925,0.70046875,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_beta_adj",0.19890728,-0.204702647,0.598807245999999,0.8329375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_specparam_iaf",0.23720352,-0.10480252,0.565814397499999,0.9169375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_digit_span",0.051076261,-0.083200748025,0.18615450475,0.7798125,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_stroop",0.0625128855,-0.064154150625,0.18843642725,0.83621875,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_asrt",0.0955811195,-0.04321793195,0.235301064,0.91484375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_aperiodic_exponent",-0.033412209,-0.21523321975,0.14714211225,0.6424375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_aperiodic_offset",-0.0417224405,-0.2351122095,0.15024728975,0.669125,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_theta_adj",-0.000282665445,-0.15698506275,0.15119050875,0.5014375,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_alpha_adj",0.177247825,-0.0203801643249999,0.36713173325,0.96096875,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_beta_adj",0.013300611,-0.22955309325,0.25166945425,0.5425,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_specparam_iaf",-0.024227216,-0.1719486435,0.12296260075,0.6265,"p2_predictive_trajectory_aperiodic_gender",NA,NA,NA,NA,NA,NA,NA,NA
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"(1 | participant_lab_ID)",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"(z_session_time | participant_lab_ID)",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"grammatical_property",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:grammatical_property",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_digit_span",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:z_digit_span",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_stroop",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:z_stroop",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_asrt",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:z_asrt",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_aperiodic_exponent",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:z_aperiodic_exponent",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_aperiodic_offset",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:z_aperiodic_offset",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_theta_adj",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:z_theta_adj",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_alpha_adj",19,50,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_aperiodic_projpred",6,"z_session_time:z_alpha_adj",19,50,10,NA,TRUE,"participant-grouped kfold"
-"Intercept",1.874966,1.473427165,2.2742573125,1,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time",-1.2013511,-1.460028565,-0.948336656,1,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"grammatical_propertygender_agreement",0.6700194,0.58269792275,0.757613079,1,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"grammatical_propertyverb_object_number_agreement",-0.37269565,-0.5066682145,-0.239336541,1,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_digit_span",0.303319525,0.00499922925500002,0.595732768,0.97653125,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_stroop",0.0430418135,-0.19010139625,0.2796959435,0.64265625,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_asrt",0.01680781,-0.2647748175,0.2999681565,0.54740625,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_aperiodic_exponent",0.073570285,-0.28558742825,0.42069321575,0.65946875,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_aperiodic_offset",-0.050156391,-0.41334399775,0.31374684925,0.60821875,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_theta_adj",-0.026842645,-0.3347417875,0.28581971775,0.5716875,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_alpha_adj",0.0376381185,-0.34088608975,0.41210833,0.5785625,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_beta_adj",0.224803655,-0.17651119125,0.62536573175,0.86065625,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_specparam_iaf",0.0361027975,-0.272650149,0.34829121025,0.58959375,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:grammatical_propertygender_agreement",0.507807865,0.4152608395,0.5994003415,1,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:grammatical_propertyverb_object_number_agreement",0.34855848,0.20125714775,0.49766119425,1,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_digit_span",-0.098241567,-0.27611741625,0.0839405670999998,0.86,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_stroop",0.0114006815,-0.13746712575,0.162550709,0.56,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_asrt",0.051649527,-0.1326974805,0.23621119875,0.70859375,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_aperiodic_exponent",-0.0653040255,-0.277033742,0.149875945,0.72265625,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_aperiodic_offset",-0.0197980955,-0.239297033,0.198544686,0.56821875,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_theta_adj",0.0176125125,-0.1658660085,0.1994897555,0.575125,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_alpha_adj",0.00725709405,-0.22120450825,0.23218752125,0.525375,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_beta_adj",0.06362968,-0.18917708875,0.31512535725,0.6925625,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_specparam_iaf",-0.0429711325,-0.2274893595,0.14269807075,0.67934375,"p2_predictive_trajectory_aperiodic",NA,NA,NA,NA,NA,NA,NA,NA
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"(1 | participant_lab_ID)",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"(z_session_time | participant_lab_ID)",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_digit_span",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_digit_span",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_stroop",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_stroop",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_asrt",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_asrt",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_alpha",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_alpha",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_theta",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_theta",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_beta",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_beta",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_delta",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_delta",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_gamma",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_gamma",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_iaf",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_gender_projpred",4,"z_session_time:z_iaf",21,56,10,0.874730951356005,TRUE,"participant-grouped kfold"
-"Intercept",2.555119,2.13769821,2.9523964475,1,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time",-0.409587145,-0.559537043,-0.2572844275,1,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_digit_span",0.425912255,0.0871556373750001,0.741416122,0.99475,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_stroop",0.014768337,-0.238289657,0.25979352875,0.544375,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_asrt",0.0162496825,-0.2681135895,0.30293540875,0.547,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_alpha",0.00887453225,-0.3803107735,0.397461943,0.5175,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_theta",-0.048183569,-0.43645818325,0.341687171,0.602375,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_beta",-0.0863745725,-0.47039881125,0.30959664375,0.6705,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_delta",-0.0255077235,-0.408876913,0.3542034525,0.55175,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_gamma",-0.137197155,-0.445229794,0.19422779675,0.801125,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_iaf",0.26572538,-0.0427937414999999,0.582746773,0.95325,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_digit_span",0.0455822785,-0.0846320647,0.17605106175,0.75475,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_stroop",0.0625356255,-0.052325233725,0.1765033385,0.853375,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_asrt",0.10560066,-0.0190822216,0.23138254825,0.953375,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_alpha",0.0815466095,-0.106380066,0.26435071575,0.8015,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_theta",-0.0671055445,-0.25826610175,0.129529716,0.74875,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_beta",0.059043251,-0.12645801725,0.24764423225,0.7305,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_delta",-0.10857254,-0.28885284025,0.0725925543,0.871125,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_gamma",0.0086059325,-0.11489421425,0.13394034,0.559875,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_iaf",0.035073758,-0.094072585625,0.1670953935,0.703125,"p2_predictive_trajectory_gender",NA,NA,NA,NA,NA,NA,NA,NA
-"Intercept",2.59613655,2.1670123825,3.0265812975,1,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time",-0.41470178,-0.571705213,-0.25447735875,1,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_digit_span",0.656898855,0.1687334455,1.1354304725,0.995625,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_stroop",0.092844943,-0.35587551375,0.550121407,0.6588125,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_asrt",-0.0158982555,-0.484023646,0.4501196745,0.52690625,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_alpha",0.00551190175,-0.858807256249999,0.85599819525,0.50553125,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_theta",-0.0027211302,-0.969451406749999,0.968985562,0.5024375,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_beta",-0.0659006475,-0.93523727675,0.821103178,0.5590625,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_delta",0.00476339455,-0.82470453625,0.840593569249999,0.5041875,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_gamma",-0.255676265,-0.75143976075,0.233401407,0.85090625,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_iaf",0.46945126,0.00649042186250016,0.942155173499999,0.976375,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_digit_span",0.067804131,-0.09702643685,0.235178879,0.7965,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_stroop",0.0944015815,-0.054625055525,0.2516073465,0.89471875,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_asrt",0.13157521,-0.0209987558,0.2911085405,0.955375,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_alpha",0.16010164,-0.15095150525,0.4772464385,0.846125,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_theta",-0.101062055,-0.448377538,0.246787685999999,0.72171875,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_beta",0.081337531,-0.23070419375,0.38797507425,0.69878125,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_delta",-0.159871335,-0.45432143125,0.13066580525,0.86221875,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_gamma",0.012978289,-0.15562946625,0.181905417,0.562375,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_iaf",0.0278856105,-0.1352358335,0.19405440975,0.6329375,"p2_predictive_trajectory_gender_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"(1 | participant_lab_ID)",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"(z_session_time | participant_lab_ID)",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"grammatical_property",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:grammatical_property",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_digit_span",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:z_digit_span",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_stroop",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:z_stroop",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_asrt",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:z_asrt",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_alpha",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:z_alpha",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_theta",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:z_theta",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_beta",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:z_beta",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_delta",19,56,10,NA,TRUE,"participant-grouped kfold"
-NA,NA,NA,NA,NA,"p2_predictive_trajectory_projpred",6,"z_session_time:z_delta",19,56,10,NA,TRUE,"participant-grouped kfold"
-"Intercept",1.7110638,1.36711853,2.0480019,1,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time",-1.158819,-1.368102915,-0.95671863725,1,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"grammatical_propertygender_agreement",0.668629485,0.58858638875,0.748743325,1,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"grammatical_propertyverb_object_number_agreement",-0.25977381,-0.38934704775,-0.13113927125,1,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_digit_span",0.28991373,-0.00365646251999998,0.56314550275,0.97275,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_stroop",0.058197085,-0.17140667225,0.2787635585,0.688625,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_asrt",0.01190395,-0.2468085975,0.271316814,0.534,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_alpha",0.12579207,-0.23848541875,0.48309082425,0.75825,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_theta",0.013785652,-0.37596516025,0.38856789275,0.526,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_beta",-0.0447085935,-0.41688788125,0.33083240775,0.59225,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_delta",-0.141433985,-0.496372869,0.217966113,0.776375,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_gamma",-0.12091641,-0.4062998415,0.1583771475,0.803375,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_iaf",-0.0021666718,-0.2840363115,0.29014923425,0.50625,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:grammatical_propertygender_agreement",0.42530529,0.339235173,0.51059791325,1,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:grammatical_propertyverb_object_number_agreement",0.1992614,0.0610569515000001,0.344559261,0.99725,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_digit_span",-0.09985924,-0.266550049,0.0710684349,0.875625,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_stroop",0.0219284815,-0.11459000775,0.15655927475,0.628125,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_asrt",0.071860929,-0.096540979275,0.2352610795,0.806125,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_alpha",-0.0276373865,-0.237234806,0.18980199675,0.604375,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_theta",0.019097243,-0.201732107,0.243619058,0.562625,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_beta",0.0931554535,-0.1246740345,0.31212539325,0.7965,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_delta",-0.0716389285,-0.28582049625,0.14168973425,0.73925,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_gamma",0.0639459605,-0.10171637825,0.22638019975,0.776125,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_iaf",-0.1063783,-0.268261856,0.067446536725,0.885625,"p2_predictive_trajectory",NA,NA,NA,NA,NA,NA,NA,NA
-"Intercept",1.7259322,1.3511950475,2.09503012,1,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time",-1.17601205,-1.39985462,-0.959913342,1,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"grammatical_propertygender_agreement",0.670424995,0.589297278,0.7506292615,1,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"grammatical_propertyverb_object_number_agreement",-0.26252457,-0.39003354725,-0.13339487225,0.99996875,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_digit_span",0.41849406,0.00285395960000011,0.835524265,0.97575,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_stroop",0.15551608,-0.2414301435,0.5451448385,0.78834375,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_asrt",0.0014273787,-0.4015226265,0.4077842435,0.50275,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_alpha",0.403949035,-0.3365204645,1.13771848,0.85896875,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_theta",0.11806126,-0.74557474025,0.96982444225,0.6071875,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_beta",-0.24249932,-1.0077021375,0.54177770625,0.7360625,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_delta",-0.260666425,-0.99921021075,0.482928346249997,0.755375,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_gamma",-0.159949365,-0.596657561,0.2759848385,0.77003125,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_iaf",0.075672939,-0.32127819325,0.47706292825,0.64984375,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:grammatical_propertygender_agreement",0.42489984,0.339784877,0.509910823,1,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:grammatical_propertyverb_object_number_agreement",0.20219097,0.059753653325,0.34341142675,0.99725,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_digit_span",-0.16894718,-0.4088693925,0.0727426963749999,0.91853125,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_stroop",-0.00390624425,-0.23007320775,0.22508011725,0.51390625,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_asrt",0.0739286645,-0.16135985575,0.30390989375,0.73784375,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_alpha",-0.1891493,-0.63891964625,0.261151305749999,0.7976875,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_theta",0.0401341305,-0.470886855,0.56010329175,0.56015625,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_beta",0.264891395,-0.19872041775,0.722590125,0.87065625,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_delta",-0.14353624,-0.57099012675,0.293129694249999,0.74734375,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_gamma",0.073302005,-0.17589926275,0.32213981475,0.725875,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
-"z_session_time:z_iaf",-0.172699725,-0.4023457655,0.0563302162249996,0.93159375,"p2_predictive_trajectory_weakprior",NA,NA,NA,NA,NA,NA,NA,NA
+"parameter","median","ci_low","ci_high","pd","model"
+"Intercept",-0.00221850425,-0.200576941,0.1958543835,0.50996875,"p2_cognition_prepost_asrt_learning"
+"session_prepost",-0.132023065,-0.47192990375,0.2060403,0.7835,"p2_cognition_prepost_asrt_learning"
+"Intercept",-0.0223203915,-0.255479472,0.211757098,0.57565625,"p2_cognition_prepost_digit_span"
+"session_prepost",0.28651157,0.092955590625,0.48288611,0.9979375,"p2_cognition_prepost_digit_span"
+"Intercept",0.0102257225,-0.176372565,0.19344569225,0.544125,"p2_cognition_prepost_joint_signaligned"
+"session_prepost",0.300417045,-0.0417445688499999,0.642325583,0.95690625,"p2_cognition_prepost_joint_signaligned"
+"measureasrt_learning",-0.0170646775,-0.263057231,0.23056955375,0.555125,"p2_cognition_prepost_joint_signaligned"
+"measurestroop_interference",-0.00641674655,-0.256910405,0.24407969275,0.5214375,"p2_cognition_prepost_joint_signaligned"
+"session_prepost:measureasrt_learning",-0.435421805,-0.9085243325,0.0461934342749995,0.9625,"p2_cognition_prepost_joint_signaligned"
+"session_prepost:measurestroop_interference",-0.14913712,-0.624447232,0.331141203249999,0.72878125,"p2_cognition_prepost_joint_signaligned"
+"Intercept",0.010213097,-0.17355811875,0.19358152225,0.54315625,"p2_cognition_prepost_joint"
+"session_prepost",0.293883455,-0.0509438433,0.644189144,0.9531875,"p2_cognition_prepost_joint"
+"measureasrt_learning",-0.015359363,-0.268345004,0.23702655225,0.54709375,"p2_cognition_prepost_joint"
+"measurestroop_interference",-0.0145695195,-0.2688909505,0.23992282625,0.54359375,"p2_cognition_prepost_joint"
+"session_prepost:measureasrt_learning",-0.423336185,-0.916502036,0.054430494625,0.957375,"p2_cognition_prepost_joint"
+"session_prepost:measurestroop_interference",-0.43038088,-0.91818895825,0.0617638128249994,0.95671875,"p2_cognition_prepost_joint"
+"Intercept",-0.00306087865,-0.1978109695,0.19317606675,0.51175,"p2_cognition_prepost_stroop_interference"
+"session_prepost",-0.13741306,-0.492014671,0.21774563475,0.78365625,"p2_cognition_prepost_stroop_interference"
+"Intercept",2.6786155,2.2454732475,3.112944345,1,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time",-0.45177406,-0.63162277925,-0.26596727575,1,"p2_predictive_trajectory_aperiodic_gender"
+"z_digit_span",0.450446135,0.125669768,0.760454079,0.995875,"p2_predictive_trajectory_aperiodic_gender"
+"z_stroop",0.0097065772,-0.23338676975,0.253518781,0.53159375,"p2_predictive_trajectory_aperiodic_gender"
+"z_asrt",0.034673694,-0.25593513475,0.3302171245,0.59384375,"p2_predictive_trajectory_aperiodic_gender"
+"z_aperiodic_exponent",0.069537286,-0.30251483775,0.429849798,0.64684375,"p2_predictive_trajectory_aperiodic_gender"
+"z_aperiodic_offset",-0.0316252615,-0.4073091675,0.34904967225,0.56540625,"p2_predictive_trajectory_aperiodic_gender"
+"z_theta_adj",0.0304274325,-0.29713595775,0.35472625525,0.574125,"p2_predictive_trajectory_aperiodic_gender"
+"z_alpha_adj",-0.1068182,-0.5044092175,0.28626557925,0.70046875,"p2_predictive_trajectory_aperiodic_gender"
+"z_beta_adj",0.19890728,-0.204702647,0.598807245999999,0.8329375,"p2_predictive_trajectory_aperiodic_gender"
+"z_specparam_iaf",0.23720352,-0.10480252,0.565814397499999,0.9169375,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_digit_span",0.051076261,-0.083200748025,0.18615450475,0.7798125,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_stroop",0.0625128855,-0.064154150625,0.18843642725,0.83621875,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_asrt",0.0955811195,-0.04321793195,0.235301064,0.91484375,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_aperiodic_exponent",-0.033412209,-0.21523321975,0.14714211225,0.6424375,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_aperiodic_offset",-0.0417224405,-0.2351122095,0.15024728975,0.669125,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_theta_adj",-0.000282665445,-0.15698506275,0.15119050875,0.5014375,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_alpha_adj",0.177247825,-0.0203801643249999,0.36713173325,0.96096875,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_beta_adj",0.013300611,-0.22955309325,0.25166945425,0.5425,"p2_predictive_trajectory_aperiodic_gender"
+"z_session_time:z_specparam_iaf",-0.024227216,-0.1719486435,0.12296260075,0.6265,"p2_predictive_trajectory_aperiodic_gender"
+"Intercept",1.874966,1.473427165,2.2742573125,1,"p2_predictive_trajectory_aperiodic"
+"z_session_time",-1.2013511,-1.460028565,-0.948336656,1,"p2_predictive_trajectory_aperiodic"
+"grammatical_propertygender_agreement",0.6700194,0.58269792275,0.757613079,1,"p2_predictive_trajectory_aperiodic"
+"grammatical_propertyverb_object_number_agreement",-0.37269565,-0.5066682145,-0.239336541,1,"p2_predictive_trajectory_aperiodic"
+"z_digit_span",0.303319525,0.00499922925500002,0.595732768,0.97653125,"p2_predictive_trajectory_aperiodic"
+"z_stroop",0.0430418135,-0.19010139625,0.2796959435,0.64265625,"p2_predictive_trajectory_aperiodic"
+"z_asrt",0.01680781,-0.2647748175,0.2999681565,0.54740625,"p2_predictive_trajectory_aperiodic"
+"z_aperiodic_exponent",0.073570285,-0.28558742825,0.42069321575,0.65946875,"p2_predictive_trajectory_aperiodic"
+"z_aperiodic_offset",-0.050156391,-0.41334399775,0.31374684925,0.60821875,"p2_predictive_trajectory_aperiodic"
+"z_theta_adj",-0.026842645,-0.3347417875,0.28581971775,0.5716875,"p2_predictive_trajectory_aperiodic"
+"z_alpha_adj",0.0376381185,-0.34088608975,0.41210833,0.5785625,"p2_predictive_trajectory_aperiodic"
+"z_beta_adj",0.224803655,-0.17651119125,0.62536573175,0.86065625,"p2_predictive_trajectory_aperiodic"
+"z_specparam_iaf",0.0361027975,-0.272650149,0.34829121025,0.58959375,"p2_predictive_trajectory_aperiodic"
+"z_session_time:grammatical_propertygender_agreement",0.507807865,0.4152608395,0.5994003415,1,"p2_predictive_trajectory_aperiodic"
+"z_session_time:grammatical_propertyverb_object_number_agreement",0.34855848,0.20125714775,0.49766119425,1,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_digit_span",-0.098241567,-0.27611741625,0.0839405670999998,0.86,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_stroop",0.0114006815,-0.13746712575,0.162550709,0.56,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_asrt",0.051649527,-0.1326974805,0.23621119875,0.70859375,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_aperiodic_exponent",-0.0653040255,-0.277033742,0.149875945,0.72265625,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_aperiodic_offset",-0.0197980955,-0.239297033,0.198544686,0.56821875,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_theta_adj",0.0176125125,-0.1658660085,0.1994897555,0.575125,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_alpha_adj",0.00725709405,-0.22120450825,0.23218752125,0.525375,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_beta_adj",0.06362968,-0.18917708875,0.31512535725,0.6925625,"p2_predictive_trajectory_aperiodic"
+"z_session_time:z_specparam_iaf",-0.0429711325,-0.2274893595,0.14269807075,0.67934375,"p2_predictive_trajectory_aperiodic"
+"Intercept",2.5727144,2.1643748575,2.9868013325,1,"p2_predictive_trajectory_gender_iafres"
+"z_session_time",-0.411211945,-0.56870594575,-0.2574061145,1,"p2_predictive_trajectory_gender_iafres"
+"z_digit_span",0.435280925,0.10043752075,0.761376469,0.99390625,"p2_predictive_trajectory_gender_iafres"
+"z_stroop",-0.0144307565,-0.25558193525,0.23273903525,0.54809375,"p2_predictive_trajectory_gender_iafres"
+"z_asrt",0.00998434665,-0.277344712,0.2987609095,0.52653125,"p2_predictive_trajectory_gender_iafres"
+"z_alpha",0.00539026125,-0.3798927295,0.3889453215,0.51209375,"p2_predictive_trajectory_gender_iafres"
+"z_theta",-0.061186814,-0.4556812215,0.334667634499999,0.61890625,"p2_predictive_trajectory_gender_iafres"
+"z_beta",-0.0993260115,-0.48270655275,0.285182743,0.6894375,"p2_predictive_trajectory_gender_iafres"
+"z_delta",-0.0367220355,-0.42498597775,0.34337026025,0.57640625,"p2_predictive_trajectory_gender_iafres"
+"z_gamma",-0.143428575,-0.46021579925,0.176365024,0.81253125,"p2_predictive_trajectory_gender_iafres"
+"z_iaf",0.22853123,-0.130052548,0.581035524499999,0.89434375,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_digit_span",0.056713129,-0.0815788391,0.1924140545,0.79625,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_stroop",0.0502655425,-0.068939281925,0.16916900075,0.79596875,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_asrt",0.103082105,-0.0254833162749999,0.23306665825,0.94334375,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_alpha",0.084651053,-0.110711276,0.27603524,0.804625,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_theta",-0.0608035045,-0.259115388,0.13962416825,0.72425,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_beta",0.055276338,-0.13680654775,0.2406171175,0.71665625,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_delta",-0.111463275,-0.294983621,0.0758246022249999,0.880375,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_gamma",0.00830395565,-0.11959755975,0.13620316875,0.55265625,"p2_predictive_trajectory_gender_iafres"
+"z_session_time:z_iaf",0.0396499175,-0.12086009325,0.2021838325,0.688125,"p2_predictive_trajectory_gender_iafres"
+"Intercept",2.555119,2.13769821,2.9523964475,1,"p2_predictive_trajectory_gender"
+"z_session_time",-0.409587145,-0.559537043,-0.2572844275,1,"p2_predictive_trajectory_gender"
+"z_digit_span",0.425912255,0.0871556373750001,0.741416122,0.99475,"p2_predictive_trajectory_gender"
+"z_stroop",0.014768337,-0.238289657,0.25979352875,0.544375,"p2_predictive_trajectory_gender"
+"z_asrt",0.0162496825,-0.2681135895,0.30293540875,0.547,"p2_predictive_trajectory_gender"
+"z_alpha",0.00887453225,-0.3803107735,0.397461943,0.5175,"p2_predictive_trajectory_gender"
+"z_theta",-0.048183569,-0.43645818325,0.341687171,0.602375,"p2_predictive_trajectory_gender"
+"z_beta",-0.0863745725,-0.47039881125,0.30959664375,0.6705,"p2_predictive_trajectory_gender"
+"z_delta",-0.0255077235,-0.408876913,0.3542034525,0.55175,"p2_predictive_trajectory_gender"
+"z_gamma",-0.137197155,-0.445229794,0.19422779675,0.801125,"p2_predictive_trajectory_gender"
+"z_iaf",0.26572538,-0.0427937414999999,0.582746773,0.95325,"p2_predictive_trajectory_gender"
+"z_session_time:z_digit_span",0.0455822785,-0.0846320647,0.17605106175,0.75475,"p2_predictive_trajectory_gender"
+"z_session_time:z_stroop",0.0625356255,-0.052325233725,0.1765033385,0.853375,"p2_predictive_trajectory_gender"
+"z_session_time:z_asrt",0.10560066,-0.0190822216,0.23138254825,0.953375,"p2_predictive_trajectory_gender"
+"z_session_time:z_alpha",0.0815466095,-0.106380066,0.26435071575,0.8015,"p2_predictive_trajectory_gender"
+"z_session_time:z_theta",-0.0671055445,-0.25826610175,0.129529716,0.74875,"p2_predictive_trajectory_gender"
+"z_session_time:z_beta",0.059043251,-0.12645801725,0.24764423225,0.7305,"p2_predictive_trajectory_gender"
+"z_session_time:z_delta",-0.10857254,-0.28885284025,0.0725925543,0.871125,"p2_predictive_trajectory_gender"
+"z_session_time:z_gamma",0.0086059325,-0.11489421425,0.13394034,0.559875,"p2_predictive_trajectory_gender"
+"z_session_time:z_iaf",0.035073758,-0.094072585625,0.1670953935,0.703125,"p2_predictive_trajectory_gender"
+"Intercept",2.59613655,2.1670123825,3.0265812975,1,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time",-0.41470178,-0.571705213,-0.25447735875,1,"p2_predictive_trajectory_gender_weakprior"
+"z_digit_span",0.656898855,0.1687334455,1.1354304725,0.995625,"p2_predictive_trajectory_gender_weakprior"
+"z_stroop",0.092844943,-0.35587551375,0.550121407,0.6588125,"p2_predictive_trajectory_gender_weakprior"
+"z_asrt",-0.0158982555,-0.484023646,0.4501196745,0.52690625,"p2_predictive_trajectory_gender_weakprior"
+"z_alpha",0.00551190175,-0.858807256249999,0.85599819525,0.50553125,"p2_predictive_trajectory_gender_weakprior"
+"z_theta",-0.0027211302,-0.969451406749999,0.968985562,0.5024375,"p2_predictive_trajectory_gender_weakprior"
+"z_beta",-0.0659006475,-0.93523727675,0.821103178,0.5590625,"p2_predictive_trajectory_gender_weakprior"
+"z_delta",0.00476339455,-0.82470453625,0.840593569249999,0.5041875,"p2_predictive_trajectory_gender_weakprior"
+"z_gamma",-0.255676265,-0.75143976075,0.233401407,0.85090625,"p2_predictive_trajectory_gender_weakprior"
+"z_iaf",0.46945126,0.00649042186250016,0.942155173499999,0.976375,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_digit_span",0.067804131,-0.09702643685,0.235178879,0.7965,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_stroop",0.0944015815,-0.054625055525,0.2516073465,0.89471875,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_asrt",0.13157521,-0.0209987558,0.2911085405,0.955375,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_alpha",0.16010164,-0.15095150525,0.4772464385,0.846125,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_theta",-0.101062055,-0.448377538,0.246787685999999,0.72171875,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_beta",0.081337531,-0.23070419375,0.38797507425,0.69878125,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_delta",-0.159871335,-0.45432143125,0.13066580525,0.86221875,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_gamma",0.012978289,-0.15562946625,0.181905417,0.562375,"p2_predictive_trajectory_gender_weakprior"
+"z_session_time:z_iaf",0.0278856105,-0.1352358335,0.19405440975,0.6329375,"p2_predictive_trajectory_gender_weakprior"
+"Intercept",1.7110638,1.36711853,2.0480019,1,"p2_predictive_trajectory"
+"z_session_time",-1.158819,-1.368102915,-0.95671863725,1,"p2_predictive_trajectory"
+"grammatical_propertygender_agreement",0.668629485,0.58858638875,0.748743325,1,"p2_predictive_trajectory"
+"grammatical_propertyverb_object_number_agreement",-0.25977381,-0.38934704775,-0.13113927125,1,"p2_predictive_trajectory"
+"z_digit_span",0.28991373,-0.00365646251999998,0.56314550275,0.97275,"p2_predictive_trajectory"
+"z_stroop",0.058197085,-0.17140667225,0.2787635585,0.688625,"p2_predictive_trajectory"
+"z_asrt",0.01190395,-0.2468085975,0.271316814,0.534,"p2_predictive_trajectory"
+"z_alpha",0.12579207,-0.23848541875,0.48309082425,0.75825,"p2_predictive_trajectory"
+"z_theta",0.013785652,-0.37596516025,0.38856789275,0.526,"p2_predictive_trajectory"
+"z_beta",-0.0447085935,-0.41688788125,0.33083240775,0.59225,"p2_predictive_trajectory"
+"z_delta",-0.141433985,-0.496372869,0.217966113,0.776375,"p2_predictive_trajectory"
+"z_gamma",-0.12091641,-0.4062998415,0.1583771475,0.803375,"p2_predictive_trajectory"
+"z_iaf",-0.0021666718,-0.2840363115,0.29014923425,0.50625,"p2_predictive_trajectory"
+"z_session_time:grammatical_propertygender_agreement",0.42530529,0.339235173,0.51059791325,1,"p2_predictive_trajectory"
+"z_session_time:grammatical_propertyverb_object_number_agreement",0.1992614,0.0610569515000001,0.344559261,0.99725,"p2_predictive_trajectory"
+"z_session_time:z_digit_span",-0.09985924,-0.266550049,0.0710684349,0.875625,"p2_predictive_trajectory"
+"z_session_time:z_stroop",0.0219284815,-0.11459000775,0.15655927475,0.628125,"p2_predictive_trajectory"
+"z_session_time:z_asrt",0.071860929,-0.096540979275,0.2352610795,0.806125,"p2_predictive_trajectory"
+"z_session_time:z_alpha",-0.0276373865,-0.237234806,0.18980199675,0.604375,"p2_predictive_trajectory"
+"z_session_time:z_theta",0.019097243,-0.201732107,0.243619058,0.562625,"p2_predictive_trajectory"
+"z_session_time:z_beta",0.0931554535,-0.1246740345,0.31212539325,0.7965,"p2_predictive_trajectory"
+"z_session_time:z_delta",-0.0716389285,-0.28582049625,0.14168973425,0.73925,"p2_predictive_trajectory"
+"z_session_time:z_gamma",0.0639459605,-0.10171637825,0.22638019975,0.776125,"p2_predictive_trajectory"
+"z_session_time:z_iaf",-0.1063783,-0.268261856,0.067446536725,0.885625,"p2_predictive_trajectory"
+"Intercept",1.7259322,1.3511950475,2.09503012,1,"p2_predictive_trajectory_weakprior"
+"z_session_time",-1.17601205,-1.39985462,-0.959913342,1,"p2_predictive_trajectory_weakprior"
+"grammatical_propertygender_agreement",0.670424995,0.589297278,0.7506292615,1,"p2_predictive_trajectory_weakprior"
+"grammatical_propertyverb_object_number_agreement",-0.26252457,-0.39003354725,-0.13339487225,0.99996875,"p2_predictive_trajectory_weakprior"
+"z_digit_span",0.41849406,0.00285395960000011,0.835524265,0.97575,"p2_predictive_trajectory_weakprior"
+"z_stroop",0.15551608,-0.2414301435,0.5451448385,0.78834375,"p2_predictive_trajectory_weakprior"
+"z_asrt",0.0014273787,-0.4015226265,0.4077842435,0.50275,"p2_predictive_trajectory_weakprior"
+"z_alpha",0.403949035,-0.3365204645,1.13771848,0.85896875,"p2_predictive_trajectory_weakprior"
+"z_theta",0.11806126,-0.74557474025,0.96982444225,0.6071875,"p2_predictive_trajectory_weakprior"
+"z_beta",-0.24249932,-1.0077021375,0.54177770625,0.7360625,"p2_predictive_trajectory_weakprior"
+"z_delta",-0.260666425,-0.99921021075,0.482928346249997,0.755375,"p2_predictive_trajectory_weakprior"
+"z_gamma",-0.159949365,-0.596657561,0.2759848385,0.77003125,"p2_predictive_trajectory_weakprior"
+"z_iaf",0.075672939,-0.32127819325,0.47706292825,0.64984375,"p2_predictive_trajectory_weakprior"
+"z_session_time:grammatical_propertygender_agreement",0.42489984,0.339784877,0.509910823,1,"p2_predictive_trajectory_weakprior"
+"z_session_time:grammatical_propertyverb_object_number_agreement",0.20219097,0.059753653325,0.34341142675,0.99725,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_digit_span",-0.16894718,-0.4088693925,0.0727426963749999,0.91853125,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_stroop",-0.00390624425,-0.23007320775,0.22508011725,0.51390625,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_asrt",0.0739286645,-0.16135985575,0.30390989375,0.73784375,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_alpha",-0.1891493,-0.63891964625,0.261151305749999,0.7976875,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_theta",0.0401341305,-0.470886855,0.56010329175,0.56015625,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_beta",0.264891395,-0.19872041775,0.722590125,0.87065625,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_delta",-0.14353624,-0.57099012675,0.293129694249999,0.74734375,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_gamma",0.073302005,-0.17589926275,0.32213981475,0.725875,"p2_predictive_trajectory_weakprior"
+"z_session_time:z_iaf",-0.172699725,-0.4023457655,0.0563302162249996,0.93159375,"p2_predictive_trajectory_weakprior"

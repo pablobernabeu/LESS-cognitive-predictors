@@ -44,16 +44,12 @@
 suppressPackageStartupMessages({
   source(here::here("_shared", "R", "00_paths.R"))
   source(here::here("_shared", "R", "03_data_manifest.R"))
+  source(here::here("_shared", "R", "06_helpers.R"))           # les_zscore()
   source(here::here("paper_2_plasticity", "scripts", "_config.R"))
-  source(here::here("paper_1_transfer", "scripts", "02_extract_accuracy.R"))  # defines build_paper1_accuracy()
+  # defines build_paper1_accuracy()
+  source(here::here("paper_1_transfer", "scripts", "02_extract_accuracy.R"))
   library(dplyr)
 })
-
-.les_z <- function(x) {
-  s <- stats::sd(x, na.rm = TRUE)
-  if (is.na(s) || s == 0) return(rep(0, length(x)))
-  as.numeric(scale(x))
-}
 
 build_learning_trajectory <- function() {
   # (1) Pooled, validated trial-level grammaticality-judgement accuracy (S2/3/4/6).
@@ -74,17 +70,20 @@ build_learning_trajectory <- function() {
   # measured sample rather than to each fitted subset. Restandardising within each
   # fitted frame would change every reported coefficient, so the frame is recorded
   # here rather than changed.
+  #
+  # les_zscore(all_na = "zero") turns an all-NA column into zeros, which is what this
+  # pipeline has always done; the shared helper makes that choice visible at the call.
   cog <- readRDS(paper2_derived("cognitive_indices.rds"))
   base_cog <- cog %>%
     filter(session == 1, !is.na(participant_lab_ID)) %>%
     transmute(participant_lab_ID = as.integer(participant_lab_ID),
-              z_digit_span = .les_z(digit_span),
-              z_stroop     = .les_z(stroop_interference),
-              z_asrt       = .les_z(asrt_learning))
+              z_digit_span = les_zscore(digit_span, all_na = "zero"),
+              z_stroop     = les_zscore(stroop_interference, all_na = "zero"),
+              z_asrt       = les_zscore(asrt_learning, all_na = "zero"))
 
   traj <- acc %>%
     left_join(base_cog, by = "participant_lab_ID") %>%
-    mutate(z_session_time         = .les_z(session_time),
+    mutate(z_session_time         = les_zscore(session_time, all_na = "zero"),
            grammatical_property   = factor(grammatical_property),
            participant_lab_ID     = factor(participant_lab_ID))
 

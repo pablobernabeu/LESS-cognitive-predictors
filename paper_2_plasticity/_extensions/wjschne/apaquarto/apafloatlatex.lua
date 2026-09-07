@@ -78,6 +78,12 @@ local processfloat = function(float)
   local floatposition = "[!htbp]"
   local p = {}
   local apanotedivs = pandoc.Div(pandoc.Blocks {})
+  -- Reset this per float. The previous implementation let a table's compacting
+  -- value leak into subsequent figures, pulling their notes into the plot.
+  beforenote = ""
+  if manuscriptmode then
+    beforenote = "\\vspace{8pt}\n"
+  end
   if float.attributes["fig-pos"] then
     if pandoc.utils.stringify(float.attributes["fig-pos"]) == "false" then
       floatposition = "[!htbp]"
@@ -102,7 +108,7 @@ local processfloat = function(float)
       if float.attributes["apa-note"] then
         local bn = ""
         if manuscriptmode then
-          bn = "\\vspace{-12pt}\n"
+          bn = "\\vspace{8pt}\n"
           if float.attributes["beforenotespace"] then
             bn = "\\vspace{" .. float.attributes["beforenotespace"] .. "}\n"
           end
@@ -116,7 +122,7 @@ local processfloat = function(float)
     local latextableenv = "table"
     -- Manuscript spacing before note needs adjustment ment
     if manuscriptmode then
-      beforenote = "\\vspace{-12pt}\n"
+      beforenote = "\\vspace{8pt}\n"
       if float.attributes["beforenotespace"] then
         beforenote = "\\vspace{" .. float.attributes["beforenotespace"] .. "}\n"
       end

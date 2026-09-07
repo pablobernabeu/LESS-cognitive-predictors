@@ -41,7 +41,11 @@ mkdir -p paper_2_plasticity/hpc/logs
 
 export LES_THREADS_PER_CHAIN=2                              # 4 chains x 2 = 8 CPUs (fit step)
 export LES_PROJPRED_CORES="${SLURM_CPUS_PER_TASK:-8}"       # PSOCK cluster for run_cvfun
-export LES_PROJPRED_NFOLDS="${LES_PROJPRED_NFOLDS:-5}"
+# Ten participant-grouped folds by default, the same default as 08_projpred.slurm, so the
+# raw-band and aperiodic selections partition at the same granularity. The reported
+# aperiodic selection ran with ten; the script prints the count it uses to the job log
+# and records it in <model>_projpred_summary.rds.
+export LES_PROJPRED_NFOLDS="${LES_PROJPRED_NFOLDS:-10}"
 export LES_PROJPRED_NDRAWS="${LES_PROJPRED_NDRAWS:-20}"
 
 echo "[aperiodic-model] (1) fitting de-confounded Part A variants | start $(date)"

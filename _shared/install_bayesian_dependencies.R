@@ -3,12 +3,13 @@
 # -----------------------------------------------------------------------------
 # Extends HPC scripts/check_and_install_packages.R with everything the two
 # Bayesian manuscripts need (brms + Stan toolchain, posterior tooling, the
-# resting-state EEG stack for Paper 2, OSF access, papaja and Quarto).
+# resting-state EEG stack for Paper 2, papaja and Quarto).
 # Run ONCE on the cluster to BOOTSTRAP a library where none exists. It is not the way to
 # reproduce the environment the reported fits ran in: it pins nothing, resolving against
 # whatever CRAN ships on the day, and install_if_missing() keeps whatever version is
 # already installed. renv.lock takes precedence over the list below. It records R 4.5.1
-# and the fitting library, so the way to rebuild the environment is
+# and the fitting library, so the way to rebuild the environment is the batch job
+# _shared/hpc/00_restore_environment.slurm, which runs
 #
 #   scp renv.lock arc:new_LESS/       # from the dev box; the code scp does not carry it
 #   source _shared/hpc/arc_env.sh
@@ -58,26 +59,14 @@ required_packages <- c(
   "brms",            # Bayesian multilevel models (Bürkner, 2017, JSS 80:1)
   "posterior",       # rank-normalised Rhat / ESS (Vehtari et al., 2021)
   "bayesplot",       # posterior predictive checks (Gabry et al., 2019)
-  # The next three are provisioned rather than called: the pipeline reads draws with
-  # posterior::as_draws_df and reduces them itself, so these are here to keep the usual
-  # posterior-summary tooling available on the cluster.
-  "tidybayes",       # tidy posterior extraction
-  "bayestestR",      # pd, ROPE, CI (Makowski et al., 2019). pd and the CI are computed
-                     #   from the draws in _shared/R/02_diagnostics.R
-  "marginaleffects", # model-agnostic marginal/conditional effects & contrasts
-  "emmeans",         # estimated marginal means, for the legacy lmerTest analyses under
-                     #   analyses/. The Bayesian retention contrasts do not use it. They
-                     #   are formed from the draws in step 05 of Paper 1.
   "loo",             # PSIS-LOO model checking (Vehtari, Gelman & Gabry, 2017)
   # --- data wrangling / plotting (used by legacy + new code) ---
   "dplyr", "tidyr", "stringr", "readr", "readxl", "data.table", "purrr",
   "ggplot2", "ggtext", "scales", "patchwork",
   # --- resting-state EEG (Paper 2) ---
-  # (eegUtils is NOT on CRAN for current R; installed from R-universe below.)
-  "osfr",            # programmatic access to OSF. Retained from the abandoned plan to
-                     #   fetch the resting-state recordings from node tq7vy: they turned
-                     #   out to be local already, so no pipeline step downloads anything
-                     #   (see paper_2_plasticity/scripts/03_extract_resting_state_eeg.R)
+  # (eegUtils is NOT on CRAN for current R; installed from R-universe below. No OSF
+  # client is needed: the recordings are local and no pipeline step downloads anything,
+  # see paper_2_plasticity/scripts/03_extract_resting_state_eeg.R.)
   # --- manuscripts ---
   "papaja",          # the apa_num/apa_p number formatters used by the .qmd files
                      #   (Aust & Barth). The manuscripts themselves are built with
@@ -85,6 +74,18 @@ required_packages <- c(
                      #   helpers, so papaja is optional
   "quarto"           # render the .qmd documents
 )
+
+# --- Optional tooling, not installed by this script ---------------------------
+# Neither pipeline loads any of these. The scripts read draws with
+# posterior::as_draws_df and reduce them themselves, pd and the CI are computed from the
+# draws in _shared/R/02_diagnostics.R, and the retention contrasts are formed from the
+# draws in step 05 of Paper 1. They are listed so that a reader knows what was considered;
+# add a name to required_packages above to provision it.
+#   "tidybayes"        tidy posterior extraction
+#   "bayestestR"       pd, ROPE, CI (Makowski et al., 2019)
+#   "marginaleffects"  model-agnostic marginal and conditional effects and contrasts
+#   "emmeans"          estimated marginal means, used by the legacy lmerTest analyses
+#                      under analyses/
 
 # --- install one CRAN package if it is not already there ---------------------
 # Reports the version when the package is present, so the log doubles as a record of
@@ -159,8 +160,8 @@ if (!requireNamespace("papaja", quietly = TRUE)) {
 # Optional, and currently called by no pipeline step. The resting-state extractor
 # (Paper 2, script 03) parses the BrainVision ASCII exports in base R because
 # eegUtils::import_raw() cannot read that format. It is still provisioned so that the
-# eegUtils route, and the reconnaissance scripts in _shared/hpc that use it, stay
-# runnable.
+# eegUtils route, and the reconnaissance scripts in _shared/hpc/reconnaissance/ that use
+# it, stay runnable.
 if (!requireNamespace("eegUtils", quietly = TRUE)) {
   cat("\nInstalling eegUtils from the maintainer's R-universe...\n")
   tryCatch(

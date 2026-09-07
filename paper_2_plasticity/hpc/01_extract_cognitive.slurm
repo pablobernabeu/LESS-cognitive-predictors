@@ -18,6 +18,12 @@ set -o errexit
 set -o nounset
 mkdir -p paper_2_plasticity/hpc/logs
 
+# Opt-in fail-closed: with LES_STRICT_INPUTS=1 a missing Session 1 or Session 5 export
+# folder stops the extraction. By default the script warns, writes the indices file
+# without that session and exits 0, and 05 then skips Part B with a message. Submit as
+#   sbatch --export=ALL,LES_STRICT_INPUTS=1 paper_2_plasticity/hpc/01_extract_cognitive.slurm
+# to make a staging error in the data tree fail the job instead.
+
 Rscript "paper_2_plasticity/scripts/01_extract_cognitive_indices.R" \
     > "paper_2_plasticity/hpc/logs/01_extract_cognitive.Rout" 2>&1
 

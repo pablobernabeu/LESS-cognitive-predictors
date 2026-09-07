@@ -97,15 +97,18 @@ suppressPackageStartupMessages({
   source(here::here("_shared", "R", "01_bayesian_settings.R"))
   source(here::here("_shared", "R", "02_diagnostics.R"))
   source(here::here("_shared", "R", "04_provenance.R"))
+  source(here::here("_shared", "R", "06_helpers.R"))           # les_zscore()
   source(here::here("paper_2_plasticity", "scripts", "_config.R"))
   library(dplyr)
 })
 
-.les_z <- function(x) {
-  s <- stats::sd(x, na.rm = TRUE)
-  if (is.na(s) || s == 0) return(rep(0, length(x)))
-  as.numeric(scale(x))
-}
+# The resting-state predictors in the order the fitted formula lists them. This order is
+# kept as it is, and not taken from LES_P2_RS_MEASURES, because it fixes the column order
+# of the design matrix and with it the coefficient indices in the generated Stan code, on
+# which brms's file_refit = "on_change" cache keys; a reordering would refit every cached
+# model. The set is asserted against the config so a renamed measure cannot drift.
+.les_p2_rs_terms <- c("alpha", "theta", "beta", "delta", "gamma", "iaf")
+stopifnot(setequal(.les_p2_rs_terms, LES_P2_RS_MEASURES))
 
 # --- Opt-in: IAF-resolved sensitivity refit (LES_P2_IAF_RESOLVED=1) -----------
 #
@@ -134,6 +137,38 @@ suppressPackageStartupMessages({
 # similar-looking numbers on a silently rescaled predictor.
 LES_P2_IAF_UNRESOLVED <- c(12L, 41L)
 
+# The two ids above are a fact derived from two artefacts: script 07 finds no specparam
+# alpha peak for them, and script 03's argmax sits at the floor of the search window.
+# They are typed, so a re-run of 07 or 03 under different settings could invalidate the
+# refit's definition without any script noticing. This check derives the same set from
+# the artefacts on disk and stops on disagreement. It is called where the list is used
+# (the IAF-resolved branch of fit_paper2_partA), and it is skipped when either artefact
+# is absent, so the default run is unchanged.
+les_p2_check_iaf_unresolved <- function() {
+  ap_path <- paper2_results("07_aperiodic_features.csv")
+  rs_path <- paper2_derived("resting_state_eeg.rds")
+  if (!file.exists(ap_path) || !file.exists(rs_path)) {
+    message("[p2-partA] IAF-unresolved list not checked: an artefact it derives from is ",
+            "absent (", basename(ap_path), ", ", basename(rs_path), ").")
+    return(invisible(FALSE))
+  }
+  ap <- utils::read.csv(ap_path, stringsAsFactors = FALSE)
+  ap <- ap[ap$session == LES_P2_NEURAL_SESSIONS[1] & ap$condition == "eyes_closed", ]
+  rs <- readRDS(rs_path)
+  rs <- rs[rs$session == LES_P2_NEURAL_SESSIONS[1] & rs$condition == "eyes_closed", ]
+  no_peak <- ap$participant_lab_ID[is.na(ap$specparam_iaf)]
+  floored <- rs$participant_lab_ID[is.finite(rs$iaf) &
+                                     abs(rs$iaf - LES_P2_IAF_SEARCH_HZ[1]) < 1e-9]
+  derived <- sort(as.integer(intersect(no_peak, floored)))
+  if (!setequal(derived, LES_P2_IAF_UNRESOLVED)) {
+    stop("[p2-partA] LES_P2_IAF_UNRESOLVED = {", paste(LES_P2_IAF_UNRESOLVED, collapse = ", "),
+         "} but the artefacts give {", paste(derived, collapse = ", "),
+         "} (no specparam alpha peak and argmax IAF at the floor of the search window). ",
+         "Re-derive the list before running the IAF-resolved refit.", call. = FALSE)
+  }
+  invisible(TRUE)
+}
+
 les_p2_iaf_resolved <- function() identical(Sys.getenv("LES_P2_IAF_RESOLVED"), "1")
 les_p2_iaf_tag      <- function() if (les_p2_iaf_resolved()) "_iafres" else ""
 
@@ -155,13 +190,14 @@ les_p2_load_partA_data <- function(aperiodic = FALSE) {
     # As with the cognitive predictors in 02, the z-scoring runs over every recording
     # that has the measure, before the join, the listwise deletion below and the
     # gender-only filter, so a coefficient is per standard deviation of the measured
-    # sample rather than of the fitted subsample.
+    # sample rather than of the fitted subsample. les_zscore(all_na = "zero") turns an
+    # all-NA measure into zeros, which is what this pipeline has always done.
     rs <- readRDS(rseeg_path) %>%
       filter(session == LES_P2_NEURAL_SESSIONS[1], condition == "eyes_closed") %>%  # S2 baseline
       group_by(participant_lab_ID) %>%
-      summarise(across(c(delta, theta, alpha, beta, gamma, iaf), ~ mean(.x, na.rm = TRUE)),
+      summarise(across(dplyr::all_of(LES_P2_RS_MEASURES), ~ mean(.x, na.rm = TRUE)),
                 .groups = "drop") %>%
-      mutate(across(c(delta, theta, alpha, beta, gamma, iaf), .les_z,
+      mutate(across(dplyr::all_of(LES_P2_RS_MEASURES), ~ les_zscore(.x, all_na = "zero"),
                     .names = "z_{.col}")) %>%
       select(participant_lab_ID, dplyr::starts_with("z_"))
     # Harmonise the join-key type: the trajectory stores participant_lab_ID as a factor,
@@ -188,12 +224,12 @@ les_p2_load_partA_data <- function(aperiodic = FALSE) {
       summarise(across(c(aperiodic_exponent, aperiodic_offset,
                          theta_adj, alpha_adj, beta_adj, specparam_iaf),
                        ~ mean(.x, na.rm = TRUE)), .groups = "drop") %>%
-      mutate(z_aperiodic_exponent = .les_z(aperiodic_exponent),
-             z_aperiodic_offset   = .les_z(aperiodic_offset),
-             z_theta_adj          = .les_z(theta_adj),
-             z_alpha_adj          = .les_z(alpha_adj),
-             z_beta_adj           = .les_z(beta_adj),
-             z_specparam_iaf      = .les_z(specparam_iaf)) %>%
+      mutate(z_aperiodic_exponent = les_zscore(aperiodic_exponent, all_na = "zero"),
+             z_aperiodic_offset   = les_zscore(aperiodic_offset, all_na = "zero"),
+             z_theta_adj          = les_zscore(theta_adj, all_na = "zero"),
+             z_alpha_adj          = les_zscore(alpha_adj, all_na = "zero"),
+             z_beta_adj           = les_zscore(beta_adj, all_na = "zero"),
+             z_specparam_iaf      = les_zscore(specparam_iaf, all_na = "zero")) %>%
       select(participant_lab_ID, dplyr::starts_with("z_"))
     ap$participant_lab_ID   <- as.character(ap$participant_lab_ID)
     traj$participant_lab_ID <- as.character(traj$participant_lab_ID)
@@ -212,8 +248,7 @@ les_p2_partA_predictors <- function(dat, aperiodic = FALSE) {
       "z_aperiodic_exponent", "z_aperiodic_offset",
       "z_theta_adj", "z_alpha_adj", "z_beta_adj", "z_specparam_iaf")
   else
-    c("z_digit_span", "z_stroop", "z_asrt",
-      "z_alpha", "z_theta", "z_beta", "z_delta", "z_gamma", "z_iaf")
+    c("z_digit_span", "z_stroop", "z_asrt", paste0("z_", .les_p2_rs_terms))
   present <- intersect(cand, names(dat))
   present[vapply(present, function(p) any(!is.na(dat[[p]])), logical(1))]
 }
@@ -229,10 +264,10 @@ les_p2_partA_formula <- function(predictors, include_property) {
 }
 
 # --- Informative Part A priors (standardised logit scale) ---------------------
-# Established from a citation-verified review (deep-research wf_2bb54a98-b6a, 22/25
-# confirmed). All cited effects are ATTAINMENT/concurrent correlations, NOT learning-
-# rate effects, so the (small) informative prior sits on the predictor MAIN effect and
-# is SHRUNK toward zero on its x time interaction (the learning-rate term):
+# Established from a citation-verified review. All cited effects are ATTAINMENT/concurrent
+# correlations, NOT learning-rate effects, so the (small) informative prior sits on the
+# predictor MAIN effect and is SHRUNK toward zero on its x time interaction (the
+# learning-rate term):
 #   * Working memory / digit span -- small POSITIVE; meta rho = .255 overall, but
 #     simple/storage (digit) span is the weak end, r ~= .15 (Linck, Osthus, Koeth &
 #     Bunting 2014, doi:10.3758/s13423-013-0565-2; Kurokawa 2026,
@@ -248,12 +283,14 @@ les_p2_partA_formula <- function(predictors, include_property) {
 # (DOIs are from the review and are Crossref-verified before entering references.bib.)
 les_p2_partA_priors <- function(predictors) {
   pr <- c(
-    brms::prior(normal(1, 1),         class = "Intercept"),  # judgement accuracy well above chance
-    brms::prior(normal(0, 1),         class = "b"),           # default: property, time, property x time
+    brms::prior(normal(1, 1),         class = "Intercept"),  # accuracy well above chance
+    brms::prior(normal(0, 1),         class = "b"),           # property, time, property x time
     brms::prior(student_t(3, 0, 2.5), class = "sd"),          # generous by-participant SDs
     brms::prior(lkj(2),               class = "cor")
   )
-  add <- function(coef, m, s) brms::prior_string(sprintf("normal(%s, %s)", m, s), class = "b", coef = coef)
+  add <- function(coef, m, s) {
+    brms::prior_string(sprintf("normal(%s, %s)", m, s), class = "b", coef = coef)
+  }
   if ("z_digit_span" %in% predictors)
     pr <- c(pr, add("z_digit_span", 0.10, 0.25), add("z_session_time:z_digit_span", 0.05, 0.15))
   if ("z_asrt" %in% predictors)
@@ -263,8 +300,9 @@ les_p2_partA_priors <- function(predictors) {
   # rs-EEG bands / IAF -- raw AND specparam-decomposed (aperiodic exponent/offset,
   # 1/f-adjusted band power): all EVIDENCE-GAP predictors, so near-zero regularising,
   # direction not established. The aperiodic names are absent in the raw model, so
-  # adding them here leaves the raw-model priors unchanged.
-  for (b in intersect(c("z_alpha","z_theta","z_beta","z_delta","z_gamma","z_iaf",
+  # adding them here leaves the raw-model priors unchanged. The order is the formula's
+  # (.les_p2_rs_terms), so the prior rows keep their positions.
+  for (b in intersect(c(paste0("z_", .les_p2_rs_terms),
                         "z_aperiodic_exponent","z_aperiodic_offset",
                         "z_theta_adj","z_alpha_adj","z_beta_adj","z_specparam_iaf"),
                       predictors))
@@ -283,6 +321,7 @@ fit_paper2_partA <- function(gender_only = FALSE, aperiodic = FALSE) {
   iaf_tag <- ""
   if (les_p2_iaf_resolved()) {
     if (gender_only) {
+      les_p2_check_iaf_unresolved()
       drop <- as.character(dat$participant_lab_ID) %in% as.character(LES_P2_IAF_UNRESOLVED)
       if (!any(drop))
         stop("[p2-partA] LES_P2_IAF_RESOLVED=1 but neither participant ",
@@ -321,22 +360,32 @@ fit_paper2_partA <- function(gender_only = FALSE, aperiodic = FALSE) {
                   paste(preds, collapse = ", ")))
 
   # Tag order is iaf -> prior, so the prior tag stays the LAST component of the name and
-  # anything matching on that suffix keeps working.
-  model_tag <- paste0(model_id, iaf_tag, les_prior_tag())   # "" (informative) or "_weakprior" (sensitivity)
-  prior_set <- if (LES_PRIOR_SET() == "weak") les_priors_bernoulli_weak() else les_p2_partA_priors(preds)
+  # anything matching on that suffix keeps working. The prior tag is "" (informative) or
+  # "_weakprior" (the sensitivity baseline).
+  model_tag <- les_p2_model_id(model_key, c(iaf_tag, les_prior_tag()))
+  # Informative (les_p2_partA_priors) by default; LES_PRIOR_SET=weak selects the
+  # weakly-informative sensitivity baseline.
+  prior_set <- if (LES_PRIOR_SET() == "weak") {
+    les_priors_bernoulli_weak()
+  } else {
+    les_p2_partA_priors(preds)
+  }
 
   fit <- les_brm(
     formula = les_p2_partA_formula(preds, include_property = !gender_only),
     data    = dat,
     family  = bernoulli(),
-    prior   = prior_set,                     # informative (les_p2_partA_priors); LES_PRIOR_SET=weak -> sensitivity baseline
+    prior   = prior_set,
     file    = paper2_results(model_tag)
   )
 
   conv <- les_check_convergence(fit, label = model_id,
                                 save_to = paper2_results(paste0(model_tag, "_convergence.rds")))
   les_posterior_summary(fit, save_to = paper2_results(paste0(model_tag, "_summary.rds")))
-  try(les_save_ppc(fit, paper2_figures(paste0(model_tag, "_ppc.png")), type = "bars"), silent = TRUE)
+  try(les_save_ppc(fit, paper2_figures(paste0(model_tag, "_ppc.png")), type = "bars"),
+      silent = TRUE)
+  # Per-fit record of the analysed sample and the fitting environment (see _config.R).
+  les_p2_write_fit_meta(dat, model_tag, paper2_results(paste0(model_tag, "_fitmeta.rds")))
 
   message(sprintf("[p2-partA] %s | converged = %s | max Rhat = %.4f | divergences = %d",
                   model_id, conv$passed, conv$max_rhat, conv$n_divergent))
@@ -351,13 +400,18 @@ fit_paper2_partA <- function(gender_only = FALSE, aperiodic = FALSE) {
   none <- length(which) == 0
   # Default (no args) fits ONLY the raw-band models, so existing behaviour is byte-identical.
   # The de-confounded specparam variants are opt-in via the explicit aperiodic* args.
-  if (none || "pooled" %in% which)           fit_paper2_partA(gender_only = FALSE, aperiodic = FALSE)
-  if (none || "gender" %in% which)           fit_paper2_partA(gender_only = TRUE,  aperiodic = FALSE)
-  if ("aperiodic" %in% which)                fit_paper2_partA(gender_only = FALSE, aperiodic = TRUE)
-  if ("aperiodic_gender" %in% which)         fit_paper2_partA(gender_only = TRUE,  aperiodic = TRUE)
-  # Record the environment that actually produced these fits (see 04_provenance.R).
-  try(les_write_provenance(paper2_results(), seeds = list(LES_SEED = LES_SEED)),
-      silent = TRUE)
+  if (none || "pooled" %in% which)   fit_paper2_partA(gender_only = FALSE, aperiodic = FALSE)
+  if (none || "gender" %in% which)   fit_paper2_partA(gender_only = TRUE,  aperiodic = FALSE)
+  if ("aperiodic" %in% which)        fit_paper2_partA(gender_only = FALSE, aperiodic = TRUE)
+  if ("aperiodic_gender" %in% which) fit_paper2_partA(gender_only = TRUE,  aperiodic = TRUE)
+  # Record the environment that actually produced these fits (see 04_provenance.R). The
+  # file is untagged and rewritten by every run of this script whatever variant switches
+  # are set, so a sensitivity run leaves it describing that run. LES_PROVENANCE_SKIP=1
+  # leaves the run-level record alone; the per-fit records above are written regardless.
+  if (!identical(Sys.getenv("LES_PROVENANCE_SKIP"), "1")) {
+    try(les_write_provenance(paper2_results(), seeds = list(LES_SEED = LES_SEED)),
+        silent = TRUE)
+  }
   message("[p2-partA] done.")
 }
 

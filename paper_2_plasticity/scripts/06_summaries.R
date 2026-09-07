@@ -10,8 +10,14 @@
 #   (2) pooled posterior summaries -> results/_pooled_posterior_summaries.csv
 #   (3) end-of-training ATTAINMENT -> results/_attainment.csv
 #   (4) rate/intercept RELIABILITY -> results/_reliability.csv
+#   (5) pre/post fitted sample sizes -> results/_prepost_ns.csv
+#   (6) realised prior specification -> results/_prior_specification.csv
+#   (7) per-fit sample and environment records -> results/_pooled_fit_metadata.csv
+#   (8) opt-in predictor contrast     -> results/_predictor_contrasts.csv
 # (3) and (4) are derived for the two raw-band Part A fits only (pooled and gender-only);
-# the de-confounded specparam variants are not covered here.
+# the de-confounded specparam variants are not covered here. (7) is written only when
+# fits carry a <model>_fitmeta.rds record (les_p2_write_fit_meta in _config.R), and (8)
+# only under LES_P2_DERIVED_CONTRASTS=1.
 #
 # ATTAINMENT (Part A): the model gives the learning RATE (the z_session_time slope and
 # its predictor interactions); ATTAINMENT is the complementary endpoint quantity -- the
@@ -27,7 +33,7 @@
 #     reliability = Var(E[u_i | data]) / tau^2,
 # the variance of the shrunken by-participant posterior means relative to tau^2, the
 # model's between-participant variance for that effect. The note at slope_reliability()
-# below records why this replaced the earlier tau^2 / (tau^2 + mean_i SE_i^2) form. Either
+# below records why this form is used and not tau^2 / (tau^2 + mean_i SE_i^2). Either
 # way this is a single-occasion estimate; a formal test-retest value would need a second
 # study wave.
 #
@@ -44,10 +50,20 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
-# --- (1)+(2) Pool the per-model artefacts -------------------------------------
+# --- (1)+(2)+(7) Pool the per-model artefacts ---------------------------------
 pool_artefacts <- function() {
-  conv_files <- list.files(paper2_results(), pattern = "_convergence\\.rds$", full.names = TRUE)
-  summ_files <- list.files(paper2_results(), pattern = "_summary\\.rds$",     full.names = TRUE)
+  # sort(method = "radix") gives a locale-independent byte order, so the pooled tables
+  # come out in the same row order on any machine.
+  .list_sorted <- function(pattern) {
+    sort(list.files(paper2_results(), pattern = pattern, full.names = TRUE), method = "radix")
+  }
+  conv_files <- .list_sorted("_convergence\\.rds$")
+  summ_files <- .list_sorted("_summary\\.rds$")
+  meta_files <- .list_sorted("_fitmeta\\.rds$")
+  # The projpred summaries (<model>_projpred_summary.rds, written by 08) match the same
+  # glob but are solution-path lists, not posterior summaries. Binding them expanded each
+  # into one malformed row per path term, with NA estimates and eight stray columns.
+  summ_files <- summ_files[!grepl("_projpred_summary\\.rds$", summ_files)]
   if (length(conv_files)) {
     # Take the model name from the FILENAME, as the summary pooling below already does.
     # The name stored inside the .rds is the `label` passed at fit time, and the
@@ -58,19 +74,33 @@ pool_artefacts <- function() {
       d <- readRDS(f); d$model <- sub("_convergence\\.rds$", "", basename(f)); d
     }))
     utils::write.csv(conv, paper2_results("_pooled_convergence.csv"), row.names = FALSE)
-    message("[pool] convergence: ", sum(conv$passed, na.rm = TRUE), "/", nrow(conv), " models passed")
+    message("[pool] convergence: ", sum(conv$passed, na.rm = TRUE), "/", nrow(conv),
+            " models passed")
   }
   if (length(summ_files)) {
     summ <- dplyr::bind_rows(lapply(summ_files, function(f) {
       d <- readRDS(f); d$model <- sub("_summary\\.rds$", "", basename(f)); d
     }))
-    utils::write.csv(summ, paper2_results("_pooled_posterior_summaries.csv"), row.names = FALSE)
+    utils::write.csv(summ, paper2_results("_pooled_posterior_summaries.csv"),
+                     row.names = FALSE)
     message("[pool] posterior summaries pooled for ", length(summ_files), " models")
+  }
+  # Per-fit records of the analysed sample and the fitting environment, written by the
+  # fitting scripts through les_p2_write_fit_meta(). The model id inside each record is
+  # the tagged id the fit was cached under, so the file name is carried alongside it as a
+  # cross-check. Fits that predate the record leave no file and are simply absent here.
+  if (length(meta_files)) {
+    meta <- dplyr::bind_rows(lapply(meta_files, function(f) {
+      d <- readRDS(f); d$model_tag <- sub("_fitmeta\\.rds$", "", basename(f)); d
+    }))
+    utils::write.csv(meta, paper2_results("_pooled_fit_metadata.csv"), row.names = FALSE)
+    message("[pool] fit metadata pooled for ", nrow(meta), " fits")
+  } else {
+    message("[pool] no fit metadata found -- the fits predate the per-fit record")
   }
 }
 
-.les_predictor_cols <- c("z_digit_span", "z_stroop", "z_asrt",
-                         "z_alpha", "z_theta", "z_beta", "z_delta", "z_gamma", "z_iaf")
+.les_predictor_cols <- c("z_digit_span", "z_stroop", "z_asrt", paste0("z_", LES_P2_RS_MEASURES))
 
 # --- (3) End-of-training attainment from each Part A fit -----------------------
 derive_attainment <- function() {
@@ -81,11 +111,11 @@ derive_attainment <- function() {
     fit <- readRDS(ffit)
     d   <- fit$data
     nd  <- data.frame(z_session_time = max(d$z_session_time, na.rm = TRUE))
-    for (p in intersect(.les_predictor_cols, names(d))) nd[[p]] <- 0          # predictors at their mean
+    for (p in intersect(.les_predictor_cols, names(d))) nd[[p]] <- 0   # predictors at their mean
     if ("grammatical_property" %in% names(d))
       nd <- merge(nd, data.frame(grammatical_property = unique(d$grammatical_property)))
     ep  <- brms::posterior_epred(fit, newdata = nd, re_formula = NA, allow_new_levels = TRUE)
-    att <- rowMeans(ep)                                                       # average over properties
+    att <- rowMeans(ep)                                                # average over properties
     rows[[mid]] <- data.frame(
       model = mid, quantity = "end_training_attainment_accuracy",
       median = stats::median(att),
@@ -119,11 +149,10 @@ slope_reliability <- function() {
         mean_posterior_se = mean(se, na.rm = TRUE),
         # Reliability = the between-participant signal the model actually recovers:
         # the variance of the shrunken posterior-mean deviations relative to the model's
-        # total between-participant variance, Var(E[u_i | data]) / tau^2. The previous
-        # form tau^2 / (tau^2 + mean(se^2)) substituted the posterior SD of the *shrunken*
-        # effect for the sampling SE and so systematically overstated reliability (it is
-        # second-order when reliability is high but material when it is not: the gender-only
-        # learning rate falls from ~.64 to ~.44 under the correct expression). This ratio is
+        # total between-participant variance, Var(E[u_i | data]) / tau^2. The alternative
+        # form tau^2 / (tau^2 + mean(se^2)) substitutes the posterior SD of the *shrunken*
+        # effect for the sampling SE and so overstates reliability, by a second-order
+        # amount when reliability is high and materially when it is not. This ratio is
         # the normal-theory identity reliability = 1 - E[Var(u_i | data)] / tau^2, computed
         # here from the posterior means so it remains valid for the Bernoulli GLMM with a
         # correlated intercept-slope random-effects structure.
@@ -146,10 +175,13 @@ slope_reliability <- function() {
 # observations, taken from each fit's own data slot so the reported n can never
 # diverge from what the sampler saw.
 prepost_ns <- function() {
-  files <- list.files(paper2_results(), pattern = "^p2_cognition_prepost.*\\.rds$",
-                      full.names = TRUE)
-  files <- files[!grepl("_(convergence|summary)\\.rds$", files)]
-  if (!length(files)) { message("[prepost-ns] no pre/post fits found -- skipped"); return(invisible(NULL)) }
+  files <- sort(list.files(paper2_results(), pattern = "^p2_cognition_prepost.*\\.rds$",
+                           full.names = TRUE), method = "radix")
+  files <- files[!grepl("_(convergence|summary|fitmeta)\\.rds$", files)]
+  if (!length(files)) {
+    message("[prepost-ns] no pre/post fits found -- skipped")
+    return(invisible(NULL))
+  }
   rows <- lapply(files, function(f) {
     fit <- readRDS(f)
     d <- fit$data
@@ -180,7 +212,7 @@ prior_specification <- function() {
   # Enumerate models from the pooled-convergence artefact rather than globbing
   # p2_*.rds: the results directory also holds cached cross-validation objects
   # (each carrying ten refitted models), and loading those exhausts the job's
-  # memory (job 12820185 died OUT_OF_MEMORY doing exactly that). Fits are
+  # memory (a run that globbed them was killed out of memory at 32 GB). Fits are
   # loaded one at a time and freed before the next.
   conv <- paper2_results("_pooled_convergence.csv")
   if (!file.exists(conv)) {
@@ -207,6 +239,40 @@ prior_specification <- function() {
   invisible(res)
 }
 
+# --- (8) Opt-in: direct contrast between the two cognitive predictors ---------
+# The Discussion sets working memory against statistical learning as the two indices
+# measured well enough to compare. A posterior contrast between their main effects is the
+# quantity that comparison rests on, and it is derived here from the existing draws. It
+# runs only under LES_P2_DERIVED_CONTRASTS=1, writes _predictor_contrasts.csv and changes
+# nothing else; the manuscript prints the sentence that reads it only once the file exists.
+derive_predictor_contrasts <- function() {
+  if (!identical(Sys.getenv("LES_P2_DERIVED_CONTRASTS"), "1")) return(invisible(NULL))
+  rows <- list()
+  for (mid in c(LES_P2_MODELS[["predictive"]], LES_P2_MODELS[["predictive_gender"]])) {
+    ffit <- paper2_results(paste0(mid, ".rds"))
+    if (!file.exists(ffit)) next
+    fit <- readRDS(ffit)
+    dr  <- as.data.frame(fit, variable = c("b_z_digit_span", "b_z_asrt"))
+    rm(fit); invisible(gc(verbose = FALSE))
+    d <- dr$b_z_digit_span - dr$b_z_asrt
+    rows[[mid]] <- data.frame(
+      model = mid, parameter = "z_digit_span_minus_z_asrt",
+      median = stats::median(d),
+      ci_low = stats::quantile(d, .025, names = FALSE),
+      ci_high = stats::quantile(d, .975, names = FALSE),
+      # Probability of direction is two-sided: the mass on the side of the median.
+      pd = max(mean(d > 0), mean(d < 0)),
+      stringsAsFactors = FALSE)
+  }
+  if (length(rows)) {
+    out <- paper2_results("_predictor_contrasts.csv")
+    if (exists("les_assert_readonly_data")) les_assert_readonly_data(out)
+    utils::write.csv(do.call(rbind, rows), out, row.names = FALSE)
+    message("[contrasts] wrote ", length(rows), " row(s) to ", out)
+  }
+  invisible(rows)
+}
+
 # =============================================================================
 .run <- function() {
   pool_artefacts()
@@ -214,6 +280,7 @@ prior_specification <- function() {
   slope_reliability()
   prepost_ns()
   prior_specification()
+  derive_predictor_contrasts()
   message("[p2-summaries] done.")
 }
 

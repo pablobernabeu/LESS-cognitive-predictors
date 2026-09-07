@@ -7,7 +7,7 @@
 #
 #   * CORE SCRIPTS live on personal disk   ->  $HOME/new_LESS            (code root)
 #   * HEAVY MATERIAL lives in LESS's OWN folder inside the (shared, multi-project)
-#     project /data area -- /data/educ-intract/educ1242/new_LESS -- kept self-contained
+#     project /data area -- $LES_BASE, defined below -- kept self-contained
 #     like the other projects there (the shared root is left untouched):
 #       packages       ->  new_LESS/Rlib/R-4.5         (R library, R_LIBS_USER)
 #       CmdStan        ->  new_LESS/cmdstan/cmdstan-*   (Stan C++ toolchain, CMDSTAN)
@@ -46,10 +46,10 @@ module load R/4.5.1-gfbf-2025a
 echo "[arc_env] modules   : ${LOADEDMODULES:-<none loaded -- module load failed?>}"
 
 # --- LESS's own folder inside the SHARED project area ------------------------
-# /data/educ-intract/educ1242 is a shared, multi-project personal area (it also holds
-# the active "claps"/semantic-priming project + new_modalityswitch). LESS keeps ALL of
-# its heavy material self-contained under its own folder there, so the shared root is
-# never cluttered.
+# LES_PROJECT is a shared, multi-project personal area, and the line below is the single
+# place in the compendium where that root is written out; every other file refers to
+# $LES_BASE. LESS keeps ALL of its heavy material self-contained under its own folder
+# there, so the shared root is never cluttered.
 export LES_PROJECT="/data/educ-intract/educ1242"   # shared multi-project area (do NOT clutter root)
 export LES_BASE="${LES_PROJECT}/new_LESS"           # LESS's own folder -- all heavy material here
 export LES_DATA_ROOT="${LES_BASE}/data"

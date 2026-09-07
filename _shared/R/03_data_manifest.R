@@ -8,10 +8,12 @@
 # (heavier, validated) folder names. Rather than MOVE hundreds of gigabytes of
 # EEG data -- which would break the legacy pipeline and risk data loss -- this
 # manifest maps each logical name onto the real location, so that a change in the
-# physical layout can be absorbed here rather than in every script. The mapping is not
-# yet complete. A few scripts still reach the tree directly, passing a literal folder or
-# file name to data_path(): Paper 1's 00, 00b, 00c and 07c, and Paper 2's 03, 07 and 10.
-# Those call sites would have to be updated as well.
+# physical layout can be absorbed here and not in every script. The scripts reach the
+# tree through the accessors below: erp_single_trials_path() and resting_state_eeg_path()
+# for the EEG exports, cognitive_ef_path(), behavioural_lab_path() and lhq3_path() for the
+# behavioural and questionnaire data, participant_key_csv() for the participant key,
+# legacy_eeg_loader() for the validated single-trial importer and erp_trial_count_csv()
+# for the retained-trial table.
 #
 # READ-ONLY CONTRACT
 # ------------------
@@ -45,6 +47,15 @@ behavioural_lab_path  <- function(...) data_path("raw data", "behavioural data f
 # Participant <-> session <-> group lookup table (lab IDs; odd = Mini-English,
 # even = Mini-Norwegian) used across both papers.
 participant_key_csv <- function() data_path("Participant IDs and session progress.csv")
+
+# The validated legacy importer for the single-trial ERP exports, sourced by Paper 1's
+# extraction scripts (01, 07, 07b, 08). It reads root-relative paths, which is why
+# 00_paths.R sets the working directory to the project root.
+legacy_eeg_loader <- function() data_path("R_functions", "merge_trialbytrial_EEG_data.R")
+
+# Retained-trial counts per participant, session and condition after artefact rejection,
+# written by the legacy preprocessing and read by Paper 1's 00, 00b and 00c.
+erp_trial_count_csv <- function() data_path("EEG_trial_count_per_condition.csv")
 
 # Language History Questionnaire (LHQ3) exports, used for the participant
 # demographics table (age, sex, handedness, English age-of-acquisition and
@@ -80,6 +91,33 @@ LES_PROPERTY_CODES <- c(
   "gender_agreement"            = "S1",
   "differential_object_marking" = "S2",
   "verb_object_number_agreement" = "S3"
+)
+
+# --- Property display labels (single source of the order and the wording) -----
+# The properties are listed in the order they entered the design across sessions:
+# gender agreement (Session 2), differential object marking (Session 3) and verb-object
+# number agreement (Session 4). Every figure, table and list in both manuscripts follows
+# this order. Alphabetical ordering would scramble the design and is never used. Three
+# forms are kept, because the strings reach the page by different routes.
+#   LES_PROPERTY_LABELS       figure form. The graphics device prints the characters
+#                             literally, so the dash is a plain hyphen.
+#   LES_PROPERTY_LABELS_TABLE table form. Pandoc typesets the tables, so the en dash
+#                             of the running text is written as "--".
+#   LES_PROPERTY_LABELS_PROSE running-text form, in lower case with the same "--".
+LES_PROPERTY_LABELS <- c(
+  gender_agreement             = "Gender agreement",
+  differential_object_marking  = "Differential object marking",
+  verb_object_number_agreement = "Verb-object number agreement"
+)
+LES_PROPERTY_LABELS_TABLE <- c(
+  gender_agreement             = "Gender agreement",
+  differential_object_marking  = "Differential object marking",
+  verb_object_number_agreement = "Verb--object number agreement"
+)
+LES_PROPERTY_LABELS_PROSE <- c(
+  gender_agreement             = "gender agreement",
+  differential_object_marking  = "differential object marking",
+  verb_object_number_agreement = "verb--object number agreement"
 )
 
 # --- Read-only guard ----------------------------------------------------------

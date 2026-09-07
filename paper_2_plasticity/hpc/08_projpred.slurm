@@ -29,15 +29,13 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=6
 #SBATCH --mem-per-cpu=28G
-# Wall time raised from 2 days on 2026-08-08. Two days was sized for the default
-# truncated solution path (min(19, D) terms) on a single reference model. A full-length
-# search over BOTH the pooled and gender-agreement reference models is far more work,
-# and it is what this job now runs: 08_projpred_selection.R leaves nterms_max NULL, i.e.
-# every candidate term, unless LES_PROJPRED_NTERMS is set, and nothing here sets it. Job
-# 12693586 reached only ~60% of the forward search for the first of the two models after
-# 47 h and was killed at the limit. The cvfits are cached,
-# so a resubmission does not repeat the expensive K refits, but cv_varsel itself restarts.
-# Seven days leaves headroom for both models without another timeout.
+# Wall time is sized for a full-length search over BOTH the pooled and gender-agreement
+# reference models: 08_projpred_selection.R leaves nterms_max NULL, i.e. every candidate
+# term, unless LES_PROJPRED_NTERMS is set, and nothing here sets it. Measured cost: a
+# two-day allocation reached only about 60% of the forward search for the first of the
+# two models after 47 h. The cvfits are cached, so a resubmission does not repeat the
+# expensive K refits, but cv_varsel itself restarts. Seven days leaves headroom for both
+# models without a timeout.
 #SBATCH --time=7-00:00:00
 #SBATCH -o paper_2_plasticity/hpc/logs/08_projpred.out
 
@@ -55,7 +53,10 @@ mkdir -p paper_2_plasticity/hpc/logs
 # Sizes the PSOCK cluster for run_cvfun's K reference refits. cv_varsel ignores it and
 # runs sequentially.
 export LES_PROJPRED_CORES="${SLURM_CPUS_PER_TASK:-6}"
-export LES_PROJPRED_NFOLDS="${LES_PROJPRED_NFOLDS:-10}"    # grouped 10-fold (over participants)
+# Ten participant-grouped folds by default, the same default as 09_aperiodic_model.slurm,
+# so the raw-band and aperiodic selections partition at the same granularity. The script
+# records the count it used in <model>_projpred_summary.rds and prints it to the log.
+export LES_PROJPRED_NFOLDS="${LES_PROJPRED_NFOLDS:-10}"
 export LES_PROJPRED_NDRAWS="${LES_PROJPRED_NDRAWS:-20}"    # clustered projection draws for the search
 
 # Forward any arguments through to the script, which accepts "pooled", "gender",

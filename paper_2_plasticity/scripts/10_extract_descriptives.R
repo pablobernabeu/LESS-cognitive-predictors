@@ -53,8 +53,6 @@ suppressPackageStartupMessages({
   library(readr)
 })
 
-`%||%` <- function(a, b) if (is.null(a) || length(a) == 0) b else a
-
 # -----------------------------------------------------------------------------
 # Reuse 03's readers + Welch estimator WITHOUT running its extraction. 03 guards
 # its driver with `if (sys.nframe() == 0L)`, so sourcing it here only defines the
@@ -73,7 +71,12 @@ source(here::here("paper_2_plasticity", "scripts", "03_extract_resting_state_eeg
 }
 
 # The eyes-closed / eyes-open band-power + IAF variables, in a fixed order.
-.RS_VARS <- c("delta", "theta", "alpha", "beta", "gamma", "iaf")
+.RS_VARS <- LES_P2_RS_MEASURES
+
+# The three cognitive indices in reporting order (working memory, inhibition,
+# statistical learning), which also fixes the row and column order of the tables below.
+.COG_VARS <- unname(LES_P2_COG_INDICES[c("digit_span", "stroop", "asrt")])
+stopifnot(!anyNA(.COG_VARS))
 
 # =============================================================================
 # (1) _cognitive_descriptives.csv  --  per session x index six-number summary
@@ -81,13 +84,13 @@ source(here::here("paper_2_plasticity", "scripts", "03_extract_resting_state_eeg
 write_cognitive_descriptives <- function(cog) {
   long <- cog %>%
     filter(session %in% LES_P2_COG_SESSIONS) %>%
-    select(session, digit_span, stroop_interference, asrt_learning) %>%
+    select(session, all_of(.COG_VARS)) %>%
     pivot_longer(-session, names_to = "index", values_to = "value")
   out <- long %>%
     group_by(session, index) %>%
     group_modify(~ .six(.x$value)) %>%
     ungroup() %>%
-    arrange(match(index, c("digit_span", "stroop_interference", "asrt_learning")), session)
+    arrange(match(index, .COG_VARS), session)
   f <- paper2_results("_cognitive_descriptives.csv")
   les_assert_readonly_data(f); readr::write_csv(out, f)
   list(path = f, tbl = out)
@@ -101,20 +104,20 @@ write_cognitive_descriptives <- function(cog) {
   # Baseline cognition = Session 1, keyed on participant_lab_ID.
   cog_s1 <- cog %>%
     filter(session == 1, !is.na(participant_lab_ID)) %>%
-    transmute(participant_lab_ID = as.integer(participant_lab_ID),
-              digit_span, stroop_interference, asrt_learning)
+    mutate(participant_lab_ID = as.integer(participant_lab_ID)) %>%
+    select(participant_lab_ID, all_of(.COG_VARS))
   # Baseline rs-EEG = eyes-closed (the analysed resting condition).
   rs_ec <- rseeg %>%
     filter(condition == "eyes_closed") %>%
-    transmute(participant_lab_ID = as.integer(participant_lab_ID),
-              delta, theta, alpha, beta, gamma, iaf)
+    mutate(participant_lab_ID = as.integer(participant_lab_ID)) %>%
+    select(participant_lab_ID, all_of(.RS_VARS))
   # Inner join: participants with BOTH a baseline battery and eyes-closed rs-EEG
   # (this is the joint predictor frame the Part-A model conditions on).
   inner_join(cog_s1, rs_ec, by = "participant_lab_ID")
 }
 
 write_predictor_descriptives <- function(pred) {
-  vars <- c("digit_span", "stroop_interference", "asrt_learning", .RS_VARS)
+  vars <- c(.COG_VARS, .RS_VARS)
   out <- pred %>%
     select(all_of(vars)) %>%
     pivot_longer(everything(), names_to = "predictor", values_to = "value") %>%
@@ -134,7 +137,7 @@ write_predictor_descriptives <- function(pred) {
 #     predictors enter the model and keeps the frame self-documenting.
 # =============================================================================
 write_predictor_correlations <- function(pred) {
-  vars <- c("digit_span", "stroop_interference", "asrt_learning", .RS_VARS)
+  vars <- c(.COG_VARS, .RS_VARS)
   Z <- pred %>% select(all_of(vars)) %>% mutate(across(everything(), ~ as.numeric(scale(.))))
   R <- suppressWarnings(stats::cor(Z, use = "pairwise.complete.obs", method = "pearson"))
   # pairwise n per cell (count of jointly non-missing rows)
@@ -163,13 +166,15 @@ write_rseeg_descriptives <- function(rseeg) {
     arrange(match(condition, c("eyes_closed", "eyes_open")),
             match(band, .RS_VARS))
 
-  # A resolvable alpha peak = a finite IAF within the 7-13 Hz search range. les_iaf()
-  # returns the arg-max frequency in [7,13]; NA only when no bins fall in-range, so
-  # here we additionally require the reported IAF to sit strictly inside the band
-  # (i.e. not pinned to an edge), which is the operational "peak found" criterion.
+  # A resolvable alpha peak = a finite IAF within the search range (LES_P2_IAF_SEARCH_HZ,
+  # 7-13 Hz). les_iaf() returns the arg-max frequency in that range; NA only when no
+  # bins fall in-range, so here we additionally require the reported IAF to sit strictly
+  # inside it (i.e. not pinned to an edge), which is the operational "peak found"
+  # criterion.
   peak <- rseeg %>%
     filter(condition %in% c("eyes_closed", "eyes_open")) %>%
-    mutate(has_peak = is.finite(iaf) & iaf > 7 & iaf < 13) %>%
+    mutate(has_peak = is.finite(iaf) & iaf > LES_P2_IAF_SEARCH_HZ[1] &
+             iaf < LES_P2_IAF_SEARCH_HZ[2]) %>%
     group_by(condition) %>%
     summarise(n_participants_with_resolvable_alpha_peak = sum(has_peak),
               n = dplyr::n(), .groups = "drop")
@@ -196,9 +201,10 @@ write_rseeg_descriptives <- function(rseeg) {
 # (5) _resting_state_psd.csv  --  ROI-averaged Welch PSD that 03 discards.
 #     Re-computed here with 03's reader + welch_psd() (2-s Hann, 50% overlap),
 #     averaged over the 8 occipito-parietal channels, per participant x condition,
-#     restricted to 1-45 Hz. This is exactly the spectrum underlying 03's bands.
+#     restricted to 1 Hz up to the top of the highest band (45 Hz). This is exactly
+#     the spectrum underlying 03's bands.
 # =============================================================================
-.roi_psd_one <- function(vhdr, fmax = 45) {
+.roi_psd_one <- function(vhdr, fmax = max(unlist(LES_P2_EEG_BANDS))) {
   h   <- .parse_vhdr(vhdr)
   sig <- .read_bv_ascii(vhdr, h)
   post <- intersect(LES_RS_POSTERIOR, colnames(sig))
@@ -212,7 +218,7 @@ write_rseeg_descriptives <- function(rseeg) {
 }
 
 write_resting_state_psd <- function() {
-  root  <- data_path("raw data", "EEG")
+  root  <- resting_state_eeg_path()
   vhdrs <- list.files(root, pattern = "_RS_eyes_(open|closed)\\.vhdr$",
                       recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
   rows <- list()
@@ -221,7 +227,9 @@ write_resting_state_psd <- function() {
     if (is.na(sess) || !(sess %in% LES_P2_NEURAL_SESSIONS)) next
     pid  <- suppressWarnings(as.integer(sub("^([0-9]+)_RS.*", "\\1", basename(vhdr))))
     cond <- if (grepl("eyes_open", vhdr, ignore.case = TRUE)) "eyes_open" else "eyes_closed"
-    psd <- tryCatch(.roi_psd_one(vhdr), error = function(e) { message("  skip ", basename(vhdr), ": ", conditionMessage(e)); NULL })
+    psd <- tryCatch(.roi_psd_one(vhdr), error = function(e) {
+      message("  skip ", basename(vhdr), ": ", conditionMessage(e)); NULL
+    })
     if (is.null(psd)) next
     rows[[length(rows) + 1]] <- psd %>%
       mutate(participant_lab_ID = pid, condition = cond) %>%
@@ -287,7 +295,11 @@ write_accuracy_trajectory <- function(traj) {
     group_by(participant_lab_ID, session) %>%
     summarise(n = dplyr::n(),
               mean_accuracy = mean(correct, na.rm = TRUE),
-              mini_language = if (has_lang) dplyr::first(as.character(mini_language)) else NA_character_,
+              mini_language = if (has_lang) {
+                dplyr::first(as.character(mini_language))
+              } else {
+                NA_character_
+              },
               .groups = "drop") %>%
     mutate(se = se_prop(mean_accuracy, n),
            level = "participant",
@@ -353,10 +365,11 @@ write_task_specs <- function() {
     add("asrt", "n_blocks", n_blocks,
         "distinct block values in the Session-1 ASRT exports")
     add("asrt", "modal_trials_per_block", modal_tpb,
-        sprintf("modal trials/block observed in the raw export (range %d-%d; includes a leading practice triplet)",
+        sprintf(paste0("modal trials/block observed in the raw export (range %d-%d; ",
+                       "includes a leading practice triplet)"),
                 min(tpb$n), max(tpb$n)))
     add("asrt", "trials_per_block", 85,
-        "preregistered design value (85 scored trials/block); the manuscript previously stated 80 in error")
+        "preregistered design value (85 scored trials per block)")
   }
 
   # --- Digit span ----------------------------------------------------------
@@ -377,7 +390,8 @@ write_task_specs <- function() {
     if ("Practice" %in% names(st_resp))
       is_practice <- is_practice | st_resp$Practice %in% c(1, "1", TRUE, "true", "TRUE")
     if ("display" %in% names(st_resp))
-      is_practice <- is_practice | grepl("practice", as.character(st_resp$display), ignore.case = TRUE)
+      is_practice <- is_practice |
+        grepl("practice", as.character(st_resp$display), ignore.case = TRUE)
     st_test <- st_resp[!is_practice, , drop = FALSE]
     modal_trials <- .modal(dplyr::count(st_test, `Participant Public ID`)$n)
     add("stroop", "test_trials", modal_trials,
@@ -411,7 +425,8 @@ extract_descriptives <- function() {
   # Raw (long) predictor values, so the manuscript can show the distributions.
   pv <- pred %>% tidyr::pivot_longer(-participant_lab_ID, names_to = "predictor",
                                      values_to = "value") %>% dplyr::filter(!is.na(value))
-  { f <- paper2_results("_predictor_values.csv"); les_assert_readonly_data(f); readr::write_csv(pv, f) }
+  f <- paper2_results("_predictor_values.csv")
+  les_assert_readonly_data(f); readr::write_csv(pv, f)
 
   list(
     cognitive   = write_cognitive_descriptives(cog),

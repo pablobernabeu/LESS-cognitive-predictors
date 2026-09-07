@@ -1,0 +1,371 @@
+---
+title: "Supplementary Material for: Cognitive and Resting-State EEG Predictors of Intensive Multilingual Learning, and Change in Executive Function across Training: A Bayesian Multilevel Study"
+shorttitle: "Supplementary Material"
+author:
+  - name: Pablo Bernabeu
+    corresponding: true
+    orcid: 0000-0003-1083-2460
+    email: pcbernabeu@gmail.com
+    affiliations:
+      # Oxford first, as in the main manuscript: it is the affiliation that carries the
+      # postal address, and the correspondence note is built from the first affiliation
+      # in the Word output.
+      - id: oxford
+        name: University of Oxford
+        department: Department of Education
+        address: 15 Norham Gardens
+        city: Oxford
+        postal-code: OX2 6PY
+        country: United Kingdom
+      - id: clabl
+        name: UiT The Arctic University of Norway
+        department: Center for Language, Brain and Learning (C-LaBL)
+        city: Tromsø
+        country: Norway
+  - name: Christina Athanasiadi
+    affiliations:
+      - ref: clabl
+  - name: Stella L. Pischinger
+    affiliations:
+      - ref: clabl
+  - name: Gabriella Silva
+    affiliations:
+      - id: utep
+        name: University of Texas at El Paso
+        department: Department of Psychology
+        city: El Paso
+        region: Texas
+        country: United States
+  - name: My Ngoc Giang Hoang
+    affiliations:
+      - ref: clabl
+  - name: Vincent F. DeLuca
+    orcid: 0000-0002-2275-209X
+    affiliations:
+      - ref: clabl
+  - name: Jason Rothman
+    orcid: 0009-0003-3936-6384
+    affiliations:
+      - id: lancaster
+        name: Lancaster University
+        department: Department of Linguistics and English Language
+        city: Lancaster
+        country: United Kingdom
+      - ref: clabl
+      - id: nebrija
+        name: Nebrija University
+        department: Nebrija Research Center in Cognition (CINC)
+        city: Madrid
+        country: Spain
+  - name: Iva Ivanova
+    affiliations:
+      - ref: utep
+  - name: Claudia Poch
+    orcid: 0000-0002-9357-4948
+    affiliations:
+      - ref: nebrija
+  - name: Jorge González Alonso
+    orcid: 0000-0001-5047-3226
+    affiliations:
+      - ref: clabl
+      - ref: nebrija
+bibliography: references.bib
+floatsintext: true
+format:
+  apaquarto-pdf:
+    documentmode: man
+    include-in-header:
+      - text: |
+          % The article refers to the figures of this supplement as Figure S1 and
+          % Figure S2, so the figure counter is prefixed accordingly. The redefinition
+          % is deferred to the start of the document so that it follows the class's own
+          % caption setup, and it governs both the caption label and every \ref.
+          \AtBeginDocument{\renewcommand{\thefigure}{S\arabic{figure}}}
+    # cairo_pdf embeds the fonts it uses and renders the Unicode minus, micro and
+    # multiplication signs the figures contain; R's default pdf() device references
+    # Helvetica without embedding it, which submission systems flag.
+    knitr:
+      opts_chunk:
+        dev: "cairo_pdf"
+execute:
+  echo: false
+  warning: false
+  message: false
+editor: source
+---
+
+```{r setup}
+#| include: false
+# =============================================================================
+# Supplement setup. Identical to the setup chunk of paper_2_neuroplasticity.qmd, so
+# that every value and figure here is drawn from the same artefacts, through the same
+# accessors and with the same figure theme as the article.
+# =============================================================================
+# Figure text size, set once and inherited by every figure through les_theme(). Each
+# figure is authored at the width of the text block, so nothing is scaled on placement and
+# a point here is a point on the page.
+LES_FIG_BASE_SIZE <- 10
+
+suppressPackageStartupMessages({
+  library(here)
+  source(here::here("_shared", "R", "00_paths.R"))
+  source(here::here("_shared", "R", "05_funnel.R"))   # les_funnel(), shared with Paper 1
+  source(here::here("paper_2_plasticity", "scripts", "_config.R"))
+  # les_theme(), les_div, the number formatters, .read_csv_if(), prov(), flow_n() and
+  # pstat(), shared with Paper 1 so both manuscripts report by one set of rules.
+  source(here::here("_shared", "R", "06_manuscript_helpers.R"))
+  library(dplyr)
+  library(ggplot2)
+  # depictr supplies the figure theme and colour system, shared with the companion
+  # paper so both carry one visual identity. Its default qualitative palette is the
+  # colourblind-safe Okabe-Ito set. Optional, per the render-anytime design.
+  has_depictr <- requireNamespace("depictr", quietly = TRUE)
+  if (has_depictr) {
+    library(depictr)
+    depictr_options(base_size = LES_FIG_BASE_SIZE)
+  }
+})
+
+source(here::here("paper_2_plasticity", "manuscript_setup.R"))
+```
+
+This material is supplied to the journal as online supplementary material and is
+deposited with the analysis code in this paper's repository. It holds the method detail
+the main article points to, which a reader who wishes to reproduce the analysis needs
+and which is not required to interpret the findings, and two descriptive displays.
+
+# S1. The cognitive indices
+
+The three cognitive indices are computed by `01_extract_cognitive_indices.R`. Reaction
+times were trimmed to 50--5000 ms, and a participant's index was computed only if at
+least 50 Stroop or 100 ASRT trials survived that trim. Within-cell outliers beyond three
+standard deviations were then removed, the cells being participant by response accuracy
+for the Stroop task and participant by trial type, block and triplet probability for the
+ASRT. Both reaction-time indices were averaged over correct and incorrect responses alike.
+The Stroop export records the practice block in the same response zone as the test
+block, and no practice filter is applied at extraction, so the practice responses enter
+the Stroop index and its reliability estimate. A test-only index is available as an
+opt-in sensitivity check (`LES_P2_STROOP_TEST_ONLY=1` in `01_extract_cognitive_indices.R`
+and `11_extract_predictor_reliability.R`, which then write tagged artefacts) and is not
+reported here.
+
+# S2. Resting-state EEG acquisition and preprocessing
+
+Resting-state EEG was recorded once, at Session 2, with a 32-channel Brain Products
+LiveAmp (500 Hz) in separate eyes-closed and eyes-open recordings of about five minutes
+each, each delimited by its own onset and offset markers. Preprocessing in BrainVision
+Analyzer followed the order: visual inspection of the continuous record, re-referencing
+to the average of the mastoids (TP9, TP10), band-pass filtering with zero-phase-shift
+Butterworth filters (high-pass 0.1 Hz, low-pass 30 Hz, fourth order, no notch), ocular
+correction by independent component analysis, and segmentation into the two resting
+blocks. Artefact handling was by visual inspection only, with no automatic amplitude,
+gradient or low-activity criteria. Essentially all marked intervals fell in the task
+portions of the recording, outside the resting blocks, so the full five minutes was
+retained for every participant in both conditions, and retention does not vary across
+the sample. Because no dedicated electro-oculogram electrodes were recorded, the ocular
+correction used surrogate channels derived from the montage. Power spectral density was
+estimated over eight occipito-parietal electrodes (O1, Oz, O2, P3, Pz, P4, P7, P8) by
+Welch's method with 2-s Hann windows, 50% overlap and each segment mean-corrected, and
+integrated by the trapezoidal rule over the 0.5 Hz bins from each band's lower edge up
+to, but excluding, its upper edge, for delta (1--4 Hz), theta (4--8 Hz), alpha (8--13
+Hz), beta (13--30 Hz) and gamma (30--45 Hz). The individual alpha frequency was the
+frequency of maximum power in the 7--13 Hz range.
+
+# S3. The gamma band
+
+With the low-pass at 30 Hz, the whole 30--45 Hz band sits at or beyond the filter's
+$-3$ dB point. The transmission figures quoted in the Method of the main article were obtained by weighting
+the filter's transmission by each participant's own extrapolated aperiodic background
+(the broadband $1/f$ component on which the oscillatory peaks sit), with the quantiles
+taken across every recorded eyes-closed spectrum and not across a fitted model's sample.
+The two-pass fourth-order Butterworth response at 35 and 40 Hz passes about a twentieth
+and about a hundredth of the input power, so the band is attenuated by more than an order
+of magnitude across most of its width.
+
+We considered recomputing the band from the unfiltered continuous recordings, whose
+acquisition bandwidth of DC--131 Hz retains the frequencies of interest, and decided
+against it, because the resulting measure would not be interpretable either. Surface
+30--45 Hz activity overlaps completely with the spectrum of cranial electromyogram, which
+extends from roughly 20 Hz upwards. Recordings made under complete neuromuscular blockade
+show differences of one to two orders of magnitude in scalp power above 20 Hz relative to
+the unparalysed state [@whitham2007; @muthukumaraswamy2013]. Separating neuronal from
+myogenic contributions in this range requires either explicit modelling of that
+separation or dedicated electromyogram channels [@hipp2013], and this montage provides
+neither. Recovering the band would therefore replace a filter-attenuated measure with a
+muscle-dominated one, and would additionally change a pre-specified predictor after the
+analysis had been run. We report the band as unmeasurable in this dataset and treat a
+properly acquired gamma measure as a design requirement for future work.
+
+# S4. The aperiodic decomposition
+
+The decomposition is our own R implementation of the specparam algorithm
+[@donoghue2020] and does not call the Python `fooof` package. It was fitted over
+2--40 Hz with at most six peaks, peak widths constrained to 1--12 Hz, a minimum peak
+height of 0.05 log$_{10}$ power above the flattened spectrum, a peak threshold of two
+standard deviations of that spectrum, and the aperiodic component in fixed (knee-free)
+mode. The fit range and the knee-free mode both condition the exponent estimate
+[@gerster2022]. The upper quarter of the range lies above the 30 Hz corner of the offline
+low-pass, where power is attenuated increasingly with frequency, so every fitted exponent
+is steeper, and every offset correspondingly shifted, than a fit confined to the passband
+would give. Because the filter's attenuation is the same function of frequency for every
+recording, and the aperiodic fit is linear in log power, the bias is close to a constant
+shared across participants, and the standardisation applied before modelling removes a
+constant. The robust trimming step is data-dependent, so the cancellation is approximate.
+The peak threshold is two standard deviations of the flattened spectrum, and both the
+tall posterior alpha peak of an eyes-closed recording and the roll-off above the 30 Hz
+low-pass corner, which lies inside the fit range, widen that spread, so only tall peaks
+pass it, which is why a theta or beta peak is fitted in few recordings (see
+*Predictor selection and a 1/f-adjusted robustness check* in the main article). No
+passband-only decomposition is reported here. The repository documents a switch that
+produces one beside the reported decomposition.
+
+# S5. The predictive comparison and the projection in full
+
+A trial-level criterion cannot settle the comparison between the raw-band and the
+aperiodic reference models on its own. The two models differ only in participant-level
+resting-state predictors, which are constant within a participant. With about
+`r aper_loo_tpp("pooled")` trials per participant in the pooled stratum, a held-out
+trial's by-participant intercept is already pinned by that participant's remaining
+trials, so a between-participant predictor can add little to predicting it.
+Leave-one-*trial*-out PSIS-LOO is therefore precise, but about a quantity that is not the
+one at issue, and it would return a near-zero difference for informative and
+uninformative resting-state predictors alike. Blocking the folds on the grouping factor
+is the recommended remedy wherever such dependence exists, even when the fitted model
+already accounts for the dependence with a random effect, as ours does [@roberts2017].
+The models are therefore also compared by $K$-fold cross-validation with folds blocked on
+participants. The blocking follows @roberts2017 and the predictive score @vehtari2017.
+The clustered standard error is our own construction. Because the pointwise
+contributions are not independent within a participant, we sum them within participant
+before taking the standard error across participants, and the naive
+independent-observation standard error is reported alongside in the main article so the
+size of the clustering correction is visible.
+
+In the projection-predictive selection, each submodel inherits the reference model's
+regularisation and is not re-estimated from scratch. The traditional projection fits
+multilevel Bernoulli submodels with `lme4::glmer` and, when that fit fails to converge,
+retries it under adaptive quadrature, which `lme4` offers only for a single scalar random
+effect, so the forward search failed on that path for this model, whose reference has a
+correlated random slope. The latent projection [@catalina2021; @mclatchie2025] fits each
+projected submodel on the linear-predictor scale, and its predictive performance is
+evaluated on the response (0/1) scale. The forward search is cross-validated in full,
+with every selection step re-run within each participant-grouped fold, to pay for the
+selection-induced optimism of naive fit-then-select pipelines, with 20 clustered
+posterior draws during the search and 400 draws for performance evaluation.
+
+An ESS of 400 is the threshold at which the $\widehat{R}$ and ESS diagnostics are
+themselves trustworthy [@vehtari2021]. It is a weaker guarantee than the stability of an
+interval *limit*, which is estimated far less efficiently than a posterior mean, so
+borderline coefficients should be read with that in mind [@kruschke2021].
+
+# S6. Prior specification in full
+
+In the Part A models, the intercept has a $\mathcal{N}(1, 1)$ prior on the logit scale
+(judgement accuracy expected above chance) and any population-level coefficient without a
+term-specific prior has $\mathcal{N}(0, 1)$. By-participant standard deviations have
+half--Student-$t(3, 0, 2.5)$ and the random-effect correlation matrix $\mathrm{LKJ}(2)$.
+The term-specific priors are, for the main effect and its interaction with session
+respectively: working memory $\mathcal{N}(0.10, 0.25)$ and $\mathcal{N}(0.05, 0.15)$;
+statistical learning $\mathcal{N}(0.10, 0.20)$ and $\mathcal{N}(0.05, 0.15)$; inhibitory
+control $\mathcal{N}(0, 0.15)$ and $\mathcal{N}(0, 0.10)$; and every resting-state
+predictor, whether a raw band power, the individual alpha frequency or a quantity derived
+from the specparam decomposition, $\mathcal{N}(0, 0.25)$ and $\mathcal{N}(0, 0.15)$. The
+weakly informative sensitivity fits place $\mathcal{N}(0, 1.5)$ on the intercept and on
+every population-level coefficient, with the variance and correlation priors unchanged.
+The Part B models use $\mathcal{N}(0, 1)$ on the intercept and on coefficients, and
+half--Student-$t(3, 0, 2.5)$ on both the by-participant standard deviation and the
+residual standard deviation. The joint model, whose by-participant structure includes a
+random pre/post slope, additionally places an $\mathrm{LKJ}(2)$ prior on the random-effect
+correlation.
+
+# S7. Computational environment
+
+The models were fitted on a Linux high-performance computing cluster
+(`r prov("platform", "*[platform pending a pipeline run]*")`), where the software
+environment is supplied by environment modules, with no container, so the versions
+given in the Method are those of the fitting run, which can differ from those of the
+machine that renders this document. Sampling used within-chain `reduce_sum` threading at two
+threads per chain, and because `reduce_sum` takes the grouping of its partial sums from
+the thread count, the recorded draws depend on that setting as well as on the seed. The
+Stan models were compiled with GCC 14.2.0, the compiler the R module supplies, at an
+optimisation level pinned to `-O1` in CmdStan's `make/local`, because that compiler
+version raises an internal compiler error on Stan's `reduce_sum` templates at `-O2` and
+above. The pin governs whether the models compile, while the draws they produce are
+unaffected. The
+repository's cluster environment script applies it automatically. Figures are drawn with
+`ggplot2` [@wickham2016] using the theme and colour system of `depictr` [@depictr], whose
+default qualitative palette is the colourblind-safe Okabe--Ito set. The companion paper
+uses the same system, so the two share one visual identity.
+
+# S8. Descriptive displays
+
+@fig-s1-predictor-dist shows the distribution of each baseline predictor over the stored
+records for that measure, and @fig-s2-rs-psd the resting-state spectra behind the band-power
+and individual-alpha-frequency predictors. Both are descriptive companions to the
+intercorrelations and numerical summaries in the main text.
+
+```{r}
+#| label: fig-s1-predictor-dist
+#| fig-cap: "Distributions of the Baseline Predictors"
+#| apa-note: "Violins with individual points show working memory (digit span), Stroop interference and ASRT statistical-learning scores, and the eyes-closed resting-state band powers and individual alpha frequency. Each panel is drawn from the stored records for that measure, so the number of points differs between panels and exceeds the model samples reported under Participants. Difference-score predictors (Stroop, ASRT) are shown on their raw scale, and each panel's unit is given in its label. Box plots mark the median and interquartile range. The absolute band powers are strongly right-skewed. They nonetheless enter the models z-scored on this raw scale, with no transform applied. Points at the 7 Hz floor of the individual-alpha-frequency panel are values at the lower bound of the estimator's search range, not necessarily measured peaks (see Cognitive and neural indices)."
+#| fig-width: 6.5
+#| fig-height: 4.4
+pred_vals <- .read_csv_if(paper2_results("_predictor_values.csv"))
+if (!is.null(pred_vals)) {
+  ord <- c("digit_span", "stroop_interference", "asrt_learning", LES_P2_RS_MEASURES)
+  pred_vals$predictor <- factor(pred_vals$predictor, levels = ord)
+  # Units differ across predictors and the y scales are free, so each panel states its
+  # own unit: the cognitive indices are a count and two reaction-time differences, the
+  # band powers a power integrated over frequency, and the individual alpha frequency a
+  # frequency. The band unit is uV^2, NOT uV^2/Hz: 03_extract_resting_state_eeg.R defines
+  # band power as the trapezoidal integral of the PSD over the band, which cancels the
+  # per-Hz denominator. fig-s2-rs-psd, which plots the density itself, keeps uV^2/Hz.
+  pred_lab <- as_labeller(c(
+    digit_span = "Digit span (items correct)", stroop_interference = "Stroop (ms)",
+    asrt_learning = "ASRT (ms)", delta = "Delta (µV²)",
+    theta = "Theta (µV²)", alpha = "Alpha (µV²)",
+    beta = "Beta (µV²)", gamma = "Gamma (µV²)",
+    iaf = "IAF (Hz)"))
+  ggplot(pred_vals, aes(x = "", y = value)) +
+    geom_violin(fill = "grey90", colour = "grey60", linewidth = 0.3) +
+    geom_jitter(width = 0.12, size = 0.5, alpha = 0.5, colour = "grey25") +
+    geom_boxplot(width = 0.10, fill = "white", colour = "grey30", linewidth = 0.3, outlier.shape = NA) +
+    facet_wrap(~ predictor, scales = "free_y", nrow = 3, labeller = pred_lab) +
+    labs(x = NULL, y = NULL) + les_theme() +
+    theme(axis.text.x = element_blank(), panel.grid.major.x = element_blank())
+} else cat("*Predictor distributions will appear once `_predictor_values.csv` is present.*")
+```
+
+```{r}
+#| label: fig-s2-rs-psd
+#| fig-cap: "Grand-Average Resting-State Power Spectral Density Over the Eight Occipito-Parietal Electrodes"
+#| apa-note: "Eyes-closed is shown against eyes-open. Both axes are logarithmic, so the aperiodic 1/f background appears as a straight line. The curve is the geometric mean across every recorded resting-state spectrum, a wider frame than the fitted models use, and the shaded ribbon is the interquartile range. Grey lines mark the interior delta/theta/alpha/beta/gamma band edges (4, 8, 13, 30 Hz), and the alpha band (8--13 Hz) is highlighted. The darker region above 30 Hz lies beyond the offline low-pass corner: the nominal gamma band (30--45 Hz) falls entirely within it, which is why that predictor is not interpreted. The eyes-closed posterior alpha increase (alpha-blocking on eye opening) is the expected Berger effect, which serves here as a check on the recording and the reduction."
+#| fig-width: 6.5
+#| fig-height: 3.4
+if (!is.null(psd_tbl)) {
+  ga <- psd_tbl |>
+    dplyr::group_by(condition, freq_hz) |>
+    dplyr::summarise(lo = stats::quantile(power, .25, na.rm = TRUE),
+                     hi = stats::quantile(power, .75, na.rm = TRUE),
+                     power = exp(mean(log(power), na.rm = TRUE)),
+                     .groups = "drop")
+  cond_lab <- c(eyes_closed = "Eyes closed", eyes_open = "Eyes open")
+  ggplot(ga, aes(freq_hz, power, colour = condition)) +
+    annotate("rect", xmin = 8, xmax = 13, ymin = 0, ymax = Inf, alpha = 0.08, fill = "grey40") +
+    # Shade the region above the 30 Hz offline low-pass corner. The nominal gamma band
+    # (30-45 Hz) lies entirely inside it, so the figure shows directly why that predictor
+    # is not interpretable rather than leaving the point to the text.
+    annotate("rect", xmin = 30, xmax = Inf, ymin = 0, ymax = Inf, alpha = 0.13, fill = "grey55") +
+    annotate("text", x = 37, y = Inf, label = "above low-pass", vjust = 1.6,
+             size = 2.8, colour = "grey30") +
+    geom_vline(xintercept = c(4, 8, 13, 30), colour = "grey80", linewidth = 0.2) +
+    geom_ribbon(aes(ymin = lo, ymax = hi, fill = condition), alpha = 0.15, colour = NA) +
+    geom_line(aes(linetype = condition), linewidth = 0.6) +
+    scale_x_log10(breaks = c(1, 2, 4, 8, 13, 20, 30, 45), labels = c(1, 2, 4, 8, 13, 20, 30, 45)) +
+    scale_y_log10() +
+    scale_colour_manual(values = c(eyes_closed = "#D55E00", eyes_open = "#0072B2"), labels = cond_lab) +
+    scale_fill_manual(values = c(eyes_closed = "#D55E00", eyes_open = "#0072B2"), guide = "none") +
+    scale_linetype_manual(values = c(eyes_closed = "solid", eyes_open = "22"), labels = cond_lab) +
+    labs(x = "Frequency (Hz)", y = "Power (µV²/Hz)", colour = NULL, linetype = NULL) +
+    les_theme() + theme(legend.position = "top")
+} else cat("*Resting-state spectra will appear once `_resting_state_psd.csv` is present.*")
+```

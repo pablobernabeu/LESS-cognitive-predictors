@@ -24,10 +24,12 @@ suppressPackageStartupMessages({
 #   * zero divergent transitions after warmup (HMC/NUTS validity;
 #     Betancourt, 2017, arXiv:1701.02434).
 # The count of iterations saturating max_treedepth is reported in the table but is NOT
-# part of the pass/fail flag. It is also unavailable in practice: the max_treedepth
-# ceiling is looked up in an rstan-shaped slot of the fit object and comes back empty
-# under the cmdstanr backend, so n_treedepth is NA in every row of the shipped
-# results/_pooled_convergence.csv files for both papers.
+# part of the pass/fail flag. By default the max_treedepth ceiling is looked up in an
+# rstan-shaped slot of the fit object, which is empty under the cmdstanr backend, so
+# n_treedepth is NA in every row of the shipped results/_pooled_convergence.csv files for
+# both papers. Setting LES_TREEDEPTH_FROM_CONTROL=1 takes the ceiling from LES_CONTROL,
+# the value les_brm() passed to the sampler, and reports the count. That turns a shipped
+# NA column into a count on the next pooling run, which is why it is opt-in.
 # The function returns a one-row data frame and (optionally) saves it, so the
 # whole grid of models can be screened programmatically before reporting.
 les_check_convergence <- function(fit, label = NULL, save_to = NULL,
@@ -44,12 +46,15 @@ les_check_convergence <- function(fit, label = NULL, save_to = NULL,
   np <- brms::nuts_params(fit)
   n_divergent <- sum(np$Value[np$Parameter == "divergent__"], na.rm = TRUE)
   max_td      <- attr(fit$fit@sim$samples[[1]], "args")$control$max_treedepth
+  if (identical(Sys.getenv("LES_TREEDEPTH_FROM_CONTROL"), "1") && exists("LES_CONTROL")) {
+    max_td <- LES_CONTROL$max_treedepth
+  }
   td_hits     <- if ("treedepth__" %in% np$Parameter && !is.null(max_td)) {
     sum(np$Value[np$Parameter == "treedepth__"] >= max_td, na.rm = TRUE)
   } else NA_integer_
 
   out <- data.frame(
-    model          = label %||% "unnamed",
+    model          = label %||% "unnamed",   # base R's %||% (R >= 4.4.0)
     max_rhat       = max(sumy$rhat, na.rm = TRUE),
     min_ess_bulk   = min(sumy$ess_bulk, na.rm = TRUE),
     min_ess_tail   = min(sumy$ess_tail, na.rm = TRUE),
@@ -113,6 +118,14 @@ les_save_ppc <- function(fit, save_to, ndraws = 100, type = "dens_overlay") {
   old_scheme <- bayesplot::color_scheme_get()
   on.exit(bayesplot::color_scheme_set(old_scheme), add = TRUE)
   bayesplot::color_scheme_set("darkgray")
+  # pp_check() samples its ndraws subset at random. Seed that draw locally and restore the
+  # caller's RNG stream on exit, so the figure is the same on every run.
+  old_seed <- if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
+    get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+  } else NULL
+  set.seed(if (exists("LES_SEED")) LES_SEED else 1L)
+  on.exit(if (!is.null(old_seed)) assign(".Random.seed", old_seed, envir = .GlobalEnv),
+          add = TRUE)
   p <- brms::pp_check(fit, ndraws = ndraws, type = type) +
     ggplot2::theme_minimal(base_size = 12)
   ggplot2::ggsave(save_to, p, width = 6, height = 4, dpi = 300)
@@ -163,6 +176,14 @@ les_prior_predictive_check <- function(formula, data, family, prior, save_to,
   old_scheme <- bayesplot::color_scheme_get()
   on.exit(bayesplot::color_scheme_set(old_scheme), add = TRUE)
   bayesplot::color_scheme_set("darkgray")
+  # As in les_save_ppc: seed pp_check()'s random subset of draws locally and restore the
+  # caller's RNG stream on exit.
+  old_seed <- if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
+    get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+  } else NULL
+  set.seed(seed)
+  on.exit(if (!is.null(old_seed)) assign(".Random.seed", old_seed, envir = .GlobalEnv),
+          add = TRUE)
   p <- brms::pp_check(fit_prior, ndraws = ndraws, type = type) +
        ggplot2::labs(x = x_lab, y = "Density", title = NULL) +
        ggplot2::theme_minimal(base_size = base_size)
@@ -201,6 +222,3 @@ les_prior_sensitivity <- function(results_dir, model_id,
   m$ci_width_weak <- m$ci_high_weak - m$ci_low_weak
   m[order(-abs(m$median_shift)), , drop = FALSE]
 }
-
-# small null-coalescing helper
-`%||%` <- function(a, b) if (is.null(a)) b else a

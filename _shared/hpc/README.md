@@ -9,22 +9,24 @@ See [`../../HPC_RUNBOOK.md`](../../HPC_RUNBOOK.md) for the project layout on the
 cluster and the transfer/render workflow.
 
 Nothing here reads the study's data except `validate_rseeg.R`, which reads a file Paper
-2's script 03 has already written. The R library, CmdStan and the compiler flags these
-scripts assume are provisioned by `../install_bayesian_dependencies.R` and are described
-in section 0 of the runbook. Path resolution goes through `LES_DATA_ROOT` and
-`LES_STORE`, both exported by `arc_env.sh`.
+2's script 03 has already written. The R library and CmdStan these scripts assume are
+rebuilt by `00_restore_environment.slurm` and described in section 0 of the runbook. Path
+resolution goes through `LES_DATA_ROOT` and `LES_STORE`, both exported by `arc_env.sh`.
 
 ## In use
 
 | File | What it is |
 |------|------------|
-| `arc_env.sh` | Sourced at the top of every job script in both papers and the single source of truth for the cluster layout. It `module load`s R, points `R_LIBS_USER`, `CMDSTAN`, `LES_DATA_ROOT` and `LES_STORE` at the project `/data` space, pins `CXXFLAGS_OPTIM = -O1` to avoid the GCC 14.2.0 `reduce_sum` internal compiler error, and `cd`s to the code root. A path changed here changes everywhere. |
+| `00_restore_environment.slurm` | The reproduction route. Restores the R library from `../../renv.lock` at the recorded versions and builds CmdStan 2.39.0, the release every reported fit was compiled by, by running the two `Rscript` lines of the runbook's section 0 as a batch job. Needs `renv.lock` beside the code root and outbound network. Submit once, before any fitting job. |
+| `arc_env.sh` | Sourced at the top of every job script in both papers and the single source of truth for the cluster layout. It `module load`s R, points `R_LIBS_USER`, `CMDSTAN`, `LES_DATA_ROOT` and `LES_STORE` at the project `/data` space, pins `CXXFLAGS_OPTIM = -O1` because of a GCC 14.2.0 compiler crash that its own header explains, and `cd`s to the code root. A path changed here changes everywhere. |
+| `deploy_to_cluster.sh` | The route for copying code to the cluster, run from the dev box: `bash _shared/hpc/deploy_to_cluster.sh <paper_1_transfer\|paper_2_plasticity\|_shared\|all>`. It refuses while a job of that paper is running or pending, because `Rscript` reads a file incrementally and overwriting one underneath a live job corrupts it; it holds back `09_run_decoding.R` and `08_decoding.slurm` unless `LES_ALLOW_DECODING_DEPLOY=1`, their content being what the decoding cache fingerprint is computed over; it refuses a job script carrying CRLF; and it verifies every file by checksum on both sides. `LES_DEPLOY_ANYWAY=1` overrides the live-job check. Code only: never data, never the store, never a fit. |
 | `check_arc_env.R` | One-shot sanity check. Prints where the paths resolve, which library R is using, and whether CmdStan really compiles and samples a trivial model. Run it by hand after sourcing `arc_env.sh`, or let `rebuild_cmdstan.slurm` run it. Its closing PASS/FAIL covers the compile alone, so read the lines above it as well. |
 | `rebuild_cmdstan.slurm` | Run once after CmdStan is installed or moved. The precompiled headers bake in the install path, so a relocated CmdStan has to be rebuilt, and the rebuild is too memory-hungry for a login node. Its log goes to `paper_1_transfer/hpc/logs/`. |
 | `validate_rseeg.R` | Checks `resting_state_eeg.rds` after Paper 2's script 03: band power and IAF by condition, the Berger effect, and the eyes-closed IAF range. Nothing invokes it automatically, so run it yourself after stage 1c. |
 
-One level up, `_shared/install_bayesian_dependencies.R` provisions the R library and
-the CmdStan toolchain that `arc_env.sh` then points at.
+One level up, `_shared/install_bayesian_dependencies.R` bootstraps an unpinned R library
+and CmdStan where none exists yet. It is not the reproduction route, which is
+`00_restore_environment.slurm` above.
 
 ## Reconnaissance scripts, outside every pipeline
 

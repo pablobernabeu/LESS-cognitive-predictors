@@ -1,4 +1,4 @@
-"predictor","session","n_participants","r_half","reliability_sb","n_splits"
-"digit_span",1,63,0.613642201182284,0.760567864093639,500
-"stroop_interference",1,62,0.0887553731727161,0.163040064572221,500
-"asrt_learning",1,63,0.903239458771785,0.949160080313458,500
+"predictor","session","n_participants","r_half","reliability_sb","n_splits","seed"
+"digit_span",1,63,0.613642201182284,0.760567864093639,500,20260724
+"stroop_interference",1,62,0.0887553731727161,0.163040064572221,500,20260724
+"asrt_learning",1,63,0.903239458771785,0.949160080313458,500,20260724
