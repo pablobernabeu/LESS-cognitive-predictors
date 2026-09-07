@@ -35,6 +35,7 @@ online supplementary material.
 | 10 | `scripts/10_extract_descriptives.R` | local | observed descriptives the manuscript injects and the descriptive figures read: cognitive indices, predictor descriptives, values (`_predictor_values.csv`) and correlations, resting-state band power and PSD, the grammaticality-judgement accuracy trajectory, and the observed task structure (`_task_specs.csv`) |
 | 11 | `scripts/11_extract_predictor_reliability.R` | local | permutation split-half reliability (Spearman–Brown corrected) of the three baseline cognitive predictors |
 | 12 | `scripts/12_extract_gamma_attenuation.R` | local | share of each participant's 30–45 Hz background power that survives the 30 Hz acquisition low-pass (`_gamma_attenuation.csv`), which the manuscript's gamma disclosure injects. Reads `_resting_state_psd.csv` from step 10 |
+| 13 | `scripts/13_extract_task_durations.R` | local/HPC | participant-level home-task and laboratory-phase durations, written to both papers' `results/` |
 
 Each folder below this one carries a readme of its own:
 [`scripts/`](scripts/README.md) for the conventions and the ordering constraints,

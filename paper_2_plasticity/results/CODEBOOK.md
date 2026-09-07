@@ -404,6 +404,7 @@ This file is machine-written by `_shared/R/write_codebook.R` and is not edited b
 | `is_suggested` | logical | TRUE on the row whose size equals suggested_size. | paper_2_plasticity/scripts/08_projpred_selection.R (the pooled raw-band and aperiodic files were produced by 08b_recover_projpred_path.R) |
 | `n_folds` | integer | Participant-grouped cross-validation folds (K). | paper_2_plasticity/scripts/08_projpred_selection.R (the pooled raw-band and aperiodic files were produced by 08b_recover_projpred_path.R) |
 | `n_participants` | integer | Participants in the reference fit. | paper_2_plasticity/scripts/08_projpred_selection.R (the pooled raw-band and aperiodic files were produced by 08b_recover_projpred_path.R) |
+
 ## `p2_predictive_trajectory_gender_projpred_path.csv`
 
 22 data row(s), 15 column(s).
