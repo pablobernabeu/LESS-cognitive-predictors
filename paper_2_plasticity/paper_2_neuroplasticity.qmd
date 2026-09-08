@@ -174,20 +174,20 @@ author-note:
       - name: Jorge González Alonso
         roles: "Conceptualization, Methodology, Funding acquisition, Project administration, Supervision, Writing – review & editing."
 abstract: |
-  Adults vary widely in how well they learn a new language. We related baseline working
-  memory, inhibitory control, statistical learning and resting-state
-  electroencephalography (EEG) to grammaticality-judgement accuracy as Norwegian--English
-  bilinguals learned one of two artificial languages. We also tested change in executive
-  function across training. Trial-level accuracy was modelled jointly in one Bayesian
-  multilevel model, without per-learner derived slopes. Working memory was positively associated with overall
-  judgement accuracy, credibly so in the fully sampled gender-agreement property and
-  with a pooled interval that narrowly included zero. Inhibitory control and statistical
-  learning showed no credible association, the intercorrelated band powers could not be
-  resolved individually, and the projection-predictive selection retained no neural
-  measure. Working-memory span rose between the first and fifth sessions, so the
-  capacity that predicted learning also changed over training. The by-participant level
-  was estimated more reliably than the learning rate, which bears on how slope-indexed
-  aptitude findings are read.
+  Adults vary widely in how well they learn a new language. We examined individual
+  differences during intensive training by testing whether baseline working
+  memory, inhibitory control, statistical learning, and resting-state electroencephalography
+  (EEG) predicted grammaticality-judgement accuracy as 65 Norwegian--English bilinguals learned
+  one of two artificial languages. We also tested change in executive function between the
+  first and fifth sessions. Working memory was positively associated with accuracy,
+  most clearly for gender agreement, the property sampled throughout training; evidence for
+  a pooled association was weaker. No baseline measure showed a credible association with
+  the rate of change. Inhibitory control and statistical learning showed no clear
+  associations, and resting-state EEG measures added little predictive information.
+  Working-memory span increased, whereas inhibitory control and statistical learning did
+  not. Together, these findings point to working memory as a correlate of language-learning
+  performance and change during training, while the absence of a no-training control
+  prevents a causal interpretation.
 keywords: [second language acquisition, working memory, statistical learning, resting-state EEG, individual alpha frequency, Bayesian multilevel models, individual differences]
 bibliography: references.bib
 floatsintext: true
@@ -417,8 +417,14 @@ broadly across a battery.
 The participants are those of the companion study [@lesstransfer2026], drawn from the
 longitudinal artificial-language project reported by @gonzalezalonso2025:
 Norwegian--English bilinguals (first language Norwegian, second language English) who
-learned one of two miniature languages. `r if (nzchar(minor_age())) paste0("One participant was aged ", minor_age(), " at enrolment according to the language-history questionnaire, and all others were adults.") else ""` Of the
-`r flow_n("enrolled")` enrolled, `r flow_n("usable_accuracy")`
+learned one of two miniature languages. At the Norwegian site, odd-numbered participant
+identifiers were assigned to Mini-English and even-numbered identifiers to
+Mini-Norwegian; this was a deterministic allocation rather than a random assignment.
+The six-session protocol comprised an approximately 1.5-hour home baseline (Session 1),
+laboratory sessions of approximately 2.5 hours (Session 2), 2.5 hours (Session 3), and
+3 hours (Session 4), a 1-hour home retest (Session 5), and a 2.5-hour laboratory
+retention session (Session 6). `r if (nzchar(minor_age())) paste0("One participant was aged ", minor_age(), " at enrolment according to the language-history questionnaire, and all others were adults.") else ""`
+Of the `r flow_n("enrolled")` enrolled, `r flow_n("usable_accuracy")`
 contributed grammaticality-judgement trajectories
 (`r flow_n("usable_accuracy", "n_mini_english")` Mini-English,
 `r flow_n("usable_accuracy", "n_mini_norwegian")` Mini-Norwegian) and
@@ -454,7 +460,12 @@ reported handedness). English had been acquired early (age of first exposure
 $M = `r pstat("eng_aoa_listen")`$ years) and used for many years, with high self-rated
  proficiency ($M = `r pstat("eng_l2_proficiency", "value", 2)`$ on a 0--1 scale). The project
  was registered with the Norwegian Agency for Shared Services in Education and Research
- (Sikt; project 2559611). All participants gave written informed consent. The authors assert that all
+ (Sikt; project 2559611). The approving ethics committee, approval date, and reference
+ number are TBC. All participants gave written informed consent. The 16-year-old
+ participant was covered by the study's self-consent procedure. Participants were
+ compensated with shopping vouchers worth NOK 250 per hour of participation, pro rata,
+ and received an additional NOK 400 completion bonus after the sixth and final session.
+ The authors assert that all
 procedures contributing to this work comply with the ethical standards of the relevant
 national and institutional committees on human experimentation and with the Helsinki
 Declaration of 1975, as revised in 2008.
@@ -504,7 +515,8 @@ if (!is.null(flow_tbl)) {
 The cognitive battery was administered at Sessions 1 (baseline) and 5 (post) as
 browser-based tasks on the Gorilla experiment platform [@anwylirvine2020], and records
 from individuals who completed the battery without enrolling were excluded at extraction,
-having no consent linkage to the participant key. Working memory was measured by digit
+having no consent linkage to the participant key. The three tasks were administered in a
+counterbalanced order across participants. Working memory was measured by digit
 span (forward and backward, list lengths 3--8 with four items each,
 `r task_spec("digit_span", "scored_trials")` scored trials, the index being the number
 correct). Inhibitory control was measured by a four-colour Stroop task [@stroop1935]
