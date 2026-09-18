@@ -24,7 +24,7 @@ separate, much heavier job that needs a cluster; see *Re-fitting the models* bel
 | `HPC_RUNBOOK.md` | Cluster layout, job submission, pulling results back, and the failure modes worth knowing about. |
 | `renv.lock` | The R packages of the **fitting** environment, pinned at the versions the cluster library held. |
 
-## Where the data are
+## Where the data are, and what is not
 
 The raw electroencephalographic recordings are far too large for a git repository and are
 deposited on OSF at <https://osf.io/tq7vy>. The resting-state recordings are not a separate
@@ -34,6 +34,14 @@ exports, which `eegUtils` cannot read, so `paper_2_plasticity/scripts/03_extract
 parses them in base R and computes its own Welch PSD. Session 2 is the only resting-state
 recording that exists, which is why Part B's resting-state block auto-skips rather than
 reporting a pre/post contrast it cannot estimate.
+
+**Nothing identifying is here, and that is deliberate.** This repository has no `data/`
+directory. Beyond the size of the recordings, the study ran six sessions with a cohort of
+65, at known sites and on known dates, so the file that links each participant's
+identifiers to the date and time of each session is identifying in combination even though
+it carries no name. That file is not deposited in any public archive. For the same reason
+every derived table published here is screened for fields that would reconstruct session
+timing, and the tables report elapsed durations rather than clock times.
 
 Nothing here writes to the raw data: the read-only contract is enforced at run time by
 `les_assert_readonly_data()` in `_shared/R/03_data_manifest.R`.
